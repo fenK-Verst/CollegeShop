@@ -3,10 +3,14 @@
 namespace App\Routing;
 class Router
 {
-    private Route $route;
 
-    public function __construct(Route $route)
+    public function __construct()
     {
-        $this->route = $route;
+    }
+
+    public function dispatch(): Route
+    {
+
+
     }
 }

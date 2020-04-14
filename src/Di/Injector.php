@@ -37,4 +37,14 @@ class Injector
         }
         return $params;
     }
+    public function callMethod(Object $object, string $method)
+    {
+        $reflection_class = new \ReflectionClass($object);
+        $reflection_method = $reflection_class->getMethod($method);
+        if (!$reflection_method) {
+            throw new \Exception("Method $method does not exists");
+        }
+        $params = $this->getDependenciesArray($reflection_method);
+        return call_user_func_array([$object, $method], $params);
+    }
 }

@@ -82,5 +82,8 @@ class Container
     {
         return $this->factories[$class_name];
     }
-
+    public function getInjector()
+    {
+        return $this->injector;
+    }
 }
