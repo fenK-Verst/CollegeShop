@@ -21,8 +21,11 @@ class Router
     public function dispatch(): Route
     {
         $route_data = $this->findRouteData();
-        $controller = $route_data[0] ?? "App\Controller\FolderController";
-        $method = $route_data[1] ?? "index";
+        if (!$route_data){
+            $this->notFound();
+        }
+        $controller = $route_data[0];
+        $method = $route_data[1];
         $params = $route_data[2];
 
         $controller = $this->container->get($controller);
@@ -33,15 +36,45 @@ class Router
     {
         $url = $this->request->getUrl();
         $controllers = $this->config->getControllers();
-        $route_data = [];
         foreach ($controllers as $controller) {
             $reflection_controller = new \ReflectionClass($controller);
             $reflection_methods = $reflection_controller->getMethods();
             foreach ($reflection_methods as $method) {
+                $method_name = $method->getName();
+                $doc = $method->getDocComment();
+                preg_match_all('/@Route\((.*)\)/s', $doc, $finded);
+
+                if (!$finded[1]) continue;
+
+                $route_params = explode(',', $finded[1][0]);
+                $route_url = $route_params[0];
+                if (trim($route_url, "\"") != $url) continue;
+
+                $params = [];
+                for ($i=1;$i<count($route_params);$i++){
+                    $param = $route_params[$i];
+                    $param = explode("=",$param);
+
+                    $key = trim($param[0]);
+                    $value = trim($param[1], "\"");
+                    $params[$key] = $value;
+
+                }
+                return [
+                    $controller,
+                    $method_name,
+                    $params
+                ];
 
             }
         }
 
-        return $route_data;
+
+        return [];
+    }
+
+    private function notFound()
+    {
+        die("404");
     }
 }

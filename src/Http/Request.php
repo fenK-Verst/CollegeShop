@@ -12,7 +12,7 @@ class Request
     private function parseUrl()
     {
         $url = $_SERVER["REQUEST_URI"];
-        $url = explode($url, '?')[0];
+        $url = explode( '?',$url)[0];
         $this->url = $url;
     }
     public function get(string $get)
