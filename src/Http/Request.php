@@ -23,4 +23,9 @@ class Request
     {
         return $_POST[$get] ?? null;
     }
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
 }
