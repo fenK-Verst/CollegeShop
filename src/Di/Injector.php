@@ -15,28 +15,36 @@ class Injector
     {
         $this->container = $container;
     }
+
     public function createClass(string $class_name)
     {
+        $params = [];
         $reflection_class = new \ReflectionClass($class_name);
         $reflection_constructor = $reflection_class->getConstructor();
-        $params = $this->getDependenciesArray($reflection_constructor);
+        if ($reflection_constructor)
+            $params = $this->getDependenciesArray($reflection_constructor);
 
         return $reflection_class->newInstanceArgs($params);
 
     }
-    public function getDependenciesArray(\ReflectionMethod $reflection_constructor){
+
+    public function getDependenciesArray(\ReflectionMethod $reflection_constructor)
+    {
         $reflection_params = $reflection_constructor->getParameters();
         $params = [];
-        foreach ($reflection_params as $reflection_param){
+        foreach ($reflection_params as $reflection_param) {
             $param_class = $reflection_param->getClass();
             if (!$param_class) {
-                throw new \Exception("Invalid class in var ".$reflection_param->getName());
+                //throw new \Exception("Invalid class in var ".$reflection_param->getName());
+                //TODO обдумать
+                break;
             }
             $class_name = $param_class->getName();
             $params[] = $this->container->get($class_name);
         }
         return $params;
     }
+
     public function callMethod(Object $object, string $method)
     {
         $reflection_class = new \ReflectionClass($object);

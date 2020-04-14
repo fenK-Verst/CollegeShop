@@ -73,15 +73,16 @@ class Container
         return $instance;
     }
 
-    private function isFactoryExists(string $class_name):bool
+    private function isFactoryExists(string $class_name): bool
     {
         return isset($this->factories[$class_name]) && is_callable($this->factories[$class_name]);
     }
 
-    private function getFactory(string $class_name):callable
+    private function getFactory(string $class_name): callable
     {
         return $this->factories[$class_name];
     }
+
     public function getInjector()
     {
         return $this->injector;
