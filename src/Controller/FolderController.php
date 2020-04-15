@@ -4,6 +4,8 @@
 namespace App\Controller;
 
 
+use App\Http\Request;
+
 class FolderController extends AbstractController
 {
     /**
@@ -11,7 +13,20 @@ class FolderController extends AbstractController
      */
     public function index()
     {
+        $a = 2;
+        return $this->render("folder/list.html.twig", [
+            "name"=>$a
+        ]);
+    }
 
-        return $this->render("base.html.twig");
+    /**
+     * @Route("/folder/list", name="Folder.list")
+     */
+    public function list(Request $request)
+    {
+        $a = $request->get("name") ?? 1;
+        return $this->render("folder/list.html.twig", [
+            "name"=>$a
+        ]);
     }
 }
