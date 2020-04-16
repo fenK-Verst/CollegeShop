@@ -8,8 +8,11 @@
     <title>Coffee Time</title>
     <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./assets/design/css/styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./assets/plugins/slick/slick.css">
+    <link rel="stylesheet" href="./assets/plugins/slick/slick-theme.css">
+    <script src="./assets/plugins/fa/fa.all.min.js"></script>
+
+
 </head>
 <body>
 <header>
@@ -83,7 +86,6 @@
                     </nav>
                 </div>
                 <div class="header_bot_right">
-                    <div class="change_language"></div>
                     <div class="cart">
                         <div class="icon">
                             <span class="count">
@@ -97,7 +99,7 @@
 
                         </div>
                         <span class="title">
-                            Мой заказ
+                            <a href="#!">Мой заказ</a>
                         </span>
                     </div>
                 </div>
@@ -106,10 +108,65 @@
     </div>
 </header>
 <main>
+    <section class="main_slider">
+        <img src="./assets/design/images/dyn/main_slider_1.jpg" alt="">
+        <img src="./assets/design/images/dyn/main_slider_2.jpg" alt="">
+    </section>
+    <section class="companies">
+        <div class="wrapper">
+            <ul>
+                <li><img src="assets/design/images/dyn/brand_1.jpg" alt=""></li>
+                <li><img src="assets/design/images/dyn/brand_2.jpg" alt=""></li>
+                <li><img src="assets/design/images/dyn/brand_3.jpg" alt=""></li>
+                <li><img src="assets/design/images/dyn/brand_4.jpg" alt=""></li>
+                <li><img src="assets/design/images/dyn/brand_5.jpg" alt=""></li>
+                <li><img src="assets/design/images/dyn/brand_6.jpg" alt=""></li>
+                <li><img src="assets/design/images/dyn/brand_7.jpg" alt=""></li>
+                <li><img src="assets/design/images/dyn/brand_8.jpg" alt=""></li>
+            </ul>
+        </div>
+    </section>
+    <section class="slider">
+        <div class="title">Новинки</div>
+        <div class="wrapper">
+            <div class="news_slider">
+                <div class="product_wrapper">
+                    <div class="product">
+                        <div class="product_main">
+                            <div class="product_top">
+                                <div class="image">
+                                    <div class="flags">
+                                        <div class="flag sale">Распродажа</div>
+                                        <div class="flag new">Новинка</div>
+                                        <div class="flag hit">Хит</div>
+                                    </div>
+                                    <img src="assets/design/images/dyn/coffe_small_1.jpeg" alt="">
+                                </div>
+                            </div>
+                            <div class="product_middle">
+                                <div class="product_name">
+                                    <a href="#!">КОФЕ В ЗЕРНАХ ORO, 1 КГ, LAVAZZA</a>
+                                </div>
+                                <div class="product_buy">
+                                    <span class="price">564 грн</span>
+                                    <span class="buy_button">Купить</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_hide">
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 <footer>
 
 </footer>
+<script src="./assets/plugins/jquery/jquery.min.js"></script>
+<script src="./assets/plugins/slick/slick.min.js"></script>
+<script src="assets/design/js/main.js"></script>
 </body>
 </html>

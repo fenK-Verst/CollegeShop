@@ -4,6 +4,7 @@
 namespace App;
 
 
+use App\Controller\DefaultController;
 use App\Controller\FolderController;
 
 class Config
@@ -11,7 +12,8 @@ class Config
     public function getControllers()
     {
         return [
-            FolderController::class
+            FolderController::class,
+            DefaultController::class
         ];
     }
 
