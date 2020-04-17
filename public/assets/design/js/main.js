@@ -11,3 +11,8 @@ $newsSlider.slick({
                       slidesToShow: 5,
                       slidesToScroll: 1,
                   });
+$newsSlider.find(".product_wrapper").on("mouseenter", function (e) {
+   $(this).find(".product_hide").css({
+       // bottom:-$(this).height()
+                                     })
+});

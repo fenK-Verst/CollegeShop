@@ -342,6 +342,36 @@ main {
       max-width: 1380px;
       width: 100%;
       margin: auto;
+      .slick-arrow {
+        width: 38px;
+        height: 38px;
+        background: rgba(255,255,255,0.5);
+        z-index: 1;
+        top: 35%;
+        box-shadow: 0 1px 4px rgba(0,0,0,.1), inset 0 -1px 0 rgba(175,175,175,.6);
+        &:before {
+          display: inline;
+          vertical-align: middle;
+          width: 100%;
+          height: 100%;
+          border-radius: 0;
+          opacity: 1;
+          color:grey;
+          content: "<";
+        }
+
+        &.slick-prev {
+
+        }
+
+        &.slick-next {
+          right: -15px;
+          &:before{
+            content: ">";
+          }
+        }
+
+      }
 
       .product_wrapper {
         margin-right: 12px;
@@ -349,6 +379,14 @@ main {
         .product {
           margin: 3px;
           background: #fff;
+          position: relative;
+          &:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+            .product_hide {
+              display: block;
+            }
+          }
 
           .product_main {
             .product_top {
@@ -404,9 +442,11 @@ main {
             .product_middle {
               padding: 0 30px;
               padding-bottom: 16px;
+
               .product_name {
                 text-align: center;
                 margin-bottom: 12px;
+
                 a {
                   text-decoration: none;
                   font-family: "Open Sans", sans-serif;
@@ -415,26 +455,153 @@ main {
                   font-size: 15px;
                   line-height: 18px;
                   color: #000000;
-                  &:hover{
+
+                  &:hover {
                     color: red;
                   }
                 }
               }
-              .product_buy{
+
+              .product_buy {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                .buy_button{
+
+                .buy_button {
                   background: #C42F3C;
                   padding: 5px 10px;
-                  color:#fff;
+                  color: #fff;
                   margin-left: 10px;
                 }
               }
             }
           }
+
+          .product_hide {
+            padding: 0 15px 16px;
+            //display: none;
+            background: #fff;
+            position: absolute;
+
+            .product_params {
+              td {
+                color: #ACACAC;
+                font-size: 12px;
+                line-height: 18px;
+
+                &.value {
+                  color: inherit;
+                }
+              }
+
+            }
+          }
         }
       }
+    }
+  }
+  section.about{
+    color: #000000;
+    background: #EEEEEE;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 40px;
+    .wrapper{
+      max-width: 1000px;
+      width: 100%;
+      margin: auto;
+    }
+    .title{
+      font-size: 20px;
+      line-height: 24px;
+      padding-bottom: 18px;
+      font-weight: bold;
+    }
+    .text{
+      font-size: 14px;
+      line-height: 22px;
+
+    }
+  }
+
+}
+.footer{
+  padding-top: 30px;
+  padding-bottom: 40px;
+
+  .wrapper{
+    max-width: 1500px;
+    width: 100%;
+    margin: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &_left{
+    flex:1 1 auto;
+    .copyright{
+      font-size: 12px;
+    }
+  }
+  &_middle{
+    display: flex;
+    flex:1 1 auto;
+    .title a{
+      font-size: 14px;
+      font-weight: 700;
+      color: #C11D2D;
+      margin-bottom: 10px;
+    }
+    ul{
+      padding: 0;
+      margin: 0;
+      flex:50%;
+      li{
+        list-style: none;
+        a{
+          color:#000;
+          text-decoration: none;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  &_right{
+    flex:1 1 auto;
+    .title{
+      font-weight: bold;
+      color: #C11D2D;
+      font-size: 14px;
+    }
+    .content{
+      display: flex;
+
+    ul.contacts {
+      padding: 0;
+      flex: 50%;
+      li {
+        list-style: none;
+        display: flex;
+
+        a {
+          color: #000;
+          text-decoration: none;
+          font-size: 12px;
+        }
+
+        i {
+          margin-right: 8px;
+          width: 16px;
+          height: 16px;
+          svg {
+            fill: grey;
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+    }
     }
   }
 }
