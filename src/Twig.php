@@ -4,6 +4,7 @@
 namespace App;
 use \Twig\Environment;
 use \Twig\Loader\FilesystemLoader;
+use \Twig\TwigFunction;
 
 class Twig
 {
@@ -17,6 +18,10 @@ class Twig
             'cache' => PROJECT_DIR.$twig_config["cache"],
             'auto_reload' => $twig_config["auto_reload"]
         ]);
+        $function = new TwigFunction('assets', function ($path) {
+            return "/".$path;
+        });
+        $this->twig->addFunction($function);
 
 
     }

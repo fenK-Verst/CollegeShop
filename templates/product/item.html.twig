@@ -1,0 +1,215 @@
+{% extends 'base.html.twig' %}
+{% block styles %}
+    <link rel="stylesheet" href="/assets/design/css/product.css">
+{% endblock %}
+{% block body %}
+    <section class="product">
+        <div class="product_top">
+            <div class="product_top_left">
+                <ul class="path">
+                    <li><a href="#!">Главная</a></li>
+                    <li><a href="#!">Кофеварки</a></li>
+                    <li><a href="#!">Турки</a></li>
+                </ul>
+                <div class="product_name">
+                    КЕРАМИЧЕСКАЯ ТУРКА IBRIKS NEW, 500 МЛ
+                </div>
+                <div class="stock in">
+                    В наличии
+                </div>
+            </div>
+            <div class="product_top_right">
+                <div class="vendor_code">
+                    <span class="title">Арикул</span>
+                    <span class="text">1eirc33</span>
+                </div>
+            </div>
+        </div>
+        <div class="product_middle">
+            <div class="product_middle_left">
+                <div class="product_image">
+                    <div class="flags">
+                        <div class="flag sale">Распродажа</div>
+                        <div class="flag new">Новинка</div>
+                        <div class="flag hit">Хит</div>
+                    </div>
+                    <img src="/assets/design/images/dyn/coffee_2.jpeg" alt="">
+                </div>
+                <div class="product_comments">
+                    <div class="title">Отзывы <span class="count">1</span></div>
+                    <ul class="comments">
+                        <li class="comment">
+                            <div class="comment_left">
+                                <div class="avatar">
+                                    <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32" height="32"
+                                         alt="">
+                                </div>
+                            </div>
+                            <div class="comment_right">
+                                <div class="comment_right_top">
+                                    <span class="author">fenK</span>
+                                    <span class="rating">
+                                        <i class="star"></i>
+                                        <i class="star"></i>
+                                        <i class="star"></i>
+                                        <i class="star"></i>
+                                        <i class="star empty"></i>
+
+                                    </span>
+                                </div>
+                                <div class="comment_right_bot">
+                                    <div class="text">SOme text</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="comment">
+                            <div class="comment_left">
+                                <div class="avatar">
+                                    <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32" height="32"
+                                         alt="">
+                                </div>
+                            </div>
+                            <div class="comment_right">
+                                <div class="comment_right_top">
+                                    <span class="author">fenK</span>
+                                    <span class="rating">
+                                        <i class="star"></i>
+                                        <i class="star"></i>
+                                        <i class="star"></i>
+                                        <i class="star"></i>
+                                        <i class="star empty"></i>
+
+                                    </span>
+                                </div>
+                                <div class="comment_right_bot">
+                                    <div class="text">SOme text</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="comment">
+                            <div class="comment_left">
+                                <div class="avatar">
+                                    <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32" height="32"
+                                         alt="">
+                                </div>
+                            </div>
+                            <div class="comment_right">
+                                <div class="comment_right_top">
+                                    <span class="author">fenK</span>
+                                    <span class="rating">
+                                        <i class="star"></i>
+                                        <i class="star"></i>
+                                        <i class="star"></i>
+                                        <i class="star"></i>
+                                        <i class="star empty"></i>
+
+                                    </span>
+                                </div>
+                                <div class="comment_right_bot">
+                                    <div class="text">SOme text</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="form">
+                        <div class="title">
+                            Новый отзыв или комментарий
+                        </div>
+                        <form action="" class="comment_form" method="POST">
+                            <div class="comment_form_left">
+                                <div class="avatar">
+                                    <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32" height="32"
+                                         alt="">
+                                </div>
+                            </div>
+                            <div class="comment_form_right">
+                                <input type="hidden" value="{{ user.id }}">
+                                <div class="form_control">
+                                    <span class="author">fenK</span>
+                                </div>
+                                <div class="form_control">
+                                    <label>
+                                        <textarea name="text" placeholder="Текст комментария" maxlength="250"></textarea>
+                                    </label>
+                                </div>
+                                <div class="form_control">
+                                    <label>
+                                        Оцените товар:
+                                    </label>
+                                    <input type="hidden" name="rating" value="1">
+                                    <span class="rating">
+                                        <i class="star "></i>
+                                        <i class="star empty"></i>
+                                        <i class="star empty"></i>
+                                        <i class="star empty"></i>
+                                        <i class="star empty"></i>
+
+                                    </span>
+                                </div>
+                                <button>Отправить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="product_middle_right">
+                <div class="product_buy">
+                    <div class="price">500 Р</div>
+                    <div class="controls">
+                        <span class="input">
+                            <span class="control minus"></span>
+                            <input type="number" min="1" step="1">
+                            <span class="control plus"></span>
+                        </span>
+                        <span class="buy_button">Купить</span>
+                    </div>
+                </div>
+                <div class="product_params">
+                    <div class="title">Характеристики</div>
+                    <div class="content">
+                        <div class="param"><span class="name">Бренд</span><span class="value">Ceraflame</span></div>
+                        <div class="param"><span class="name">Страна</span><span class="value">Бразилия</span></div>
+                        <div class="param"><span class="name">Цвет</span><span class="value">Шоколадный</span></div>
+                        <div class="param"><span class="name">Материал</span><span class="value">Керамика</span></div>
+                        <div class="param"><span class="name">Объем</span><span class="value">500мл</span></div>
+                    </div>
+                </div>
+                <div class="product_description">
+                    <div class="title">Описание</div>
+                    <div class="text">
+                        <p>В современном мире существует великое множество различных приспособлений для приготовления
+                            ароматного кофе. Тем не менее, истинные гурманы придерживаются мнения, что наилучший способ
+                            его приготовить – сварить в турке или в ибрике. «Ибрик» (арабск.) – это кувшин или сосуд для
+                            воды. Изначально посуда для приготовления кофе выглядела именно так, но со временем она
+                            приобрела формы современной турки.</p>
+                        <p>Турка Ceraflame Ibriks создана из высококачественной керамики, уникальная формула которой
+                            была разработана в ходе 30-летних исследований. Эта посуда, хрупкая на первый взгляд, на
+                            самом деле отличается крепостью железа, ведь она не содержит воды, а ее непористая структура
+                            очень прочна.</p>
+                        <p>Кроме того, керамическая турка очень быстро нагревается, надолго сохраняет тепло и не
+                            впитывает посторонних запахов, поэтому вы легко и быстро сможете приготовить любимый
+                            напиток, надолго охранив его горячим и наслаждаясь его незабываемым ароматом.</p>
+                        <p>Формы турки – ее широкое дно и узкое горлышко - выявляют в напитке, не давая исчезнуть, все
+                            те вещества, которые изначально находились в кофейных зернах. Вам не нужно процеживать гущу,
+                            готовя кофе в этой турке, а значит, он получится густым и удивительно насыщенным.</p>
+                        <p>Турка проста в использовании, несмотря на то, что создана она с использованием лучших
+                            технологий, надежно проверенных временем.</p>
+                        <p>Высококачественная керамика турки создана из экологически чистых материалов, она не содержит
+                            свинца и не выделяет веществ, вредных для организма. Вы можете быть уверены, что в вашей
+                            любимой турке присутствует только 100% кофе.</p>
+                        <p>Эта посуда гигиенична, легко моется любыми абразивными веществами и даже жесткой губкой,
+                            которая не оставит на посуде царапин. Не останется на ней и разводов или кофейной
+                            накипи.</p>
+                        <p>Ручка изящной турки выполнена из натуральной древесины, она не нагревается, исключая
+                            опасность обжечься. При необходимости ручка отвинчивается, повышая тем самым удобство при
+                            хранении.</p>
+                        <p>Уникальность дизайна и разнообразие цветовой гаммы привнесут новизну в ваш традиционный
+                            ритуал приготовления любимого напитка.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}

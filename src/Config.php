@@ -6,6 +6,7 @@ namespace App;
 
 use App\Controller\DefaultController;
 use App\Controller\FolderController;
+use App\Controller\ProductController;
 
 class Config
 {
@@ -13,7 +14,9 @@ class Config
     {
         return [
             FolderController::class,
-            DefaultController::class
+            ProductController::class,
+            DefaultController::class,
+
         ];
     }
 
