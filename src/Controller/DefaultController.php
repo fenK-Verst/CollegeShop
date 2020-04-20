@@ -4,7 +4,7 @@
 namespace App\Controller;
 
 
-use App\Config;
+use App\Db\ArrayDataManager;
 
 class DefaultController extends AbstractController
 {
@@ -19,9 +19,10 @@ class DefaultController extends AbstractController
     /**
      * @Route("/test", name="text")
      */
-    public function test(Config $config)
+    public function test(ArrayDataManager $array_data_manager)
     {
-        $config->getConfig();
+        $a = $array_data_manager->fetchAllHash("SELECT * FROM test", "id");
+        var_dump($a);
         return $this->render("test.html.twig");
     }
 }

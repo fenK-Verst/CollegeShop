@@ -3,7 +3,8 @@
         "twig/twig": "^3.0",
         "vlucas/phpdotenv": "^4.1",
         "ext-json": "*",
-        "ext-yaml": "*"
+        "ext-yaml": "*",
+        "ext-mysqli": "*"
     },
     "autoload": {
         "psr-4": {
