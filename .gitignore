@@ -1,4 +1,6 @@
 .idea
 /vendor/
 /var/
-.env
+/.env.local
+/.env.local.php
+/.env.*.local
