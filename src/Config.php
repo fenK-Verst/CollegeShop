@@ -11,7 +11,7 @@ class Config
 
     public function __construct()
     {
-        $dotenv = \Dotenv\Dotenv::createImmutable(PROJECT_DIR);
+        $dotenv = \Dotenv\Dotenv::createImmutable(PROJECT_DIR, ".env.local");
         $dotenv->load();
         $this->parseDir($this::$dir);
     }
@@ -51,28 +51,6 @@ class Config
     {
         return $this->config["controllers"] ?? [];
 
-    }
-
-    function pathsToTree(array $paths, $separator = "/")
-    {
-        $pathsTree = [];
-
-        foreach ($paths as $path) {
-            $pathParts = array_reverse(explode($separator, $path));
-            $pathTree = [];
-
-            foreach ($pathParts as $i => $pathPart) {
-                if (empty($pathPart)) {
-                    continue;
-                }
-
-                $pathTree = ($i == 0 ? [$pathPart] : [$pathPart => $pathTree]);
-            }
-
-            $pathsTree = array_merge_recursive($pathsTree, $pathTree);
-        }
-
-        return $pathsTree;
     }
 
     public function getTwigConfig()
