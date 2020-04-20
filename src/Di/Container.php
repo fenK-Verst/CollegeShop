@@ -31,6 +31,7 @@ class Container
 
     private function isSingletone(string $class_name)
     {
+
         return isset($this->singletons[$class_name]);
     }
 
@@ -56,7 +57,7 @@ class Container
         if ($this->isSingletone($class_name)) {
             return $this->getSingletone($class_name);
         };
-        return $this->injector->createClass($class_name);
+        return $this->getInstance($class_name);
     }
 
     private function createSingletone(string $class_name)
@@ -64,15 +65,18 @@ class Container
         $is_factory_exists = $this->isFactoryExists($class_name);
         if ($is_factory_exists) {
             $factory = $this->getFactory($class_name);
-            $instance = $factory;
+            $instance = $factory();
         } else {
-            $instance = $this->getClass($class_name);
+            $instance = $this->getInstance($class_name);
 
         }
         $this->singletons[$class_name] = $instance;
         return $instance;
     }
-
+    private function getInstance($class_name)
+    {
+        return $this->injector->createClass($class_name);
+    }
     private function isFactoryExists(string $class_name): bool
     {
         return isset($this->factories[$class_name]) && is_callable($this->factories[$class_name]);

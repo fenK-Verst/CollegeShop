@@ -8,12 +8,11 @@ use \Twig\TwigFunction;
 
 class Twig
 {
-    private Config $config;
     private Environment $twig;
     public function __construct(Config $config)
     {
         $twig_config = $config->getTwigConfig();
-        $loader = new FilesystemLoader(PROJECT_DIR.$twig_config["templates"]);
+        $loader = new FilesystemLoader(PROJECT_DIR.$twig_config["templates_dir"]);
         $this->twig = new Environment($loader, [
             'cache' => PROJECT_DIR.$twig_config["cache"],
             'auto_reload' => $twig_config["auto_reload"]
