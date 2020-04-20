@@ -4,7 +4,7 @@
 namespace App\Controller;
 
 
-use App\Db\ArrayDataManager;
+use App\Entity\Folder;
 
 class DefaultController extends AbstractController
 {
@@ -19,10 +19,9 @@ class DefaultController extends AbstractController
     /**
      * @Route("/test", name="text")
      */
-    public function test(ArrayDataManager $array_data_manager)
+    public function test(Folder $folder)
     {
-        $a = $array_data_manager->fetchAllHash("SELECT * FROM test", "id");
-        var_dump($a);
+        var_dump($folder->getPrimaryKeyValue());
         return $this->render("test.html.twig");
     }
 }

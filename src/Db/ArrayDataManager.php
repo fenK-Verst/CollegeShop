@@ -5,12 +5,13 @@ namespace App\Db;
 
 
 use App\Db\Exceptions\MysqliException;
+use App\Db\Interfaces\ConnectionInterface;
 
 class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
 {
     private \mysqli $connection;
 
-    public function __construct(Connection $connection)
+    public function __construct(ConnectionInterface $connection)
     {
         $this->connection = $connection->getConnection();
     }

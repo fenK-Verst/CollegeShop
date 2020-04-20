@@ -20,7 +20,7 @@ class Container
     public function get(string $class_name)
     {
         if (interface_exists($class_name)) {
-            $class_name = $this->interfaceMapping[$class_name];
+            $class_name = $this->interfaceMapping[$class_name] ?? $class_name;
         }
         if (!class_exists($class_name)) {
             throw new \Exception("Class $class_name does not exist");

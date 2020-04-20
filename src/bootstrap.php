@@ -12,7 +12,9 @@ use App\Twig;
 define("PROJECT_DIR", __DIR__ . "/../");
 require_once(PROJECT_DIR . "/vendor/autoload.php");
 
-$container = new Container();
+$container = new Container([
+    "App\Db\Interfaces\ConnectionInterface" => Connection::class
+]);
 $container->singletone(Container::class, function () use ($container) {
     return $container;
 });
