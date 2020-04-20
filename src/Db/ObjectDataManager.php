@@ -56,7 +56,7 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
 
         $query_result = $this->query($query);
         $result = [];
-        while($row = $result->fetch_object($class_name)){
+        while($row = $query_result->fetch_object($class_name)){
             $result[] = $row;
         };
 
@@ -70,7 +70,7 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
         /**
          * @var EntityInterface $row
          */
-        while($row = $result->fetch_object($class_name)){
+        while($row = $query_result->fetch_object($class_name)){
             $key = $row->getColumnValue($hash);
             $result[$key] = $row;
         };
@@ -95,7 +95,7 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
         return $this->getConnect()->query($query);
     }
 
-    private function update(EntityInterface $entity)
+    private function update(EntityInterface $entity):bool
     {
         $columns = $entity->getColumns();
         $properties = [];
@@ -113,7 +113,7 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
 
     }
 
-    private function create(EntityInterface $entity)
+    private function create(EntityInterface $entity):bool
     {
         $columns = $entity->getColumns();
         $properties = [];
