@@ -73,6 +73,7 @@ abstract class AbstractRepository //implements RepositoryInterface
 
     public function remove(EntityInterface $entity): bool
     {
+        $this->removeDependencies($entity);
         return $this->getObjectDataManager()->delete($entity);
     }
 
@@ -259,6 +260,37 @@ abstract class AbstractRepository //implements RepositoryInterface
 
         }
         return $e;
+    }
+
+    private function removeDependencies(EntityInterface $entity)
+    {
+        $dependencies = $this->getEntityDependencies($entity);
+        $mto_dep = $dependencies["mto"];
+        $otm_dep = $dependencies["otm"];
+        $mtm_dep = $dependencies["mtm"];
+
+        foreach ($otm_dep as $dep) {
+            $entity_class = $dep["entity"];
+            $primary_key = $dep["primary_key"];
+            $property_name = $dep["property"];
+            $adm = $this->getObjectDataManager()->getArrayDataManager();
+            $temp_entity = new $entity_class();
+            $table_name = $temp_entity->getTableName();
+            $primary_key_value = $entity->getPrimaryKeyValue();
+            $query = "UPDATE $table_name SET".'`'.$primary_key.'`'. "= NULL WHERE $primary_key=\"$primary_key_value\"";
+            $adm->query($query);
+        }
+        foreach ($mtm_dep as $dep) {
+            $self_primary_key = $dep['self_primary_key'];
+            $self_primary_key_value = $entity->getPrimaryKeyValue();
+            $entity_primary_key = $dep['entity_primary_key'];
+            $table_name = $dep['table_name'];
+            $property_name = $dep['property'];
+            $adm = $this->getObjectDataManager()->getArrayDataManager();
+            $query = "DELETE FROM $table_name WHERE ".'`'.$self_primary_key.'`'." =\"$self_primary_key_value\"";
+            $adm->query($query);
+
+        }
     }
 
     private function getEntityProxy(string $class_name)

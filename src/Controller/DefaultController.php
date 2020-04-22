@@ -25,14 +25,8 @@ class DefaultController extends AbstractController
      */
     public function test(FolderRepository $folder_repository, ProductRepository $product_repository, VendorRepository $vendor_repository)
     {
-           $folder = new Folder();
-           $product = new Product();
-           $product->setName("product");
-           $product->setPrice(2111);
-           $product->setArticle("article");
-           $folder->addProduct($product);
-           $folder->setName("some");
-            $folder_repository->save($folder);
+          $vendor = $vendor_repository->find(1);
+          $vendor_repository->remove($vendor);
         return $this->render("test.html.twig");
     }
 }
