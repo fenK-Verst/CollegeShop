@@ -34,7 +34,10 @@ class AbstractEntity implements EntityInterface
         if (is_null($this->primaryKey)){
             $this->parseEntityFields();
         }
-        if (!$this->primaryKey) throw new \Exception("Primary Key not found");
+        if (!$this->primaryKey) {
+            var_dump($this);
+            throw new \Exception("Primary Key not found");
+        }
 
        return $this->primaryKey;
     }
@@ -96,7 +99,12 @@ class AbstractEntity implements EntityInterface
     public function getPrimaryKeyValue()
     {
         $getter = $this->getPropertyGetter($this->getPrimaryKey());
-        return $this->{$getter}();
+        try {
+            $value = $this->{$getter}();
+        }catch (\Exception $e){
+            $value = null;
+        }
+        return $value;
     }
     protected function getPropertyGetter(string $property)
     {
@@ -139,4 +147,5 @@ class AbstractEntity implements EntityInterface
 
         return true;
     }
+
 }

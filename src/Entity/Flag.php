@@ -14,18 +14,18 @@ class Flag extends AbstractEntity
      * @Entity\PrimaryKey()
      * @Entity\Column()
      */
-    private int $id;
+    protected $id;
 
     /**
      * @Entity\Column()
      */
-    private string $name;
+    protected $name;
 
 
     /**
-     * @Entity\OneToMany(entity="App\Model\Product", primary_key="vendor_id")
+     * @Entity\ManyToMany(entity="App\Entity\Product",table_name="product_has_flag" self_primary_key="flag_id",entity_primary_key="product_id")
      */
-    private array $products;
+    protected $products = [];
 
     /**
      * @return array

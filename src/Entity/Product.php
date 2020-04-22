@@ -15,52 +15,52 @@ class Product extends AbstractEntity
      * @Entity\PrimaryKey()
      * @Entity\Column()
      */
-    private int $id;
+    protected $id;
 
     /**
      * @Entity\Column()
      */
-    private string $name;
+    protected $name;
 
     /**
      * @Entity\Column()
      */
-    private string $article;
+    protected $article;
 
     /**
      * @Entity\Column()
      */
-    private ?int $image_id;
+    protected $image_id;
 
     /**
      * @Entity\Column()
      */
-    private string $description;
+    protected $description;
 
     /**
      * @Entity\Column()
      */
-    private float $price;
+    protected $price;
 
     /**
-     * @Entity\ManyToOne(entity="App\Model\Vendor", primary_key="vendor_id")
+     * @Entity\ManyToOne(entity="App\Entity\Vendor", primary_key="vendor_id")
      */
-    private Vendor $vendor;
+    protected $vendor;
 
     /**
-     * @Entity\ManyToMany(entity="App\Model\Folder", self_primary_key="product_id", entity_primary_key="folder_id",table_name="folder_has_product")
+     * @Entity\ManyToMany(entity="App\Entity\Folder", self_primary_key="product_id", entity_primary_key="folder_id",table_name="folder_has_product")
      */
-    private array $folders;
+    protected $folders = [];
 
     /**
-     * @Entity\ManyToMany(entity="App\Model\Flag", self_primary_key="product_id", entity_primary_key="flag_id")
+     * @Entity\ManyToMany(entity="App\Entity\Flag",table_name="product_has_flag", self_primary_key="product_id", entity_primary_key="flag_id")
      */
-    private array $flags;
+    protected $flags = [];
 
     /**
      * @return array
      */
-    public function getFolders(): array
+    public function getFolders()
     {
         return $this->folders;
     }
@@ -78,7 +78,7 @@ class Product extends AbstractEntity
     /**
      * @return array
      */
-    public function getFlags(): array
+    public function getFlags()
     {
         return $this->flags;
     }
@@ -97,7 +97,7 @@ class Product extends AbstractEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -105,7 +105,7 @@ class Product extends AbstractEntity
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -121,7 +121,7 @@ class Product extends AbstractEntity
     /**
      * @return string
      */
-    public function getArticle(): string
+    public function getArticle()
     {
         return $this->article;
     }
@@ -137,7 +137,7 @@ class Product extends AbstractEntity
     /**
      * @return int
      */
-    public function getImageId(): ?int
+    public function getImageId()
     {
         return $this->image_id;
     }
@@ -153,7 +153,7 @@ class Product extends AbstractEntity
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription()
     {
         return $this->description;
     }
@@ -169,7 +169,7 @@ class Product extends AbstractEntity
     /**
      * @return float
      */
-    public function getPrice(): float
+    public function getPrice()
     {
         return $this->price;
     }
@@ -185,7 +185,7 @@ class Product extends AbstractEntity
     /**
      * @return Vendor|null
      */
-    public function getVendor(): ?Vendor
+    public function getVendor()
     {
         return $this->vendor;
     }

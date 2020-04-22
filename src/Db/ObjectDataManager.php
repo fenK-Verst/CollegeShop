@@ -19,14 +19,19 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
         $this->connection = $connection;
     }
 
-    public function save(EntityInterface $entity)
+    public function save(EntityInterface $entity):EntityInterface
     {
+
         $primary_key = $entity->getPrimaryKeyValue();
         if (!is_null($primary_key)){
             $this->update($entity);
         }else{
-            $this->create($entity);
+            $primary_key_value = $this->create($entity);
+            $table_name = $entity->getTableName();
+            $primary_key = $entity->getPrimaryKey();
+            $entity = $this->fetchRow("SELECT * FROM $table_name WHERE $primary_key = $primary_key_value", get_class($entity));
         }
+        return $entity;
     }
 
     public function delete(EntityInterface $entity): bool
@@ -106,14 +111,13 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
         $table_name = $entity->getTableName();
         $primary_key = $entity->getPrimaryKey();
         $primary_key_value = $entity->getPrimaryKeyValue();
-
         return (bool)$this->getArrayDataManager()->update($table_name, $properties, [
             $primary_key=>$primary_key_value
         ]);
 
     }
 
-    private function create(EntityInterface $entity):bool
+    private function create(EntityInterface $entity):int
     {
         $columns = $entity->getColumns();
         $properties = [];
@@ -124,7 +128,7 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
         $table_name = $entity->getTableName();
 
 
-        return (bool)$this->getArrayDataManager()->insert($table_name, $properties);
+        return  $this->getArrayDataManager()->insert($table_name, $properties);
     }
 
 }

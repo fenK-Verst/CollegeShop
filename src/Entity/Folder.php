@@ -14,27 +14,27 @@ class Folder extends AbstractEntity
      * @Entity\PrimaryKey()
      * @Entity\Column()
      */
-    private int $id;
+    protected $id;
 
     /**
      * @Entity\Column()
      */
-    private string $name;
+    protected $name;
 
     /**
      * @Entity\Column()
      */
-    private string $left;
+    protected $left;
 
     /**
      * @Entity\Column()
      */
-    private string $right;
+    protected $right;
 
     /**
-     * @Entity\ManyToMany(entity="App\Model\Product", self_primary_key="folder_id", entity_primary_key="product_id", table_name="folder_has_product")
+     * @Entity\ManyToMany(entity="App\Entity\Product", self_primary_key="folder_id", entity_primary_key="product_id", table_name="folder_has_product")
      */
-    private array $products;
+    protected $products = [];
 
     /**
      * @return array
@@ -57,7 +57,7 @@ class Folder extends AbstractEntity
     /**
      * @return string
      */
-    public function getLeft(): string
+    public function getLeft()
     {
         return $this->left;
     }
@@ -65,7 +65,7 @@ class Folder extends AbstractEntity
     /**
      * @param string $left
      */
-    public function setLeft(string $left): void
+    public function setLeft(string $left)
     {
         $this->left = $left;
     }
@@ -73,7 +73,7 @@ class Folder extends AbstractEntity
     /**
      * @return string
      */
-    public function getRight(): string
+    public function getRight()
     {
         return $this->right;
     }
@@ -88,7 +88,7 @@ class Folder extends AbstractEntity
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -96,7 +96,7 @@ class Folder extends AbstractEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }

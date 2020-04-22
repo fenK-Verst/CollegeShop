@@ -5,25 +5,40 @@ namespace App\Entity\Proxy;
 
 
 use App\Entity\Product;
+use App\Repository\FolderRepository;
 
 class FolderProxy extends \App\Entity\Folder
 {
     private bool $__inited = false;
+    private FolderRepository $repository;
+    private $primaryKey;
+    private \App\Entity\Folder $parent;
 
-    public function __construct()
+    /**
+     * FolderProxy constructor.
+     *
+     * @param FolderRepository $repository
+     * @param $primaryKey
+     */
+    public function __construct(FolderRepository $repository, $primaryKey)
     {
-
+        $this->repository = $repository;
+        $this->primaryKey = $primaryKey;
     }
 
     private function init()
     {
-        $this->__inited = true;
+        if (!$this->__inited){
+            $original = $this->repository->find($this->primaryKey);
+            $this->parent = $original;
+            $this->__inited = true;
+        }
     }
 
     public function getProducts(): array
     {
-        if (!$this->__inited) $this->init();
-        return parent::getProducts();
+        $this->init();
+        return $this->parent->getProducts();
     }
 
     /**
@@ -31,8 +46,8 @@ class FolderProxy extends \App\Entity\Folder
      */
     public function addProduct(Product $product)
     {
-        if (!$this->__inited) $this->init();
-        parent::addProduct($product);
+        $this->init();
+        $this->parent->addProduct($product);
 
     }
 
@@ -41,8 +56,8 @@ class FolderProxy extends \App\Entity\Folder
      */
     public function getLeft(): string
     {
-        if (!$this->__inited) $this->init();
-        return parent::getLeft();
+        $this->init();
+        return $this->parent->getLeft();
     }
 
     /**
@@ -50,8 +65,8 @@ class FolderProxy extends \App\Entity\Folder
      */
     public function setLeft(string $left): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setLeft($left);
+        $this->init();
+        $this->parent->setLeft($left);
     }
 
     /**
@@ -59,8 +74,8 @@ class FolderProxy extends \App\Entity\Folder
      */
     public function getRight(): string
     {
-        if (!$this->__inited) $this->init();
-        return parent::getRight();
+        $this->init();
+        return $this->parent->getRight();
     }
 
     /**
@@ -68,16 +83,16 @@ class FolderProxy extends \App\Entity\Folder
      */
     public function setRight(string $right): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setRight($right);
+        $this->init();
+        $this->parent->setRight($right);
     }
     /**
      * @return int
      */
     public function getId(): int
     {
-        if (!$this->__inited) $this->init();
-        return parent::getId();
+        $this->init();
+        return $this->parent->getId();
     }
 
     /**
@@ -85,8 +100,8 @@ class FolderProxy extends \App\Entity\Folder
      */
     public function getName(): string
     {
-        if (!$this->__inited) $this->init();
-        return parent::getName();
+        $this->init();
+        return $this->parent->getName();
     }
 
     /**
@@ -94,7 +109,7 @@ class FolderProxy extends \App\Entity\Folder
      */
     public function setName(string $name): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setName($name);
+        $this->init();
+        $this->parent->setName($name);
     }
 }

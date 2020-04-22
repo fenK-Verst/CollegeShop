@@ -7,19 +7,34 @@ namespace App\Entity\Proxy;
 use App\Entity\Flag;
 use App\Entity\Folder;
 use App\Entity\Vendor;
+use App\Repository\ProductRepository;
 
 class ProductProxy extends \App\Entity\Product
 {
     private bool $__inited = false;
+    private ProductRepository $repository;
+    private $primaryKey;
+    private \App\Entity\Product $parent;
 
-    public function __construct()
+    /**
+     * ProductProxy constructor.
+     *
+     * @param ProductRepository $repository
+     * @param $primaryKey
+     */
+    public function __construct(ProductRepository $repository, $primaryKey)
     {
-
+        $this->repository = $repository;
+        $this->primaryKey = $primaryKey;
     }
 
     private function init()
     {
-        $this->__inited = true;
+        if (!$this->__inited){
+            $original = $this->repository->find($this->primaryKey);
+            $this->parent = $original;
+            $this->__inited = true;
+        }
     }
 
     /**
@@ -27,8 +42,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function getFolders(): array
     {
-        if (!$this->__inited) $this->init();
-        return parent::getFolders();
+        $this->init();
+        return $this->parent->getFolders();
     }
 
     /**
@@ -36,8 +51,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function addFolder(Folder $folder):void
     {
-        if (!$this->__inited) $this->init();
-        parent::addFolder($folder);
+        $this->init();
+        $this->parent->addFolder($folder);
     }
 
     /**
@@ -45,8 +60,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function getFlags(): array
     {
-        if (!$this->__inited) $this->init();
-        return parent::getFlags();
+        $this->init();
+        return $this->parent->getFlags();
     }
 
     /**
@@ -54,8 +69,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function addFlag(Flag $flag): void
     {
-        if (!$this->__inited) $this->init();
-         parent::addFlag($flag);
+        $this->init();
+         $this->parent->addFlag($flag);
     }
 
 
@@ -64,8 +79,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function getName(): string
     {
-        if (!$this->__inited) $this->init();
-        return parent::getName();
+        $this->init();
+        return $this->parent->getName();
     }
 
     /**
@@ -73,8 +88,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function getId(): int
     {
-        if (!$this->__inited) $this->init();
-        return parent::getId();
+        $this->init();
+        return $this->parent->getId();
     }
 
     /**
@@ -82,8 +97,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function setName(string $name): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setName($name);
+        $this->init();
+        $this->parent->setName($name);
     }
 
     /**
@@ -91,8 +106,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function getArticle(): string
     {
-        if (!$this->__inited) $this->init();
-        return parent::getArticle();
+        $this->init();
+        return $this->parent->getArticle();
     }
 
     /**
@@ -100,8 +115,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function setArticle(string $article): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setArticle($article);
+        $this->init();
+        $this->parent->setArticle($article);
     }
 
     /**
@@ -109,8 +124,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function getImageId(): ?int
     {
-        if (!$this->__inited) $this->init();
-        return parent::getImageId();
+        $this->init();
+        return $this->parent->getImageId();
     }
 
     /**
@@ -118,8 +133,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function setImageId(int $image_id): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setImageId($image_id);
+        $this->init();
+        $this->parent->setImageId($image_id);
     }
 
     /**
@@ -127,8 +142,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function getDescription(): string
     {
-        if (!$this->__inited) $this->init();
-        return parent::getDescription();
+        $this->init();
+        return $this->parent->getDescription();
     }
 
     /**
@@ -136,8 +151,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function setDescription(string $description): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setDescription($description);
+        $this->init();
+        $this->parent->setDescription($description);
     }
 
     /**
@@ -145,8 +160,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function getPrice(): float
     {
-        if (!$this->__inited) $this->init();
-        return parent::getPrice();
+        $this->init();
+        return $this->parent->getPrice();
     }
 
     /**
@@ -154,8 +169,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function setPrice(float $price): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setPrice($price);
+        $this->init();
+        $this->parent->setPrice($price);
     }
 
     /**
@@ -163,8 +178,8 @@ class ProductProxy extends \App\Entity\Product
      */
     public function getVendor(): ?Vendor
     {
-        if (!$this->__inited) $this->init();
-        return parent::getVendor();
+        $this->init();
+        return $this->parent->getVendor();
     }
 
     /**
@@ -172,7 +187,7 @@ class ProductProxy extends \App\Entity\Product
      */
     public function setVendor(Vendor $vendor): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setVendor($vendor);
+        $this->init();
+        $this->parent->setVendor($vendor);
     }
 }

@@ -15,18 +15,18 @@ class Vendor extends AbstractEntity
      * @Entity\PrimaryKey()
      * @Entity\Column()
      */
-    private int $id;
+    protected $id;
 
     /**
      * @Entity\Column()
      */
-    private string $name;
+    protected $name;
 
     /**
      * @Entity\Column()
-     * @Entity\OneToMany(entity="App\Model\Product", primary_key="vendor_id")
+     * @Entity\OneToMany(entity="App\Entity\Product", primary_key="vendor_id")
      */
-    private array $products;
+    protected $products = [];
 
     /**
      * @return int

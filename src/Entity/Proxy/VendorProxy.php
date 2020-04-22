@@ -6,20 +6,37 @@ namespace App\Entity\Proxy;
 
 use App\Entity\Product;
 use App\Entity\Vendor;
+use App\Repository\VendorRepository;
 
 class VendorProxy extends Vendor
 {
     private bool $__inited = false;
+    private VendorRepository $repository;
+    private $primaryKey;
+    /**
+     * @var Vendor
+     */
+    private Vendor $parent;
 
-    public function __construct()
+    /**
+     * VendorProxy constructor.
+     *
+     * @param VendorRepository $repository
+     * @param $primaryKey
+     */
+    public function __construct(VendorRepository $repository, $primaryKey)
     {
-
+        $this->repository = $repository;
+        $this->primaryKey = $primaryKey;
     }
 
     private function init()
     {
-        $this->__inited = true;
-
+        if (!$this->__inited){
+            $original = $this->repository->find($this->primaryKey);
+            $this->parent = $original;
+            $this->__inited = true;
+        }
     }
 
     /**
@@ -27,8 +44,8 @@ class VendorProxy extends Vendor
      */
     public function getId(): int
     {
-        if (!$this->__inited) $this->init();
-        return parent::getId();
+        $this->init();
+        return $this->parent->getId();
     }
 
     /**
@@ -36,8 +53,8 @@ class VendorProxy extends Vendor
      */
     public function getName(): string
     {
-        if (!$this->__inited) $this->init();
-        return parent::getName();
+        $this->init();
+        return $this->parent->getName();
     }
 
     /**
@@ -45,8 +62,8 @@ class VendorProxy extends Vendor
      */
     public function setName(string $name): void
     {
-        if (!$this->__inited) $this->init();
-        parent::setName($name);
+        $this->init();
+        $this->parent->setName($name);
     }
 
     /**
@@ -55,8 +72,8 @@ class VendorProxy extends Vendor
      */
     public function getProducts(): array
     {
-        if (!$this->__inited) $this->init();
-        return parent::getProducts();
+        $this->init();
+        return $this->parent->getProducts();
     }
 
     /**
@@ -64,7 +81,7 @@ class VendorProxy extends Vendor
      */
     public function addProduct(Product $product)
     {
-        if (!$this->__inited) $this->init();
-        parent::addProduct($product);
+        $this->init();
+        $this->parent->addProduct($product);
     }
 }

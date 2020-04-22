@@ -23,4 +23,6 @@ interface RepositoryInterface
 
     public function find(string $primary_key):?EntityInterface;
 
+    public function save(EntityInterface $entity);
+
 }

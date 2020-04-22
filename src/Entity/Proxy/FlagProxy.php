@@ -5,24 +5,39 @@ namespace App\Entity\Proxy;
 
 
 use App\Entity\Product;
+use App\Repository\FlagRepository;
 
 class FlagProxy extends \App\Entity\Flag
 {
     private bool $__inited = false;
+    private FlagRepository $repository;
+    private $primaryKey;
+    private \App\Entity\Flag $parent;
 
-    public function __construct()
+    /**
+     * FlagProxy constructor.
+     *
+     * @param FlagRepository $repository
+     * @param $primaryKey
+     */
+    public function __construct(FlagRepository $repository, $primaryKey)
     {
-
+        $this->repository = $repository;
+        $this->primaryKey = $primaryKey;
     }
 
     private function init()
     {
-        $this->__inited = true;
+        if (!$this->__inited) {
+            $original = $this->repository->find($this->primaryKey);
+            $this->parent = $original;
+            $this->__inited = true;
+        }
     }
     public function getProducts(): array
     {
-        if (!$this->__inited) $this->init();
-        return parent::getProducts();
+        $this->init();
+        return $this->parent->getProducts();
     }
 
     /**
@@ -30,8 +45,8 @@ class FlagProxy extends \App\Entity\Flag
      */
     public function addProduct(Product $product)
     {
-        if (!$this->__inited) $this->init();
-        parent::addProduct($product);
+        $this->init();
+        $this->parent->addProduct($product);
     }
 
 
@@ -40,8 +55,8 @@ class FlagProxy extends \App\Entity\Flag
      */
     public function getId(): int
     {
-        if (!$this->__inited) $this->init();
-        return parent::getId();
+        $this->init();
+        return $this->parent->getId();
     }
 
     /**
@@ -49,8 +64,8 @@ class FlagProxy extends \App\Entity\Flag
      */
     public function getName(): string
     {
-        if (!$this->__inited) $this->init();
-        return parent::getName();
+        $this->init();
+        return $this->parent->getName();
     }
 
     /**
@@ -58,7 +73,7 @@ class FlagProxy extends \App\Entity\Flag
      */
     public function setName(string $name): void
     {
-        if (!$this->__inited) $this->init();
-         parent::setName($name);
+        $this->init();
+        $this->parent->setName($name);
     }
 }
