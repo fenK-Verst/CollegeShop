@@ -77,22 +77,26 @@ class AbstractEntity implements EntityInterface
             if ($column !== false) $this->columns[] = $property->getName();
         }
     }
-    private function getParamsFromDoc(string $key, string  $doc)
+    private function getParamsFromDoc(string $key, string $doc)
     {
-        preg_match_all("/@$key\((.*)\)/s", $doc, $finded);
-        if (is_null($finded[0][0])) return false;
+        preg_match_all("/@$key\((.*)\)/m", $doc, $finded);
+
+        if (is_null($finded[0][0] ?? null)) return false;
         $params = explode(',', $finded[1][0]);
         $result = [];
+        if (is_null($params{1} ?? null)) return [];
         foreach ($params as $param){
             $param = explode("=", $param);
             $result[trim($param[0])] = trim($param[1], '"');
         }
+
         return $result;
     }
 
     public function getPrimaryKeyValue()
     {
-       return $this->{$this->getPrimaryKey()};
+        $getter = $this->getPropertyGetter($this->getPrimaryKey());
+        return $this->{$getter}();
     }
     protected function getPropertyGetter(string $property)
     {
@@ -128,10 +132,10 @@ class AbstractEntity implements EntityInterface
     }
     private function isColumnExists(string $column):bool
     {
-        if (is_null($this->columns)){
+        if (is_null($this->columns)) {
             $this->parseEntityFields();
         }
-        if (!isset($this->columns[$column])) throw new \Exception("Column $column not found");
+        if (!in_array($column, $this->columns)) throw new \Exception("Column $column not found");
 
         return true;
     }

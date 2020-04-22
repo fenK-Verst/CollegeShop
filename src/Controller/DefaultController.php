@@ -5,6 +5,9 @@ namespace App\Controller;
 
 
 use App\Entity\Folder;
+use App\Repository\FolderRepository;
+use App\Repository\ProductRepository;
+use App\Repository\VendorRepository;
 
 class DefaultController extends AbstractController
 {
@@ -19,9 +22,11 @@ class DefaultController extends AbstractController
     /**
      * @Route("/test", name="text")
      */
-    public function test(Folder $folder)
+    public function test(FolderRepository $folder_repository, ProductRepository $product_repository, VendorRepository $vendor_repository)
     {
-        var_dump($folder->getPrimaryKeyValue());
+        $folder = $folder_repository->find(1);
+        $product = $product_repository->find(1);
+        $vendor = $vendor_repository->find(1);
         return $this->render("test.html.twig");
     }
 }

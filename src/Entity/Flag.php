@@ -4,11 +4,11 @@
 namespace App\Entity;
 
 /**
- * Class Folder
- * @Entity(tableName="folder", repositoryClass="App\Repository\FolderRepository")
+ * Class Flag
+ * @Entity(tableName="flag", repositoryClass="App\Repository\FlagRepository")
  * @package App\Entity
  */
-class Folder extends AbstractEntity
+class Flag extends AbstractEntity
 {
     /**
      * @Entity\PrimaryKey()
@@ -21,18 +21,9 @@ class Folder extends AbstractEntity
      */
     private string $name;
 
-    /**
-     * @Entity\Column()
-     */
-    private string $left;
 
     /**
-     * @Entity\Column()
-     */
-    private string $right;
-
-    /**
-     * @Entity\ManyToMany(entity="App\Model\Product", self_primary_key="folder_id", entity_primary_key="product_id", table_name="folder_has_product")
+     * @Entity\OneToMany(entity="App\Model\Product", primary_key="vendor_id")
      */
     private array $products;
 
@@ -54,37 +45,7 @@ class Folder extends AbstractEntity
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getLeft(): string
-    {
-        return $this->left;
-    }
 
-    /**
-     * @param string $left
-     */
-    public function setLeft(string $left): void
-    {
-        $this->left = $left;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRight(): string
-    {
-        return $this->right;
-    }
-
-    /**
-     * @param string $right
-     */
-    public function setRight(string $right): void
-    {
-        $this->right = $right;
-    }
     /**
      * @return int
      */

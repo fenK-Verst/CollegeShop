@@ -8,10 +8,11 @@ class Config
 {
     private array $config = [];
     private static string $dir = PROJECT_DIR . "config";
+    private static string $env_file = '.env.local';
 
     public function __construct()
     {
-        $dotenv = \Dotenv\Dotenv::createImmutable(PROJECT_DIR, ".env.local");
+        $dotenv = \Dotenv\Dotenv::createImmutable(PROJECT_DIR, $this::$env_file);
         $dotenv->load();
         $this->parseDir($this::$dir);
     }
@@ -40,7 +41,6 @@ class Config
                 for ($i = 2; $i < count($path); $i++) {
                     $a[$path[$i]] = $arr;
                     $arr = $a;
-
                 }
                 $this->config = array_replace_recursive($this->config, $arr);
             }

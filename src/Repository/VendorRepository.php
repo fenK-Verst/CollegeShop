@@ -5,20 +5,20 @@ namespace App\Repository;
 
 
 use App\Db\ObjectDataManager;
-use App\Entity\Folder;
+use App\Entity\Vendor;
 
 /**
- * Class FolderRepository
+ * Class VendorRepository
  *
  * @package App\Repository
- * @method Folder find(string $primary_key_value)
- * @method Folder findOrCreate(string $primary_key_value)
- * @method Folder[] findAll()
+ * @method Vendor find(string $primary_key_value)
+ * @method Vendor findOrCreate(string $primary_key_value)
+ * @method Vendor[] findAll()
  */
-class FolderRepository extends AbstractRepository
+class VendorRepository extends AbstractRepository
 {
     public function __construct(ObjectDataManager $dataManager)
     {
-        parent::__construct($dataManager, Folder::class);
+        parent::__construct($dataManager, Vendor::class);
     }
 }

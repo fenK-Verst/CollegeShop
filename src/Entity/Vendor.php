@@ -4,11 +4,12 @@
 namespace App\Entity;
 
 /**
- * Class Folder
- * @Entity(tableName="folder", repositoryClass="App\Repository\FolderRepository")
+ * Class Vendor
+ * @Entity(tableName="vendor", repositoryClass="App\Repository\VendorRepository")
+ *
  * @package App\Entity
  */
-class Folder extends AbstractEntity
+class Vendor extends AbstractEntity
 {
     /**
      * @Entity\PrimaryKey()
@@ -23,45 +24,10 @@ class Folder extends AbstractEntity
 
     /**
      * @Entity\Column()
+     * @Entity\OneToMany(entity="App\Model\Product", primary_key="vendor_id")
      */
-    private string $left;
+    private array $products;
 
-    /**
-     * @Entity\Column()
-     */
-    private string $right;
-
-    /**
-     * @return string
-     */
-    public function getLeft(): string
-    {
-        return $this->left;
-    }
-
-    /**
-     * @param string $left
-     */
-    public function setLeft(string $left): void
-    {
-        $this->left = $left;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRight(): string
-    {
-        return $this->right;
-    }
-
-    /**
-     * @param string $right
-     */
-    public function setRight(string $right): void
-    {
-        $this->right = $right;
-    }
     /**
      * @return int
      */
@@ -86,5 +52,22 @@ class Folder extends AbstractEntity
         $this->name = $name;
     }
 
+    /**
+     **
+     * @return array
+     */
+    public function getProducts(): array
+    {
+        return $this->products;
+    }
 
+    /**
+     * @param Product $product
+     */
+    public function addProduct(Product $product)
+    {
+        if (!in_array($product, (array)$this->products)) {
+            $this->products[] = $product;
+        }
+    }
 }

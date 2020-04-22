@@ -13,7 +13,8 @@ define("PROJECT_DIR", __DIR__ . "/../");
 require_once(PROJECT_DIR . "/vendor/autoload.php");
 
 $container = new Container([
-    "App\Db\Interfaces\ConnectionInterface" => Connection::class
+    "App\Db\Interfaces\ConnectionInterface" => Connection::class,
+    "App\Db\Interfaces\ArrayDataManagerInterface"=>\App\Db\ArrayDataManager::class,
 ]);
 $container->singletone(Container::class, function () use ($container) {
     return $container;

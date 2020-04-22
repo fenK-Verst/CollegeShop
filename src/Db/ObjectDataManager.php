@@ -92,7 +92,7 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
     }
     private function query(string $query)
     {
-        return $this->getConnect()->query($query);
+        return $this->getArrayDataManager()->query($query);
     }
 
     private function update(EntityInterface $entity):bool

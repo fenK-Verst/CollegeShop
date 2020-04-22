@@ -16,7 +16,7 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
         $this->connection = $connection->getConnection();
     }
 
-    private function query(string $query): \mysqli_result
+    public function query(string $query)
     {
         $result = $this->connection->query($query);
         if ($this->connection->errno) {
@@ -28,7 +28,7 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
 
     }
 
-    private function escape(string $string): string
+    public function escape(string $string): string
     {
         return $this->connection->escape_string($string);
     }

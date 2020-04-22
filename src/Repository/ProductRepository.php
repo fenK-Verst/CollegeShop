@@ -5,20 +5,20 @@ namespace App\Repository;
 
 
 use App\Db\ObjectDataManager;
-use App\Entity\Vendor;
+use App\Entity\Product;
 
 /**
- * Class VendorRepository
+ * Class ProductRepository
  *
  * @package App\Repository
- * @method Vendor find(string $primary_key_value)
- * @method Vendor findOrCreate(string $primary_key_value)
- * @method Vendor[] findAll()
+ * @method Product find(string $primary_key_value)
+ * @method Product findOrCreate(string $primary_key_value)
+ * @method Product[] findAll()
  */
-class VendorRepository extends AbstractRepository
+class ProductRepository extends AbstractRepository
 {
     public function __construct(ObjectDataManager $dataManager)
     {
-        parent::__construct($dataManager, Vendor::class);
+        parent::__construct($dataManager, Product::class);
     }
 }

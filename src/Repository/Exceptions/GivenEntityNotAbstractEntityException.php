@@ -4,13 +4,7 @@
 namespace App\Repository\Exceptions;
 
 
-class GivenEntityNotAbstractEntityException
+class GivenEntityNotAbstractEntityException extends \Exception
 {
 
-    /**
-     * GivenEntityNotAbstractEntityException constructor.
-     *
-     * @param string $string
-     */
-    public function __construct(string $string)
-    {}}
+}
