@@ -1,0 +1,50 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Error</title>
+    <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&amp;display=swap&amp;subset=cyrillic"
+          rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .error-code {
+            font: 400 200px/1.2 'Fredericka the Great', cursive;
+            text-align: center;
+        }
+
+        .error-info {
+            font: 400 80px/1.2 'Amatic SC', cursive;
+            text-align: center;
+        }
+        .back{
+            font: 400 50px/1.2 'Amatic SC', cursive;
+            text-align: center;
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="error">
+        <div class="error-code">{{ code }}</div>
+        <div class="error-info">{{ name }}</div>
+        <a href="#" class="back" onClick="history.go(-1); return false;">Go back</a>
+    </div>
+
+</div>
+
+</body>
+</html>

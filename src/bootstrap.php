@@ -37,6 +37,18 @@ $container->singletone(Connection::class, function () {
     return new Connection($host, $user, $password, $db_name, $port);
 });
 
+set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($container) {
+    if ($errno >= 500) {
+        print_r($errfile . "\n");
+        print_r($errline);
+        $twig = $container->get(Twig::class);
+        echo $twig->render("HttpErrors/error.html.twig", [
+            "code" => 500,
+            "name" => $errstr
+        ]);
+        die();
+    }
 
+});
 $kernel = $container->get(Kernel::class);
 

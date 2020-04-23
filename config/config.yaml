@@ -1,0 +1,11 @@
+controllers:
+  - App\Controller\FolderController
+  - App\Controller\ProductController
+  - App\Controller\DefaultController
+  - App\Controller\UserController
+twig:
+  cache: '/var/cache'
+  templates_dir: '/templates'
+  auto_reload: true
+middlewares:
+  - App\Middleware\FolderMiddleware

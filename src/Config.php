@@ -17,6 +17,22 @@ class Config
         $this->parseDir($this::$dir);
     }
 
+    public function getControllers()
+    {
+        return $this->config["config"]["controllers"] ?? [];
+
+    }
+
+    public function getTwigConfig()
+    {
+        return $this->config["config"]["twig"] ?? [];
+    }
+
+    public function getMiddlewares()
+    {
+        return $this->config["config"]["middlewares"] ?? [];
+    }
+
     public function getConfig()
     {
         return $this->config;
@@ -47,16 +63,6 @@ class Config
         }
     }
 
-    public function getControllers()
-    {
-        return $this->config["controllers"] ?? [];
-
-    }
-
-    public function getTwigConfig()
-    {
-        return $this->config["twig"] ?? [];
-    }
 
     private function parseFile(string $file)
     {

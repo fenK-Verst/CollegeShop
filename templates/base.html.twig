@@ -128,12 +128,9 @@
         <section class="footer_middle">
             <ul>
                 <li class="title"><a href="">Каталог</a></li>
-                <li><a href="">Кофе</a></li>
-                <li><a href="">Чай</a></li>
-                <li><a href="">Кофемашины</a></li>
-                <li><a href="">Кофеварки</a></li>
-                <li><a href="">Аксессуары</a></li>
-                <li><a href="">Чистящие средства</a></li>
+                {% for folder in folders %}
+                    <li><a href="{{ folder.url }}">{{ folder.name }}</a></li>
+                {% endfor %}
             </ul>
             <ul>
                 <li class="title"><a href="">Клиентам</a></li>
