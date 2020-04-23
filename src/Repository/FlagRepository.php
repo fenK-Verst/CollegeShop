@@ -4,7 +4,7 @@
 namespace App\Repository;
 
 
-use App\Db\ObjectDataManager;
+use App\Db\ObjectManager;
 use App\Entity\Flag;
 
 /**
@@ -13,12 +13,13 @@ use App\Entity\Flag;
  * @package App\Repository
  * @method Flag find(string $primary_key_value)
  * @method Flag findOrCreate(string $primary_key_value)
+ * @method Flag findBy(array $where, array $order = [], array $limit = []) : array
  * @method Flag[] findAll()
  */
 class FlagRepository extends AbstractRepository
 {
-    public function __construct(ObjectDataManager $dataManager)
+    public function __construct(ObjectManager $object_manager)
     {
-        parent::__construct($dataManager, Flag::class);
+        parent::__construct($object_manager, Flag::class);
     }
 }

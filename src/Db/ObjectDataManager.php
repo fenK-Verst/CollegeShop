@@ -68,7 +68,7 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
         return  $result;
     }
 
-    public function fetchAllHash(string $query, string $class_name, string $hash)
+    public function fetchAllHash(string $query, string $class_name, string $hash):array
     {
         $query_result = $this->query($query);
         $result = [];

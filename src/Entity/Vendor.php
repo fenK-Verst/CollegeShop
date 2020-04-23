@@ -23,7 +23,6 @@ class Vendor extends AbstractEntity
     protected $name;
 
     /**
-     * @Entity\Column()
      * @Entity\OneToMany(entity="App\Entity\Product", primary_key="vendor_id")
      */
     protected $products = [];

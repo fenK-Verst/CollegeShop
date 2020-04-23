@@ -18,7 +18,8 @@ CREATE TABLE user
     `id`        INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `firstname` VARCHAR(255) NOT NULL,
     `lastname`  VARCHAR(255) NOT NULL,
-    `email`     VARCHAR(255) NOT NULL UNIQUE
+    `email`     VARCHAR(255) NOT NULL UNIQUE,
+    `phone`     VARCHAR(20)  NOT NULL unique
 )ENGINE=InnoDB;
 DROP TABLE IF EXISTS `image`;
 CREATE TABLE image

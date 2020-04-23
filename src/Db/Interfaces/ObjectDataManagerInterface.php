@@ -18,7 +18,7 @@ interface ObjectDataManagerInterface
 
     public function fetchAllArray(string $query, string $class_name):array;
 
-    public function fetchAllHash(string $query, string $class_name, string $hash);
+    public function fetchAllHash(string $query, string $class_name, string $hash):array;
 
     public function getArrayDataManager():ArrayDataManagerInterface;
 }
