@@ -11,5 +11,6 @@ Started on 14.04
 | 18.02  | Сверстана карточка товара |
 | 20.02  | Connection+ADM+Entity+ODM+Normal config |
 | 21.02  | Repository.Start |
+| 22.02  | Repository.Relations |
 
 

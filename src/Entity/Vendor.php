@@ -31,7 +31,7 @@ class Vendor extends AbstractEntity
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -39,7 +39,7 @@ class Vendor extends AbstractEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -56,7 +56,7 @@ class Vendor extends AbstractEntity
      **
      * @return array
      */
-    public function getProducts(): array
+    public function getProducts()
     {
         return $this->products;
     }

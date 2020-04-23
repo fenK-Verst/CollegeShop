@@ -25,7 +25,7 @@ class DefaultController extends AbstractController
      */
     public function test(FolderRepository $folder_repository, ProductRepository $product_repository, VendorRepository $vendor_repository)
     {
-          $vendor = $vendor_repository->find(1);
+          $vendor = $vendor_repository->findOrCreate(1);
           $vendor_repository->remove($vendor);
         return $this->render("test.html.twig");
     }
