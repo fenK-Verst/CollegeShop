@@ -10,9 +10,13 @@ use App\Entity\Product;
 use App\Entity\Vendor;
 use App\Repository\FolderRepository;
 
+/**
+ * Class DefaultController
+ *
+ * @package App\Controller
+ */
 class DefaultController extends AbstractController
 {
-
     /**
      * @Route("/", name="default")
      */
@@ -21,12 +25,5 @@ class DefaultController extends AbstractController
         return $this->render("title.html.twig");
     }
 
-    /**
-     * @Route("/test", name="text")
-     */
-    public function test(FolderRepository $folder_repository, ObjectManager $object_manager)
-    {
 
-        return $this->render("test.html.twig");
-    }
 }
