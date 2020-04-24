@@ -16,7 +16,6 @@ abstract class AbstractRepository //implements RepositoryInterface
     private AbstractEntity $entity;
     private ObjectManagerInterface $objectManager;
 
-
     public function __construct(ObjectManagerInterface $object_manager, string $entity_class)
     {
         if (!class_exists($entity_class) || !in_array(AbstractEntity::class, class_parents($entity_class))) {
@@ -41,13 +40,13 @@ abstract class AbstractRepository //implements RepositoryInterface
     {
         $where_array = [];
         foreach ($where as $key => $value) {
-            $where_array[] = $this->escape($key) . ' = "' . $this->escape($value) . '"';
+            $where_array[] = '`'.$this->escape($key) .'`' . ' = "' . $this->escape($value) . '"';
         }
         $table_name = $this->entity->getTableName();
         $query = "SELECT * FROM $table_name";
 
         if (!empty($where_array)) {
-            $where_query = implode("AND", $where_array);
+            $where_query = implode(" AND ", $where_array);
             $query .= " WHERE $where_query";
         }
         $order_array = [];
@@ -92,6 +91,10 @@ abstract class AbstractRepository //implements RepositoryInterface
 
     }
 
+    public function getObjectManager()
+    {
+        return $this->objectManager;
+    }
     private function escape(string $string): string
     {
         return $this->objectDataManager->getArrayDataManager()->escape($string);

@@ -35,7 +35,6 @@ class AbstractEntity implements EntityInterface
             $this->parseEntityFields();
         }
         if (!$this->primaryKey) {
-            var_dump($this);
             throw new \Exception("Primary Key not found");
         }
 
@@ -73,7 +72,7 @@ class AbstractEntity implements EntityInterface
         $properties = $reflection_class->getProperties();
         foreach ( $properties as $property){
             $doc = $property->getDocComment();
-            $primary_key = $this->getParamsFromDoc('Entity\\\PrimaryKey', $doc);
+            $primary_key = strpos($doc,'@Entity\\PrimaryKey' );
             if ($primary_key !== false) $this->primaryKey = $property->getName();
 
             $column = $this->getParamsFromDoc('Entity\\\Column', $doc);
@@ -84,7 +83,7 @@ class AbstractEntity implements EntityInterface
     {
         preg_match_all("/@$key\((.*)\)/m", $doc, $finded);
 
-        if (is_null($finded[0][0] ?? null)) return false;
+        if (is_null($finded[0][0] ?? null)) return [];
         $params = explode(',', $finded[1][0]);
         $result = [];
         if (is_null($params{1} ?? null)) return [];

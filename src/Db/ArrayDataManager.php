@@ -74,7 +74,7 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
         }
 
 
-        $query_where = implode("AND ", $where_array);
+        $query_where = implode(" AND ", $where_array);
         $query_set = implode(", ", $set_array);
 
         $query = "UPDATE $table_name SET $query_set WHERE $query_where";
@@ -87,10 +87,10 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
     {
 
         foreach ($where as $key => $value) {
-            $where_array[] = $key . ' = "' . $this->escape($value) . '"';
+            $where_array[] = '`'.$key.'`' . ' = "' . $this->escape($value) . '"';
         }
 
-        $query_where = implode("AND ", $where_array);
+        $query_where = implode(" AND ", $where_array);
 
         $query = "DELETE FROM $table_name  WHERE $query_where";
 
@@ -111,10 +111,10 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
         if (!empty($where)) {
             $where_array = [];
             foreach ($where as $key => $value) {
-                $where_array[] = $key . ' = "' . $this->escape($value) . '"';
+                $where_array[] = '`'.$key.'`' . ' = "' . $this->escape($value) . '"';
             }
 
-            $query_where = implode("AND ", $where_array);
+            $query_where = implode(" AND ", $where_array);
 
             $query .= " WHERE " . $query_where;
         }

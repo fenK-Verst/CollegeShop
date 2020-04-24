@@ -9,7 +9,7 @@ class Response
     private $body;
     private $headers;
 
-    public function __construct($body, array $headers = [])
+    public function __construct($body = '', array $headers = [])
     {
         $this->body = $body;
         $this->headers = $headers;

@@ -18,10 +18,12 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE user
 (
     `id`        INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `image_id` INT unsigned DEFAULT NULL,
     `firstname` VARCHAR(255) NOT NULL,
     `lastname`  VARCHAR(255) NOT NULL,
     `email`     VARCHAR(255) NOT NULL UNIQUE,
-    `phone`     VARCHAR(20)  NOT NULL unique
+    `phone`     VARCHAR(20)  NOT NULL unique,
+    `password` VARCHAR(255) NOT NULL
 )ENGINE=InnoDB;
 DROP TABLE IF EXISTS `image`;
 CREATE TABLE image

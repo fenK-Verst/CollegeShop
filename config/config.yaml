@@ -9,3 +9,4 @@ twig:
   auto_reload: true
 middlewares:
   - App\Middleware\FolderMiddleware
+  - App\Middleware\UserMiddleware

@@ -1,61 +1,65 @@
 <?php
 
 
-namespace App\Entity;
+namespace App\Entity\Proxy;
 
 
-class User extends AbstractEntity
+use App\Entity\User;
+use App\Repository\UserRepository;
+
+class UserProxy extends User
 {
+
+    private bool $__inited = false;
+    private UserRepository $repository;
+    private $primaryKey;
     /**
-     * @Entity\PrimaryKey()
-     * @Entity\Column()
+     * @var User
      */
-    protected $id;
+    private User $parent;
 
     /**
-     * @Entity\Column()
+     * UserProxy constructor.
+     *
+     * @param UserRepository $repository
+     * @param $primaryKey
      */
-    protected $lastname;
+    public function __construct(UserRepository $repository, $primaryKey)
+    {
+        $this->repository = $repository;
+        $this->primaryKey = $primaryKey;
+    }
 
-    /**
-     * @Entity\Column()
-     */
-    protected $firstname;
-
-    /**
-     * @Entity\Column()
-     */
-    protected $email;
-
-    /**
-     * @Entity\Column()
-     */
-    protected $phone;
-
-    /**
-     * @Entity\Column()
-     */
-    protected $image_id;
-
-    
+    private function init()
+    {
+        if (!$this->__inited){
+            $original = $this->repository->find($this->primaryKey);
+            $this->parent = $original;
+            $this->__inited = true;
+        }
+    }
     public function getId()
     {
-        return $this->id;
+        $this->init();
+        return $this->parent->getId;
     }
 
     public function getLastname()
     {
-        return $this->lastname;
+        $this->init();
+        return $this->parent->getLastname();
     }
 
     public function setLastname($lastname): void
     {
-        $this->lastname = $lastname;
+        $this->init();
+        $this->parent->setLastname($lastname);
     }
 
     public function getFirstname()
     {
-        return $this->firstname;
+        $this->init();
+        return $this->parent->getFirstname();
     }
 
     /**
@@ -63,13 +67,15 @@ class User extends AbstractEntity
      */
     public function setFirstname($firstname): void
     {
-        $this->firstname = $firstname;
+        $this->init();
+        $this->parent->setFirstname($firstname);
     }
 
     
     public function getEmail()
     {
-        return $this->email;
+        $this->init();
+        return $this->parent->getEmail();
     }
 
     /**
@@ -77,13 +83,15 @@ class User extends AbstractEntity
      */
     public function setEmail($email): void
     {
-        $this->email = $email;
+        $this->init();
+        $this->parent->setEmail($email);
     }
 
     
     public function getPhone()
     {
-        return $this->phone;
+        $this->init();
+        return $this->parent->getPhone();
     }
 
     /**
@@ -91,13 +99,15 @@ class User extends AbstractEntity
      */
     public function setPhone($phone): void
     {
-        $this->phone = $phone;
+        $this->init();
+        $this->parent->setPhone($phone);
     }
 
     
     public function getImageId()
     {
-        return $this->image_id;
+        $this->init();
+        return $this->parent->getImageId();
     }
 
     /**
@@ -105,6 +115,18 @@ class User extends AbstractEntity
      */
     public function setImageId($image_id): void
     {
-        $this->image_id = $image_id;
+        $this->init();
+        $this->parent->setImageId($image_id);
+    }
+
+    public function setPassword(string $password)
+    {
+        $this->init();
+        $this->parent->setPassword($password);
+    }
+    public function getPassword()
+    {
+        $this->init();
+        return $this->parent->getPassword();
     }
 }

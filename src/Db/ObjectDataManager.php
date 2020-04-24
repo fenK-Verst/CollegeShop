@@ -127,7 +127,6 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
         }
         $table_name = $entity->getTableName();
 
-
         return  $this->getArrayDataManager()->insert($table_name, $properties);
     }
 

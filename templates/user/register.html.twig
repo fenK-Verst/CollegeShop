@@ -1,0 +1,43 @@
+{% extends 'base.html.twig'%}
+
+{% block body %}
+    <section class="content">
+        {% if error %}
+        <div class="alert alert-danger">
+            {{ error|nl2br }}
+        </div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="firstname">Имя</label>
+                <input type="text" class="form-control" name="user[firstname]" required value="{{ user.firstname }}" id="firstname">
+            </div>
+            <div class="form-group">
+                <label for="lastname">Фамилия</label>
+                <input type="text" class="form-control" name="user[lastname]" value="{{ user.lastname }}" id="lastname">
+            </div>
+            <div class="form-group">
+                <label for="email">Почта</label>
+                <input type="email" class="form-control" id="email" required name="user[email]" value="{{ user.email }}" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+                <label for="phone">Телефон</label>
+                <input type="text" class="form-control bfh-phone" data-format="+1 (ddd) ddd-dddd" id="phone" name="user[phone]" value="{{ user.phone }}" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+                <label for="avatar">Аватар</label>
+                <input type="file" class="form-control-file" name="user[avatar]"  id="avatar">
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" class="form-control" name="user[password]"  required minlength="5" maxlength="255" id="password">
+            </div>
+            <div class="form-group">
+                <label for="password_a">Пароль</label>
+                <input type="password" class="form-control" name="user[password_a]" required minlength="5" maxlength="255"  id="password_a">
+            </div>
+
+            <button type="submit" class="btn btn-danger">Зарегистрироваться</button>
+        </form>
+    </section>
+{% endblock %}
