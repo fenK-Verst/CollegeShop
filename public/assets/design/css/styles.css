@@ -42,6 +42,7 @@ header .header_wrapper .header_top .search form input {
   border-radius: 4px;
 }
 header .header_wrapper .header_top .search form label[for=search] {
+  margin: 0;
   margin-left: -27px;
 }
 header .header_wrapper .header_top .search form label[for=search] .fa-search path {
@@ -73,6 +74,10 @@ header .header_wrapper .header_top .links .buttons .button .userbar {
   height: 100%;
   border: 2px solid black;
   box-sizing: border-box;
+}
+header .header_wrapper .header_top .links .buttons .button .userbar a {
+  color: black;
+  text-decoration: none;
 }
 header .header_wrapper .header_top .links .buttons .button .userbar .fa-user {
   position: absolute;
@@ -186,6 +191,13 @@ header .header_wrapper .header_bot_right .cart .title a {
   color: #fff;
 }
 
+main section.content {
+  max-width: 1440px;
+  width: 100%;
+  padding: 10px;
+  padding-top: 30px;
+  margin: auto;
+}
 main .main_slider {
   position: relative;
 }

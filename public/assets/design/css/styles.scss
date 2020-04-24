@@ -50,6 +50,7 @@ header {
           }
 
           label[for="search"] {
+            margin: 0;
             margin-left: -27px;
 
             .fa-search path {
@@ -86,7 +87,10 @@ header {
               height: 100%;
               border: 2px solid black;
               box-sizing: border-box;
-
+              a{
+                color:black;
+                text-decoration: none;
+              }
               .fa-user {
                 position: absolute;
                 top: 50%;
@@ -248,6 +252,13 @@ header {
 }
 
 main {
+  section.content{
+    max-width: 1440px;
+    width: 100%;
+    padding: 10px;
+    padding-top: 30px;
+    margin: auto;
+  }
   .main_slider {
     position: relative;
 
