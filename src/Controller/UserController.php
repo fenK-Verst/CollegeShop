@@ -104,11 +104,19 @@ class UserController extends AbstractController
     public function cabinet(UserService $user_service)
     {
         var_dump($_SESSION);
-        die(123);
         $user = $user_service->getCurrentUser();
-        if (!$user){
+        if (!$user) {
             return $this->redirect("/login");
         }
         return $this->render("user/cabinet.html.twig");
+    }
+
+    /**
+     * @Route("/logout")
+     */
+    public function logout(UserService $user_service)
+    {
+        $user_service->logout();
+        return $this->redirect("/");
     }
 }

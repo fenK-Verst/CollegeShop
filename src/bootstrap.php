@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 use App\Config;
 use App\Db\Connection;
 use App\Di\Container;
@@ -8,16 +10,15 @@ use App\Http\Response;
 use App\Kernel;
 use App\Twig;
 
+if (!session_id()){
 
-session_set_cookie_params(0);
-session_start();
-
-session_regenerate_id();
+    session_start();
+}
+//var_dump($_SESSION);
 
 define("PROJECT_DIR", __DIR__ . "/../");
 require_once(PROJECT_DIR . "/vendor/autoload.php");
-
-var_dump(session_id());
+//phpinfo();
 $container = new Container([
     "App\Db\Interfaces\ConnectionInterface" => Connection::class,
     "App\Db\Interfaces\ArrayDataManagerInterface" => \App\Db\ArrayDataManager::class,
