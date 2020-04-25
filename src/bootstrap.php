@@ -10,12 +10,8 @@ use App\Http\Response;
 use App\Kernel;
 use App\Twig;
 
-if (!session_id()){
-
-    session_start();
-}
-//var_dump($_SESSION);
-
+session_start();
+phpinfo();
 define("PROJECT_DIR", __DIR__ . "/../");
 require_once(PROJECT_DIR . "/vendor/autoload.php");
 //phpinfo();
