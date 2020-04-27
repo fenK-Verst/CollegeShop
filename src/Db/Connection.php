@@ -45,6 +45,7 @@ class Connection implements ConnectionInterface
 
     private function connect()
     {
+
         $connection = new \mysqli($this->host, $this->user, $this->password, $this->db_name, $this->port);
         if (!$connection || $connection->connect_errno) {
             $error = $connection->connect_error;

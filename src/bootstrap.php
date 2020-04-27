@@ -10,8 +10,8 @@ use App\Http\Response;
 use App\Kernel;
 use App\Twig;
 
-session_start();
-phpinfo();
+    session_start();
+    session_regenerate_id();
 define("PROJECT_DIR", __DIR__ . "/../");
 require_once(PROJECT_DIR . "/vendor/autoload.php");
 //phpinfo();
@@ -39,19 +39,22 @@ $container->singletone(Connection::class, function () {
     $port = getenv("DB_PORT");
     return new Connection($host, $user, $password, $db_name, $port);
 });
+$dev =  getenv("env");
+if (strtolower($dev) == "prod" ){
+    set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($container) {
+        if ($errno >= 500) {
+            print_r($errfile . "\n");
+            print_r($errline);
+            $twig = $container->get(Twig::class);
+            echo $twig->render("HttpErrors/error.html.twig", [
+                "code" => 500,
+                "name" => $errstr
+            ]);
+            die();
+        }
 
-//set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($container) {
-//    if ($errno >= 500) {
-//        print_r($errfile . "\n");
-//        print_r($errline);
-//        $twig = $container->get(Twig::class);
-//        echo $twig->render("HttpErrors/error.html.twig", [
-//            "code" => 500,
-//            "name" => $errstr
-//        ]);
-//        die();
-//    }
-//
-//});
+    });
+}
+
 $kernel = $container->get(Kernel::class);
 

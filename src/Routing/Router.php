@@ -53,7 +53,8 @@ class Router
                 $route_url = $route_params[0];
 
 
-                if ($controller_url.trim($route_url, "\"") != $url) continue;
+                if (!($controller_url.trim($route_url, "\"") == $url ||
+                    $controller_url.trim($route_url, "\"") == $url."/")) continue;
 
                 $params = [];
                 for ($i=1;$i<count($route_params);$i++){

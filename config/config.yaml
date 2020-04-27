@@ -3,6 +3,7 @@ controllers:
   - App\Controller\ProductController
   - App\Controller\DefaultController
   - App\Controller\UserController
+  - App\Controller\AdminController
 twig:
   cache: '/var/cache'
   templates_dir: '/templates'

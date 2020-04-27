@@ -17,8 +17,9 @@ class FolderService
 
     public function getFoldersFirstLevel()
     {
-        return $this->folderRepository->findBy([
-           "_lvl"=>0
-        ]);
+//        return $this->folderRepository->findBy([
+//           "_lvl"=>0
+//        ]);
+        return [];
     }
 }

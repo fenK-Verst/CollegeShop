@@ -19,21 +19,21 @@ class UserController extends AbstractController
     {
         $error = '';
         $request_user = $request->post("user");
-        if ($request_user){
+        if ($request_user) {
             $users = $user_repository->findBy([
-               "email"=>$request_user["email"],
-               "password"=>$user_service->generatePassword($request_user["password"]),
+                "email" => $request_user["email"],
+                "password" => $user_service->generatePassword($request_user["password"]),
             ]);
-           if (!count($users)){
-               $error = "Неверная почта/пароль";
-           }else{
-               $user = array_values($users)[0];
-               $user_service->login($user);
-               return $this->redirect("/cabinet");
-           }
+            if (!count($users)) {
+                $error = "Неверная почта/пароль";
+            } else {
+                $user = array_values($users)[0];
+                $user_service->login($user);
+                return $this->redirect("/cabinet");
+            }
         }
-        return $this->render("user/login.html.twig",[
-            "error"=>$error
+        return $this->render("user/login.html.twig", [
+            "error" => $error
         ]);
     }
 
@@ -45,11 +45,10 @@ class UserController extends AbstractController
         UserService $user_service,
         ObjectManager $object_manager,
         UserRepository $user_repository
-    )
-    {
+    ) {
         $request_user = $request->post("user");
         $error = '';
-        if (!empty($request_user)){
+        if (!empty($request_user)) {
             $user = new User();
             $email = $request_user["email"];
             $firstname = $request_user["firstname"];
@@ -58,10 +57,18 @@ class UserController extends AbstractController
             $password = $request_user["password"];
             $password_a = $request_user["password_a"];
 
-            if (!$firstname) $error .= "Не указано имя\n";
-            if (!$phone) $error .= "Не указан телефон\n";
-            if (!$email) $error .= "Не указана почта\n";
-            if ($password !== $password_a) $error .= "Пароли не совпадают\n";
+            if (!$firstname) {
+                $error .= "Не указано имя\n";
+            }
+            if (!$phone) {
+                $error .= "Не указан телефон\n";
+            }
+            if (!$email) {
+                $error .= "Не указана почта\n";
+            }
+            if ($password !== $password_a) {
+                $error .= "Пароли не совпадают\n";
+            }
 
             if (
                 strlen($firstname) > 255 ||
@@ -77,7 +84,6 @@ class UserController extends AbstractController
                 $user->setFirstname($firstname);
                 $user->setLastname($lastname);
                 $user->setPhone($phone);
-
                 $unique = $user_repository->getNonUnique($user);
                 if ($unique == 0) {
                     $password = $user_service->generatePassword($password);
@@ -85,7 +91,7 @@ class UserController extends AbstractController
 
                     $user = $object_manager->save($user);
                     $user_service->login($user);
-                    return  $this->redirect("/cabinet");
+                    return $this->redirect("/cabinet");
                 } else {
                     $error .= "Человек с таким телефоном/почтой уже зарегистрирован\n";
                 }
@@ -103,7 +109,6 @@ class UserController extends AbstractController
      */
     public function cabinet(UserService $user_service)
     {
-        var_dump($_SESSION);
         $user = $user_service->getCurrentUser();
         if (!$user) {
             return $this->redirect("/login");

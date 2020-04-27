@@ -26,8 +26,10 @@ class UserRepository extends AbstractRepository
     {
         $email = $user->getEmail();
         $phone = $user->getPhone();
+
         $arm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
         $email = strtolower($arm->escape($email));
+
         $phone = $arm->escape($phone);
         $query = "SELECT COUNT(id) as count FROM user WHERE phone LIKE \"%$phone%\" OR LOWER(email) LIKE \"$email\"";
         $count = $arm->fetchAllArray($query);
