@@ -1,0 +1,70 @@
+{% extends "admin/base.html.twig" %}
+{% block title %}Категории{% endblock %}
+{% block title_small %}Список{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Категории</h3>
+                    <div class="box-tools">
+                        <a href="/admin/folder/create">
+                            <div class="btn btn-xs btn-success">
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error|nl2br }}
+                        </div>
+                    {% endif %}
+                    {% include "admin/folder/folder_ul.html.twig" with {"controls":true} %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form action="" id="folder_form" method="post">
+        <span class="close">X</span>
+        <input type="hidden" name="parent_id">
+        <div>
+            <label for="folder[name]">Название категории</label>
+            <input type="text" name="folder[name]" id="folder[name]">
+        </div>
+        <button>Добавить</button>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/assets/design/js/admin/addFolder.js">
+
+
+    </script>
+{% endblock %}
+{% block styles %}
+    <style>
+        #folder_form {
+            display: none;
+            position: absolute;
+            background: #fff;
+            padding: 10px;
+            box-sizing: border-box;
+            flex-direction: column;
+        }
+        #folder_form > div{
+            display: flex;
+            flex-direction: column;
+        }
+        #folder_form .close{
+            text-align: right;
+        }
+
+        #folder_form.active {
+            display: flex;
+
+        }
+    </style>
+{% endblock %}

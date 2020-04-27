@@ -69,7 +69,7 @@ abstract class AbstractRepository //implements RepositoryInterface
         $class_name = get_class($this->entity);
         $hash = $this->entity->getPrimaryKey();
 
-        $objects = $this->objectDataManager->fetchAllHash($query, $class_name, $hash);
+        $objects = $this->objectDataManager->fetchAllArray($query, $class_name, $hash);
         foreach ($objects as &$object) {
             $object = $this->objectManager->addDependenciesToEntity($object);
         }

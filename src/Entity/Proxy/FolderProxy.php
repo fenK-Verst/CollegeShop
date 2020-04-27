@@ -28,7 +28,7 @@ class FolderProxy extends \App\Entity\Folder
 
     private function init()
     {
-        if (!$this->__inited){
+        if (!$this->__inited) {
             $original = $this->repository->find($this->primaryKey);
             $this->parent = $original;
             $this->__inited = true;
@@ -86,6 +86,7 @@ class FolderProxy extends \App\Entity\Folder
         $this->init();
         $this->parent->setRight($right);
     }
+
     /**
      * @return int
      */
@@ -111,5 +112,17 @@ class FolderProxy extends \App\Entity\Folder
     {
         $this->init();
         $this->parent->setName($name);
+    }
+
+    public function getLvl()
+    {
+        $this->init();
+        return $this->parent->_lvl;
+    }
+
+    public function setLvl(int $lvl)
+    {
+        $this->init();
+        $this->parent->_lvl = $lvl;
     }
 }

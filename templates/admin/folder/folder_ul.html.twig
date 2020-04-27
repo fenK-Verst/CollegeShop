@@ -1,0 +1,49 @@
+{% if folders %}
+    <style>
+        .folders{
+            padding: 0;
+            margin: 0;
+        }
+        .folders ul{
+            padding: 0;
+            padding-left: 10px;
+        }
+        .folders .folder{
+            list-style: none;
+        }
+        .folders >span{
+            font-size: 16px;
+
+        }
+        .folders .folder-controls{
+            margin-left: 20px;
+        }
+    </style>
+    <ul class="folders">
+    {% for k,e in folders %}
+    {% if k > 0 %}
+        {% if e.lvl > prev_level %}
+            <ul>
+        {% else %}
+            </li>
+            {% if e.lvl < prev_level %}
+                {% for key in e.lvl+1..prev_level %}
+                    </ul></li>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    <li class="folder" data-id="{{ e.id }}" data-lvl="{{ e.lvl }}" data-left="{{ e.left }}" data-right ="{{ e.right }}"><span>{{ e.name }}</span>
+        {% if controls %}
+            <span class="folder-controls btn-group"></span>
+        {% endif %}
+        </a>
+        {% set prev_level=e.lvl %}
+        {% endfor %}
+        {% for key in 1..prev_level %}
+    </li>
+</ul>
+{% endfor %}
+</li>
+</ul>
+{% endif %}
