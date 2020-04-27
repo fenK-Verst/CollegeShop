@@ -10,9 +10,12 @@ use App\Http\Response;
 use App\Kernel;
 use App\Twig;
 
-    session_start();
-    session_regenerate_id();
+
 define("PROJECT_DIR", __DIR__ . "/../");
+
+session_save_path(PROJECT_DIR."var/sessions");
+session_start();
+
 require_once(PROJECT_DIR . "/vendor/autoload.php");
 //phpinfo();
 $container = new Container([
