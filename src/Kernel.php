@@ -25,6 +25,7 @@ class Kernel
 
     public function run()
     {
+
         $route = $this->router->dispatch();
 
         $this->runMiddlewares($route);

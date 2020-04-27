@@ -4,10 +4,12 @@ controllers:
   - App\Controller\DefaultController
   - App\Controller\UserController
   - App\Controller\AdminController
+  - App\Controller\VendorController
 twig:
   cache: '/var/cache'
   templates_dir: '/templates'
   auto_reload: true
+  debug: true
 middlewares:
   - App\Middleware\FolderMiddleware
   - App\Middleware\UserMiddleware

@@ -21,7 +21,6 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
 
     public function save(EntityInterface $entity):EntityInterface
     {
-
         $primary_key = $entity->getPrimaryKeyValue();
         if (!is_null($primary_key)){
             $this->update($entity);

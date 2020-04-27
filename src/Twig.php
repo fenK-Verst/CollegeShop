@@ -9,11 +9,14 @@ use \Twig\TwigFunction;
 class Twig
 {
     private Environment $twig;
+
     public function __construct(Config $config)
     {
         $twig_config = $config->getTwigConfig();
+
         $loader = new FilesystemLoader(PROJECT_DIR.$twig_config["templates_dir"]);
         $this->twig = new Environment($loader, [
+            'debug' => (bool)$twig_config["debug"],
             'cache' => PROJECT_DIR.$twig_config["cache"],
             'auto_reload' => $twig_config["auto_reload"]
         ]);
@@ -21,7 +24,7 @@ class Twig
             return "/".$path;
         });
         $this->twig->addFunction($function);
-
+        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
 
     }
     public function render(string $template_name, array $params = [])

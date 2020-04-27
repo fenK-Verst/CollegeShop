@@ -51,7 +51,8 @@ class Connection implements ConnectionInterface
             $errno = $connection->connect_errno;
             throw new ConnectionException("$error. Code:$errno");
         }
-        $connection->set_charset("UTF-8");
+        $connection->set_charset("utf8mb4");
+
         $this->connection = $connection;
     }
 }

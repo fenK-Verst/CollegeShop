@@ -75,8 +75,8 @@ class AbstractEntity implements EntityInterface
             $primary_key = strpos($doc,'@Entity\\PrimaryKey' );
             if ($primary_key !== false) $this->primaryKey = $property->getName();
 
-            $column = $this->getParamsFromDoc('Entity\\\Column', $doc);
-            if ($column !== false) $this->columns[] = $property->getName();
+            $column = strpos($doc,'@Entity\\Column' );
+            if ($column) $this->columns[] = $property->getName();
         }
     }
     private function getParamsFromDoc(string $key, string $doc)
@@ -135,6 +135,7 @@ class AbstractEntity implements EntityInterface
         $this->isColumnExists($column);
 
         $getter = $this->getPropertyGetter($column);
+
         return $this->{$getter}();
     }
     private function isColumnExists(string $column):bool

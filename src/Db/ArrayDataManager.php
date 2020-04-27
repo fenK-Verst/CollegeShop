@@ -43,7 +43,9 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
             return '`' . $this->escape($item) . '`';
         }, $query_keys);
         $query_values = array_map(function ($item) {
-            if (is_null($item)) return "NULL";
+            if (is_null($item)) {
+                return "NULL";
+            }
             return '"' . $this->escape($item) . '"';
 
         }, $query_values);
@@ -61,13 +63,13 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
     public function update(string $table_name, array $values, array $where): int
     {
         foreach ($values as $key => $value) {
-            if (!is_null($value)){
-                $val = '"'.$this->escape($value).'"';
-            }else{
+            if (!is_null($value)) {
+                $val = '"' . $this->escape($value) . '"';
+            } else {
                 $val = 'NULL';
             }
-            $key = '`'.$key.'`';
-            $set_array[] = "$key = $val" ;
+            $key = '`' . $key . '`';
+            $set_array[] = "$key = $val";
         }
         foreach ($where as $key => $value) {
             $where_array[] = $key . ' = "' . $this->escape($value) . '"';
@@ -87,7 +89,7 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
     {
 
         foreach ($where as $key => $value) {
-            $where_array[] = '`'.$key.'`' . ' = "' . $this->escape($value) . '"';
+            $where_array[] = '`' . $key . '`' . ' = "' . $this->escape($value) . '"';
         }
 
         $query_where = implode(" AND ", $where_array);
@@ -98,7 +100,8 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
 
         return $this->connection->affected_rows;
     }
-    private function fetch(string $table_name, array $select = [], array $where = []):\mysqli_result
+
+    private function fetch(string $table_name, array $select = [], array $where = []): \mysqli_result
     {
         $array_select = $select;
         $array_select = array_map(function ($value) {
@@ -106,12 +109,14 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
         }, $array_select);
         $query_select = implode(",", $array_select);
 
-        if (!$query_select) $query_select = "*";
+        if (!$query_select) {
+            $query_select = "*";
+        }
         $query = "SELECT $query_select  FROM $table_name";
         if (!empty($where)) {
             $where_array = [];
             foreach ($where as $key => $value) {
-                $where_array[] = '`'.$key.'`' . ' = "' . $this->escape($value) . '"';
+                $where_array[] = '`' . $key . '`' . ' = "' . $this->escape($value) . '"';
             }
 
             $query_where = implode(" AND ", $where_array);
@@ -122,21 +127,22 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
         return $this->query($query);
 
     }
-    public function fetchAllHash(string $query, string $hash):array
+
+    public function fetchAllHash(string $query, string $hash): array
     {
-        $query_result  = $this->query($query);
+        $query_result = $this->query($query);
         $query_result = $query_result->fetch_all(MYSQLI_ASSOC) ?? [];
         $result = [];
-        foreach ($query_result as $value){
+        foreach ($query_result as $value) {
             $hashed_value = $value[$hash];
             $result[$hashed_value] = $value;
         }
-        return  $result;
+        return $result;
     }
 
     public function fetchAllArray(string $query): array
     {
-        $query_result  = $this->query($query);
-        return  $query_result->fetch_all(MYSQLI_ASSOC) ?? [];
+        $query_result = $this->query($query);
+        return $query_result->fetch_all(MYSQLI_ASSOC) ?? [];
     }
 }

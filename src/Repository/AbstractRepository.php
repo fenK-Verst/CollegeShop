@@ -26,8 +26,9 @@ abstract class AbstractRepository //implements RepositoryInterface
         $this->entity = new $entity_class();
     }
 
-    public function find(string $primary_key_value): ?EntityInterface
+    public function find(?string $primary_key_value): ?EntityInterface
     {
+        if (is_null($primary_key_value)) return null;
         $primary_key = $this->entity->getPrimaryKey();
         $result = $this->findBy([
             $primary_key => $primary_key_value

@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Http\Response;
+use App\Routing\Route;
 use App\Twig;
 
 abstract class AbstractController
@@ -12,12 +13,21 @@ abstract class AbstractController
     private Twig $twig;
     private array $sharedData = [];
     private Response $response;
+    private Route $route;
+
     public function __construct(Twig $twig)
     {
         $this->twig = $twig;
         $this->response = new Response();
     }
-
+    public function setRoute(Route $route)
+    {
+        $this->route = $route;
+    }
+    public function getRoute()
+    {
+        return $this->route;
+    }
     public function render(string $template_name, $params = [])
     {
         $body = $this->twig->render($template_name, array_merge_recursive($params, $this->getSharedData()));
