@@ -12,6 +12,10 @@ Started on 14.04
 | 20.02  | Connection+ADM+Entity+ODM+Normal config |
 | 21.02  | Repository.Start |
 | 22.02  | Repository.Relations |
-| 22.02  | Middlewares |
+| 23.02  | Middlewares |
+| 24.05  | Proxy for entities|
+| 25.05  |Регистрация |
+| 27.05  |Добавление категорий и производителей |
+
 
 
