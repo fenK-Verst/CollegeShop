@@ -39,9 +39,7 @@ class FolderController extends AbstractController
     public function create(Request $request, FolderRepository $folder_repository, ObjectManager $object_manager)
     {
         $folder = $request->post("folder");
-        $folders = $folder_repository->findBy([], [
-            "_left" => "ASC"
-        ]);
+
         $name = $folder["name"] ?? null;
         if ($folder && $name) {
 
@@ -67,8 +65,35 @@ class FolderController extends AbstractController
 
         return $this->render("admin/folder/form.html.twig", [
             "folder" => $folder,
-            "folders" => $folders
         ]);
+    }
+
+    /**
+     * @Route("/{id}/edit")
+     */
+    public function edit(Request $request, ObjectManager $object_manager, FolderRepository $folder_repository)
+    {
+        $id = $this->getRoute()->get("id");
+        $folder = $folder_repository->find($id);
+        $error = '';
+        $folder_request = $request->post("folder");
+        if ($folder_request){
+            $name = $folder_request["name"];
+
+            if (!$name) {
+                $error.="Не указано имя категории";
+            }else{
+                $folder->setName($name);
+                $object_manager->save($folder);
+                return $this->redirect("/admin/folder");
+            }
+
+        }
+        return $this->render("admin/folder/form.html.twig", [
+            "folder" => $folder,
+            "error"=>$error
+        ]);
+
     }
 
     /**
@@ -131,6 +156,8 @@ class FolderController extends AbstractController
             if (count($folder->getProducts()) > 0) {
                 $error .= "У категории есть товары";
             }
+        }else{
+            $error = "Не найдена категория";
         }
         if (!$error) {
             $left = $folder->getLeft();

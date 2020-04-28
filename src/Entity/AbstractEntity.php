@@ -18,6 +18,7 @@ class AbstractEntity implements EntityInterface
     public function getTableName(): string
     {
         $entity_params = $this->getEntityParams();
+
         $table_name = $entity_params["tableName"];
         if (!$table_name) throw new \Exception("Table Name not found in entity ");
         return  $table_name;
@@ -51,7 +52,7 @@ class AbstractEntity implements EntityInterface
         if (empty($this->columns)) throw new \Exception("Columns not found");
        return $this->columns;
     }
-    private function getEntityParams()
+    public function getEntityParams():array
     {
         if (empty($this->entityParams)){
             $this->parseEntityDoc();

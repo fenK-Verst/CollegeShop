@@ -20,11 +20,15 @@
                         <tr>
                             <th>Имя</th>
                             <th>Цена</th>
+                            <th>Артикул</th>
+                            <th>Производитель</th>
                         </tr>
                     {% for product in products %}
                        <tr>
                            <td>{{ product.name }}</td>
                            <td>{{ product.price }}</td>
+                           <td>{{ product.article }}</td>
+                           <td>{{ product.vendor.name }}</td>
                            <td class="text-right">
                               <div class="btn-group">
                                   <a href="/admin/product/{{ product.id }}/edit" class="btn btn-xs btn-primary">

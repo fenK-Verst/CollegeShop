@@ -45,6 +45,7 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
 
             $repository_class = $temp_entity->getRepositoryClass();
             $repository = new $repository_class($this, $proxy_class);
+
             if ($needed_entity_primary_key_value){
                 $needed_entity = new $proxy_class($repository, $needed_entity_primary_key_value);
             }else{
@@ -66,20 +67,23 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
              */
             $temp_entity = new $needed_entity_class();
             $table_name = $temp_entity->getTableName();
-
-            $query = "SELECT $primary_key FROM $table_name WHERE $primary_key = $entity_primary_key_value";
-
+            $temp_entity_primary_key = $temp_entity->getPrimaryKey();
+            $query = "SELECT $temp_entity_primary_key FROM $table_name WHERE $primary_key = $entity_primary_key_value";
             $objects = $adm->query($query);
 
             $repository_class = $temp_entity->getRepositoryClass();
             $repository = new $repository_class($this, $proxy_class);
+            $adder = $this->getPropertyAdder($entity, $property_name);
             /**
              * @var \mysqli_result $objects
              */
             while ($id = $objects->fetch_row()) {
-                $needed_entity = new $proxy_class($repository, $id);
-                $adder = $this->getPropertyAdder($entity, $property_name);
-                $entity->{$adder}($needed_entity);
+                if (is_array($id)) $id = $id[0];
+                if ($id){
+                    $needed_entity = new $proxy_class($repository, $id);
+                    $entity->{$adder}($needed_entity);
+                }
+
             }
 
 
@@ -100,13 +104,17 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
             $temp_entity = new $needed_entity_class();
             $repository_class = $temp_entity->getRepositoryClass();
             $repository = new $repository_class($this, $proxy_class);
+            $adder = $this->getPropertyAdder($entity, $property_name);
             /**
              * @var \mysqli_result $objects
              */
             while ($id = $objects->fetch_row()) {
-                $needed_entity = new $proxy_class($repository, $id[0]);
-                $adder = $this->getPropertyAdder($entity, $property_name);
-                $entity->{$adder}($needed_entity);
+                if (is_array($id)) $id = $id[0];
+                if ($id){
+                    $needed_entity = new $proxy_class($repository, $id);
+                    $entity->{$adder}($needed_entity);
+                }
+
             }
         }
         return $entity;

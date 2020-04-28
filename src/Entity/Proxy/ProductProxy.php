@@ -13,7 +13,7 @@ class ProductProxy extends \App\Entity\Product
 {
     private bool $__inited = false;
     private ProductRepository $repository;
-    private $primaryKey;
+    private $primaryKeyValue;
     private \App\Entity\Product $parent;
 
     /**
@@ -22,21 +22,25 @@ class ProductProxy extends \App\Entity\Product
      * @param ProductRepository $repository
      * @param $primaryKey
      */
-    public function __construct(ProductRepository $repository, $primaryKey)
+    public function __construct(ProductRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
-        $this->primaryKey = $primaryKey;
+        $this->primaryKeyValue = $primaryKeyValue;
     }
 
     private function init()
     {
         if (!$this->__inited){
-            $original = $this->repository->find($this->primaryKey);
+            $original = $this->repository->find($this->primaryKeyValue);
             $this->parent = $original;
             $this->__inited = true;
         }
     }
-
+    public function getEntityParams():array
+    {
+        $this->init();
+        return $this->parent->getEntityParams();
+    }
     /**
      * @return array
      */
@@ -185,7 +189,7 @@ class ProductProxy extends \App\Entity\Product
     /**
      * @param Vendor $vendor
      */
-    public function setVendor(Vendor $vendor): void
+    public function setVendor(?Vendor $vendor): void
     {
         $this->init();
         $this->parent->setVendor($vendor);

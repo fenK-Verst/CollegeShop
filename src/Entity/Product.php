@@ -204,7 +204,7 @@ class Product extends AbstractEntity
     /**
      * @return Vendor|null
      */
-    public function getVendor()
+    public function getVendor():?Vendor
     {
         return $this->vendor;
     }

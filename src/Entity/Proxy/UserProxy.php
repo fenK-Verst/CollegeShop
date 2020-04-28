@@ -12,7 +12,7 @@ class UserProxy extends User
 
     private bool $__inited = false;
     private UserRepository $repository;
-    private $primaryKey;
+    private $primaryKeyValue;
     /**
      * @var User
      */
@@ -24,19 +24,24 @@ class UserProxy extends User
      * @param UserRepository $repository
      * @param $primaryKey
      */
-    public function __construct(UserRepository $repository, $primaryKey)
+    public function __construct(UserRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
-        $this->primaryKey = $primaryKey;
+        $this->primaryKeyValue = $primaryKeyValue;
     }
 
     private function init()
     {
         if (!$this->__inited){
-            $original = $this->repository->find($this->primaryKey);
+            $original = $this->repository->find($this->primaryKeyValue);
             $this->parent = $original;
             $this->__inited = true;
         }
+    }
+    public function getEntityParams():array
+    {
+        $this->init();
+        return $this->parent->getEntityParams();
     }
     public function getId()
     {

@@ -11,7 +11,7 @@ class FlagProxy extends \App\Entity\Flag
 {
     private bool $__inited = false;
     private FlagRepository $repository;
-    private $primaryKey;
+    private $primaryKeyValue;
     private \App\Entity\Flag $parent;
 
     /**
@@ -20,20 +20,26 @@ class FlagProxy extends \App\Entity\Flag
      * @param FlagRepository $repository
      * @param $primaryKey
      */
-    public function __construct(FlagRepository $repository, $primaryKey)
+    public function __construct(FlagRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
-        $this->primaryKey = $primaryKey;
+        $this->primaryKeyValue = $primaryKeyValue;
     }
 
     private function init()
     {
         if (!$this->__inited) {
-            $original = $this->repository->find($this->primaryKey);
+            $original = $this->repository->find($this->primaryKeyValue);
             $this->parent = $original;
             $this->__inited = true;
         }
     }
+    public function getEntityParams():array
+    {
+        $this->init();
+        return $this->parent->getEntityParams();
+    }
+
     public function getProducts(): array
     {
         $this->init();
@@ -76,4 +82,5 @@ class FlagProxy extends \App\Entity\Flag
         $this->init();
         $this->parent->setName($name);
     }
+
 }

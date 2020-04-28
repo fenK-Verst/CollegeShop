@@ -25,7 +25,7 @@
             display: none;
         }
         .folder >div:hover > .folder-controls{
-            display: block;
+            display: flex;
         }
         .folder >div:hover{
             background: rgba(236,236,236,0.3);
@@ -47,7 +47,18 @@
     {% endif %}
     <li class="folder" data-id="{{ e.id }}" data-lvl="{{ e.lvl }}" data-left="{{ e.left }}" data-right ="{{ e.right }}"><div><span>{{ e.name }}</span>
         {% if controls %}
-            <span class="folder-controls btn-group"></span>
+            <span class="folder-controls btn-group">
+                <a href="/admin/folder/{{ e.id }}/edit" class="btn btn-xs btn-success">
+                    <i class="fa fa-edit"></i>
+                </a>
+                {% if e.right-e.left <=1%}
+                <form action="/admin/folder/delete" method="post" class="btn btn-xs btn-danger" style="order:1"
+                          style="display: inline">
+                    <input type="hidden" value="{{ e.id }}" name="folder_id">
+                    <button style="padding: 0;margin: 0;background: none; border: none"><i class="fa fa-remove"></i></button>
+                </form>
+                {% endif %}
+            </span>
         {% endif %}
     </div>
         {% set prev_level=e.lvl %}
