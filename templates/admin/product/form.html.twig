@@ -41,6 +41,12 @@
                                    required id="product[price]">
                         </div>
                         <div class="form-group">
+                            <label for="product[count]">Количество</label>
+                            <input type="number" class="form-control" name="product[count]"
+                                   value="{{ product.count|default(0) }}"
+                                   required id="product[count]">
+                        </div>
+                        <div class="form-group">
                             <label for="product[vendor_id]">Производитель</label>
                             <select name="product[vendor_id]" class="form-control" id="product[vendor_id]">
                                 {% for vendor in vendors %}

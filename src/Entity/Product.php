@@ -42,6 +42,11 @@ class Product extends AbstractEntity
     protected $price;
 
     /**
+     * @Entity\Column()
+     */
+    protected $count;
+
+    /**
      * @Entity\ManyToOne(entity="App\Entity\Vendor", primary_key="vendor_id")
      */
     protected $vendor;
@@ -55,6 +60,7 @@ class Product extends AbstractEntity
      * @Entity\ManyToMany(entity="App\Entity\Flag",table_name="product_has_flag", self_primary_key="product_id", entity_primary_key="flag_id")
      */
     protected $flags = [];
+
 
     /**
      * @return array
@@ -194,11 +200,27 @@ class Product extends AbstractEntity
     }
 
     /**
-     * @param float $price
+     * @param int $price
      */
     public function setPrice(float $price): void
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    /**
+     * @param int $count
+     */
+    public function setCount(int $count): void
+    {
+        $this->count = $count;
     }
 
     /**

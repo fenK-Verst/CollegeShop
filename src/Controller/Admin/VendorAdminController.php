@@ -10,12 +10,12 @@ use App\Http\Request;
 use App\Repository\VendorRepository;
 
 /**
- * Class VendorController
+ * Class VendorAdminController
  *
  * @Route("/admin/vendor")
  * @package App\Controller
  */
-class VendorController extends AbstractController
+class VendorAdminController extends AbstractController
 {
     /**
      * @Route("/{id}")

@@ -13,12 +13,12 @@ use App\Http\Request;
 use App\Repository\FolderRepository;
 
 /**
- * Class FolderController
+ * Class FolderAdminController
  *
  * @Route("/admin/folder")
  * @package App\Controller
  */
-class FolderController extends AbstractController
+class FolderAdminController extends AbstractController
 {
     /**
      * @Route("/", name="folder.list")

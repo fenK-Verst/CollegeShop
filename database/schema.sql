@@ -47,6 +47,7 @@ CREATE TABLE product
     `image_id`    INT UNSIGNED DEFAULT NULL,
     `description` TEXT         DEFAULT NULL,
     `price`       DECIMAL(12, 2) NOT NULL,
+    `count`       INT NOT NULL DEFAULT 0,
     `vendor_id`   INT UNSIGNED DEFAULT NULL
 )ENGINE=InnoDB;
 

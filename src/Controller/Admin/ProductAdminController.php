@@ -12,12 +12,12 @@ use App\Repository\ProductRepository;
 use App\Repository\VendorRepository;
 
 /**
- * Class ProductController
+ * Class ProductAdminController
  *
  * @Route("/admin/product")
  * @package App\Controller\Admin
  */
-class ProductController extends AbstractController
+class ProductAdminController extends AbstractController
 {
     /**
      * @Route("/")
@@ -48,8 +48,9 @@ class ProductController extends AbstractController
             $description = $request_product["description"] ?? '';
             $price = (float)$request_product["price"];
             $article = $request_product["article"] ?? '';
+            $count = (int)$request_product["count"] ?? 0;
             $folder_ids = $request_product["folder_id"];
-            $vendor_id = $request_product["vendor_id"];
+            $vendor_id = (int) $request_product["vendor_id"];
             $vendor = $vendor_repository->find($vendor_id);
 
             $needed_folders = [];
@@ -68,6 +69,7 @@ class ProductController extends AbstractController
                 $product->setName($name);
                 $product->setPrice($price);
                 $product->setArticle($article);
+                $product->setCount($count);
                 foreach ($needed_folders as $needed_folder){
                     $product->addFolder($needed_folder);
                 }
@@ -108,6 +110,7 @@ class ProductController extends AbstractController
             $description = $request_product["description"] ?? '';
             $price = (float)$request_product["price"];
             $article = $request_product["article"] ?? '';
+            $count = (int)$request_product["count"] ?? 0;
             $folder_ids = $request_product["folder_id"];
             $vendor_id = $request_product["vendor_id"];
             $vendor = $vendor_repository->find($vendor_id);
@@ -127,6 +130,7 @@ class ProductController extends AbstractController
                 $product->setName($name);
                 $product->setPrice($price);
                 $product->setArticle($article);
+                $product->setCount($count);
 
                 $product_folders = $product->getFolders();
                 foreach ( $product_folders as $product_folder){

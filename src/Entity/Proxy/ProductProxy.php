@@ -176,7 +176,20 @@ class ProductProxy extends \App\Entity\Product
         $this->init();
         $this->parent->setPrice($price);
     }
+    public function getCount()
+    {
+          $this->init();
+        return $this->parent->getCount();
+    }
 
+    /**
+     * @param int $count
+     */
+    public function setCount(int $count): void
+    {
+        $this->init();
+        $this->parent->setCount($count);
+    }
     /**
      * @return Vendor|null
      */
