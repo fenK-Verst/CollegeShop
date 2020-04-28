@@ -190,4 +190,13 @@ class ProductProxy extends \App\Entity\Product
         $this->init();
         $this->parent->setVendor($vendor);
     }
+
+    /**
+     * @param Folder $folder
+     */
+    public function deleteFolder(Folder $folder)
+    {
+        $this->init();
+        $this->parent->deleteFolder($folder);
+    }
 }

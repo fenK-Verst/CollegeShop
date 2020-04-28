@@ -17,4 +17,6 @@ interface EntityInterface
     public function getColumns(): array;
 
     public function getColumnValue(string $column):?string;
+
+    public function getSingleDependencies():array;
 }

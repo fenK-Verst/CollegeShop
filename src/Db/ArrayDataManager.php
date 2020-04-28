@@ -78,7 +78,6 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
 
         $query_where = implode(" AND ", $where_array);
         $query_set = implode(", ", $set_array);
-
         $query = "UPDATE $table_name SET $query_set WHERE $query_where";
         $this->query($query);
 

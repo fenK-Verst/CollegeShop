@@ -13,7 +13,6 @@ class Product extends AbstractEntity
 {
     /**
      * @Entity\PrimaryKey()
-     * @Entity\Column()
      */
     protected $id;
 
@@ -70,9 +69,29 @@ class Product extends AbstractEntity
      */
     public function addFolder(Folder $folder)
     {
-        if (!in_array($folder, (array)$this->folders)) {
+        $finded = false;
+        foreach ($this->folders as $this_folder) {
+            if ($folder->getId() == $this_folder->getId()) {
+                $finded = true;
+                break;
+            }
+        }
+        if (!$finded) {
             $this->folders[] = $folder;
         }
+    }
+
+    /**
+     * @param Folder $folder
+     */
+    public function deleteFolder(Folder $folder)
+    {
+        foreach ($this->folders as $key => $this_folder) {
+            if ($folder->getId() == $this_folder->getId()) {
+                unset($this->folders[$key]);
+            }
+        }
+
     }
 
     /**
@@ -193,7 +212,7 @@ class Product extends AbstractEntity
     /**
      * @param Vendor $vendor
      */
-    public function setVendor(Vendor $vendor): void
+    public function setVendor(?Vendor $vendor): void
     {
         $this->vendor = $vendor;
     }

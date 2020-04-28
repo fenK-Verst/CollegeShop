@@ -1,0 +1,46 @@
+{% extends "admin/base.html.twig" %}
+{% block title %}Товары{% endblock %}
+{% block title_small %}Список{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Товары</h3>
+                    <div class="box-tools">
+                        <a href="/admin/product/create">
+                        <div class="btn btn-xs btn-success">
+                            <i class="fa fa-plus"></i>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table class="table table-stripped ">
+                        <tr>
+                            <th>Имя</th>
+                            <th>Цена</th>
+                        </tr>
+                    {% for product in products %}
+                       <tr>
+                           <td>{{ product.name }}</td>
+                           <td>{{ product.price }}</td>
+                           <td class="text-right">
+                              <div class="btn-group">
+                                  <a href="/admin/product/{{ product.id }}/edit" class="btn btn-xs btn-primary">
+                                      <i class="fa fa-edit"></i>
+                                  </a>
+                                  <form action="/admin/product/delete" method="post" class="btn btn-xs btn-danger" style="display: inline">
+                                      <input type="hidden" value="{{ product.id }}" name="vendor_id">
+                                      <button style="padding: 0;margin: 0;background: none; border: none"><i class="fa fa-remove"></i></button>
+                                  </form>
+                              </div>
+                           </td>
+                       </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

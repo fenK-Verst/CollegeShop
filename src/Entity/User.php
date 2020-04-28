@@ -13,7 +13,6 @@ class User extends AbstractEntity
 {
     /**
      * @Entity\PrimaryKey()
-     * @Entity\Column()
      */
     protected $id;
 

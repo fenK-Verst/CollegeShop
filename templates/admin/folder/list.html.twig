@@ -16,12 +16,16 @@
                     </div>
                 </div>
                 <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
                     {% if error %}
                         <div class="alert alert-danger">
                             {{ error|nl2br }}
                         </div>
                     {% endif %}
                     {% include "admin/folder/folder_ul.html.twig" with {"controls":true} %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

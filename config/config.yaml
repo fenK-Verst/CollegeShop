@@ -1,10 +1,10 @@
 controllers:
-  - App\Controller\FolderController
-  - App\Controller\ProductController
+  - App\Controller\Admin\FolderController
+  - App\Controller\Admin\ProductController
   - App\Controller\DefaultController
   - App\Controller\UserController
-  - App\Controller\AdminController
-  - App\Controller\VendorController
+  - App\Controller\Admin\AdminController
+  - App\Controller\Admin\VendorController
 twig:
   cache: '/var/cache'
   templates_dir: '/templates'

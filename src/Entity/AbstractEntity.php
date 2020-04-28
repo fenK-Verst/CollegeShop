@@ -13,6 +13,8 @@ class AbstractEntity implements EntityInterface
 
     private ?string $primaryKey = null;
 
+    private array $singleDependencies = [];
+
     public function getTableName(): string
     {
         $entity_params = $this->getEntityParams();
@@ -77,6 +79,12 @@ class AbstractEntity implements EntityInterface
 
             $column = strpos($doc,'@Entity\\Column' );
             if ($column) $this->columns[] = $property->getName();
+
+            $column = $this->getParamsFromDoc('Entity\\\ManyToOne', $doc);
+            $name = $column["primary_key"] ?? null;
+            if ($name) {
+                $this->singleDependencies[] = $name;
+            }
         }
     }
     private function getParamsFromDoc(string $key, string $doc)
@@ -148,4 +156,8 @@ class AbstractEntity implements EntityInterface
         return true;
     }
 
+    public function getSingleDependencies():array
+    {
+        return $this->singleDependencies;
+    }
 }

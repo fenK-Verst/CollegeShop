@@ -103,15 +103,19 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
     {
         $columns = $entity->getColumns();
         $properties = [];
-        foreach ($columns as $column){
+        foreach ($columns as $column) {
             $value = $entity->getColumnValue($column);
             $properties[$column] = $value;
+        }
+        $singleDependencies = $entity->getSingleDependencies();
+        foreach ($singleDependencies as $single_dependency) {
+            $properties[$single_dependency] = $entity->{$single_dependency};
         }
         $table_name = $entity->getTableName();
         $primary_key = $entity->getPrimaryKey();
         $primary_key_value = $entity->getPrimaryKeyValue();
         return (bool)$this->getArrayDataManager()->update($table_name, $properties, [
-            $primary_key=>$primary_key_value
+            $primary_key => $primary_key_value
         ]);
 
     }
@@ -123,6 +127,10 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
         foreach ($columns as $column){
             $value = $entity->getColumnValue($column);
             $properties[$column] = $value;
+        }
+        $singleDependencies = $entity->getSingleDependencies();
+        foreach ($singleDependencies as $single_dependency) {
+            $properties[$single_dependency] = $entity->{$single_dependency};
         }
         $table_name = $entity->getTableName();
 

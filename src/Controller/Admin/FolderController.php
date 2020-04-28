@@ -1,10 +1,12 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 
+use App\Controller\AbstractController;
 use App\Db\ArrayDataManager;
+use App\Db\Exceptions\MysqliException;
 use App\Db\ObjectManager;
 use App\Entity\Folder;
 use App\Http\Request;
@@ -71,6 +73,7 @@ class FolderController extends AbstractController
 
     /**
      * @Route("/{id}/add", name="folder.addNode")
+     * @throws MysqliException
      */
     public function add(
         Request $request,
@@ -85,19 +88,23 @@ class FolderController extends AbstractController
         if (!($parent && $name)) {
             return $this->redirect("/admin/folders");
         }
+
         $folder = new Folder();
         $folder->setName($name);
 
         $left = (int)$parent->getLeft() + 1;
         $right = $left + 1;
         $lvl = (int)$parent->getLvl() + 1;
+
         $folder->setLeft($left);
         $folder->setRight($right);
         $folder->setLvl($lvl);
+
         $query = "UPDATE folder SET _right = _right + 2 WHERE _right >= $left;";
         $adm->query($query);
         $query = "UPDATE folder SET _left = _left + 2 WHERE _left >= $left;";
         $adm->query($query);
+
         $object_manager->save($folder);
 
 
@@ -116,6 +123,7 @@ class FolderController extends AbstractController
         $folder_id = $request->post("folder_id");
         $folder = $folder_repository->find($folder_id);
         $error = false;
+
         if ($folder) {
             if ($folder->getRight() - $folder->getLeft() > 1) {
                 $error = "У категории есть подкатегории";
@@ -124,23 +132,24 @@ class FolderController extends AbstractController
                 $error .= "У категории есть товары";
             }
         }
-
         if (!$error) {
             $left = $folder->getLeft();
+
             $object_manager->remove($folder);
             $query = "UPDATE folder SET _right = _right - 2 WHERE _right >= $left;";
             $adm->query($query);
             $query = "UPDATE folder SET _left = _left - 2 WHERE _left >= $left;";
             $adm->query($query);
+
             return $this->redirect("/admin/folder/");
         }
+
         $folders = $folder_repository->findBy([], [
             "_left" => "ASC"
         ]);
         return $this->render("/admin/folder/list.html.twig", [
             "folders" => $folders,
-            "error"=>$error
+            "error" => $error
         ]);
     }
-
 }

@@ -6,17 +6,29 @@
         }
         .folders ul{
             padding: 0;
-            padding-left: 10px;
+            padding-left: 5px;
         }
         .folders .folder{
             list-style: none;
-        }
-        .folders >span{
-            font-size: 16px;
 
         }
+        .folders .folder div{
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px;
+        }
+        .folders .folder div >span{
+            font-size: 16px;
+        }
         .folders .folder-controls{
-            margin-left: 20px;
+            /*margin-left: 20px;*/
+            display: none;
+        }
+        .folder >div:hover > .folder-controls{
+            display: block;
+        }
+        .folder >div:hover{
+            background: rgba(236,236,236,0.3);
         }
     </style>
     <ul class="folders">
@@ -33,11 +45,11 @@
             {% endif %}
         {% endif %}
     {% endif %}
-    <li class="folder" data-id="{{ e.id }}" data-lvl="{{ e.lvl }}" data-left="{{ e.left }}" data-right ="{{ e.right }}"><span>{{ e.name }}</span>
+    <li class="folder" data-id="{{ e.id }}" data-lvl="{{ e.lvl }}" data-left="{{ e.left }}" data-right ="{{ e.right }}"><div><span>{{ e.name }}</span>
         {% if controls %}
             <span class="folder-controls btn-group"></span>
         {% endif %}
-        </a>
+    </div>
         {% set prev_level=e.lvl %}
         {% endfor %}
         {% for key in 1..prev_level %}

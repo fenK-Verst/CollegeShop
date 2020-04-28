@@ -1,8 +1,9 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
+use App\Controller\AbstractController;
 use App\Db\ObjectManager;
 use App\Entity\Vendor;
 use App\Http\Request;
@@ -59,11 +60,11 @@ class VendorController extends AbstractController
     /**
      * @Route("/delete")
      */
-    public function delete(Request $request,VendorRepository $vendor_repository, ObjectManager $object_manager)
+    public function delete(Request $request, VendorRepository $vendor_repository, ObjectManager $object_manager)
     {
         $vendor_id = $request->post("vendor_id");
         $vendor = $vendor_repository->find($vendor_id);
-        if ($vendor){
+        if ($vendor) {
             $object_manager->remove($vendor);
         }
 

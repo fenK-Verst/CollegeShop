@@ -45,7 +45,11 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
 
             $repository_class = $temp_entity->getRepositoryClass();
             $repository = new $repository_class($this, $proxy_class);
-            $needed_entity = new $proxy_class($repository, $needed_entity_primary_key_value);
+            if ($needed_entity_primary_key_value){
+                $needed_entity = new $proxy_class($repository, $needed_entity_primary_key_value);
+            }else{
+                $needed_entity = null;
+            }
 
             $setter = $this->getPropertySetter($entity, $property_name);
             $entity->{$setter}($needed_entity);
@@ -126,9 +130,9 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
             if (!$saved_entity->getPrimaryKeyValue()) {
                 $saved_entity = $this->save($saved_entity);
             }
+
             $entity->{$needed_primary_key} = $saved_entity->getPrimaryKeyValue();
         }
-
         $e = $this->getObjectDataManager()->save($entity);
         $e_primary_key = $e->getPrimaryKeyValue();
         foreach ($otm_dep as $dep) {
@@ -142,6 +146,7 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
                 $this->save($saved_entity);
             }
         }
+
         foreach ($mtm_dep as $dep) {
             $self_primary_key = $dep['self_primary_key'];
             $self_primary_key_value = $e_primary_key;
