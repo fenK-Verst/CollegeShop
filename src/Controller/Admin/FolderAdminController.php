@@ -61,6 +61,7 @@ class FolderAdminController extends AbstractController
             $folder->setRight($right);
             $folder->setLvl(1);
             $object_manager->save($folder);
+            return  $this->redirect("/admin/folder");
         }
 
         return $this->render("admin/folder/form.html.twig", [
