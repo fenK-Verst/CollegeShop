@@ -34,7 +34,11 @@
                                             <div class="flag new">Новинка</div>
                                             <div class="flag hit">Хит</div>
                                         </div>
-                                        <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.path }}" alt="">
+                                        {% else %}
+                                            <img src="/assets/design/images/no-photo.svg" class="d-block m-auto" width="50%" alt="">
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="product_middle">

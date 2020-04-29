@@ -26,10 +26,11 @@ class Product extends AbstractEntity
      */
     protected $article;
 
+
     /**
-     * @Entity\Column()
+     * @Entity\ManyToOne(entity="App\Entity\Image", primary_key="image_id")
      */
-    protected $image_id;
+    protected $image;
 
     /**
      * @Entity\Column()
@@ -162,17 +163,17 @@ class Product extends AbstractEntity
     /**
      * @return int
      */
-    public function getImageId()
+    public function getImage()
     {
-        return $this->image_id;
+        return $this->image;
     }
 
     /**
-     * @param int $image_id
+     * @param int $image
      */
-    public function setImageId(int $image_id): void
+    public function setImage(?Image $image): void
     {
-        $this->image_id = $image_id;
+        $this->image = $image;
     }
 
     /**

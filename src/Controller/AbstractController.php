@@ -48,4 +48,13 @@ abstract class AbstractController
     {
         return $this->sharedData;
     }
+    public function json($json)
+    {
+        $json = json_encode($json);
+        $this->response->setBody($json);
+        $this->response->setHeaders([
+            "Content-Type"=>"application/json;charset=utf-8"
+        ]);
+        return $this->response;
+    }
 }

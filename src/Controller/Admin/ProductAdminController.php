@@ -40,30 +40,45 @@ class ProductAdminController extends AbstractController
         ProductRepository $product_repository,
         VendorRepository $vendor_repository,
         FolderRepository $folder_repository,
+        ImageRepository $image_repository,
         ObjectManager $object_manager
     ) {
         $error = '';
         $request_product = $request->post("product");
-        if ($request_product){
+        if ($request_product) {
             $name = $request_product["name"];
             $description = $request_product["description"] ?? '';
             $price = (float)$request_product["price"];
             $article = $request_product["article"] ?? '';
             $count = (int)$request_product["count"] ?? 0;
             $folder_ids = $request_product["folder_id"];
-            $vendor_id = (int) $request_product["vendor_id"];
+
+            $vendor_id = (int)$request_product["vendor_id"];
             $vendor = $vendor_repository->find($vendor_id);
 
+            $image_id = (int)$request_product["image_id"] ?? null;
+            $image = $image_repository->find($image_id);
+
             $needed_folders = [];
-            foreach ( $folder_ids as $id){
+            foreach ($folder_ids as $id) {
                 $needed_folders[$id] = $folder_repository->find($id);
             }
             $needed_folders = array_filter($needed_folders);
-            if (!$name) $error.="Не указано название товара";
-            if (!$price) $error.="Не указана цена товара";
-            if (!$article) $error.="Не указан артикул товара";
-            if (empty($needed_folders)) $error.="Не указаны категории товара";
-            if (!$vendor) $error.="Не указан производитель товара";
+            if (!$name) {
+                $error .= "Не указано название товара";
+            }
+            if (!$price) {
+                $error .= "Не указана цена товара";
+            }
+            if (!$article) {
+                $error .= "Не указан артикул товара";
+            }
+            if (empty($needed_folders)) {
+                $error .= "Не указаны категории товара";
+            }
+            if (!$vendor) {
+                $error .= "Не указан производитель товара";
+            }
 
             if (!$error){
                 $product = new Product();
@@ -76,6 +91,8 @@ class ProductAdminController extends AbstractController
                 }
                 $product->setVendor($vendor);
                 $product->setDescription($description);
+
+                $product->setImage($image);
                 $object_manager->save($product);
                 $this->redirect("/admin/product");
             }
@@ -100,6 +117,7 @@ class ProductAdminController extends AbstractController
         ProductRepository $product_repository,
         VendorRepository $vendor_repository,
         FolderRepository $folder_repository,
+        ImageRepository $image_repository,
         ObjectManager $object_manager
     ) {
         $error = '';
@@ -115,6 +133,8 @@ class ProductAdminController extends AbstractController
             $folder_ids = $request_product["folder_id"];
             $vendor_id = $request_product["vendor_id"];
             $vendor = $vendor_repository->find($vendor_id);
+            $image_id = (int)$request_product["image_id"] ?? null;
+            $image = $image_repository->find($image_id);
 
             $needed_folders = [];
             foreach ( $folder_ids as $id){
@@ -132,7 +152,7 @@ class ProductAdminController extends AbstractController
                 $product->setPrice($price);
                 $product->setArticle($article);
                 $product->setCount($count);
-
+                $product->setImage($image);
                 $product_folders = $product->getFolders();
                 foreach ( $product_folders as $product_folder){
                     $product->deleteFolder($product_folder);

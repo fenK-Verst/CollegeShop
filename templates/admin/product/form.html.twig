@@ -1,6 +1,6 @@
 {% extends "admin/base.html.twig" %}
 {% block title %}Товар{% endblock %}
-{% block title_small %}Добавление{% endblock %}
+{% block title_small %}{% if product.id %}Изменение{% else %}Добавление{% endif %}{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-md-12">
@@ -47,6 +47,27 @@
                                    required id="product[count]">
                         </div>
                         <div class="form-group">
+                            <label for="product[image_id]">Изображение</label>
+                            <input type="hidden" name="product[image_id]">
+                            <div id="chooseImage" data-toggle="modal" data-target="#modal" class="btn btn-light ">Выбрать</div>
+                            <div class="image-name"></div>
+                            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="alert alert-danger" style="display: none"></div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="lds-roller preloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="product[vendor_id]">Производитель</label>
                             <select name="product[vendor_id]" class="form-control" id="product[vendor_id]">
                                 {% for vendor in vendors %}
@@ -77,4 +98,29 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/assets/design/js/admin/addImage.js"></script>
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="/assets/design/css/preloader.min.css">
+    <style>
+        .modal-body .images{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-gap: 10px;
+        }
+        .modal-body .images .image{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .image-name{
+            margin-left: 5px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
 {% endblock %}

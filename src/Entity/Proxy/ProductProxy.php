@@ -6,6 +6,7 @@ namespace App\Entity\Proxy;
 
 use App\Entity\Flag;
 use App\Entity\Folder;
+use App\Entity\Image;
 use App\Entity\Vendor;
 use App\Repository\ProductRepository;
 
@@ -126,19 +127,19 @@ class ProductProxy extends \App\Entity\Product
     /**
      * @return int
      */
-    public function getImageId(): ?int
+    public function getImage(): ?int
     {
         $this->init();
-        return $this->parent->getImageId();
+        return $this->parent->getImage();
     }
 
     /**
-     * @param int $image_id
+     * @param Image $image
      */
-    public function setImageId(int $image_id): void
+    public function setImage(?Image $image): void
     {
         $this->init();
-        $this->parent->setImageId($image_id);
+        $this->parent->setImage($image);
     }
 
     /**

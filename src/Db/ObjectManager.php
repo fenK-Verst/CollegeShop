@@ -138,7 +138,6 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
             if (!$saved_entity->getPrimaryKeyValue()) {
                 $saved_entity = $this->save($saved_entity);
             }
-
             $entity->{$needed_primary_key} = $saved_entity->getPrimaryKeyValue();
         }
         $e = $this->getObjectDataManager()->save($entity);

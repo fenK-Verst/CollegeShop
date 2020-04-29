@@ -4,6 +4,7 @@ controllers:
   - App\Controller\Admin\ProductAdminController
   - App\Controller\Admin\VendorAdminController
   - App\Controller\Admin\ImageAdminController
+  - App\Controller\Api\ImageApiController
   - App\Controller\DefaultController
   - App\Controller\UserController
   - App\Controller\ProductController

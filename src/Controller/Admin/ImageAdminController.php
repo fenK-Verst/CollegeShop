@@ -42,11 +42,20 @@ class ImageAdminController extends AbstractController
         }
         $request_image = $request->post("image");
         $file = $_FILES["image"];
-
-        if ($file && $request_image) {
+        if ($file && $request_image && !$error) {
             $uploadfile = $save_dir . basename($file['name']["path"]);
             $is_file_exsits = file_exists($_SERVER["DOCUMENT_ROOT"] . $uploadfile);
-            if ($file['type'] != "image/gif") {
+
+            $types = [
+                "image/gif",
+                "image/png",
+                "image/svg",
+                "image/jpg",
+                "image/jpeg",
+                "image/svg"
+            ];
+
+            if (!in_array($file['type']["path"],$types)) {
                 $error .= "Файл должен быть изображением\n";
             } elseif ($is_file_exsits) {
                 $error .= "Файл уже существует";
