@@ -54,7 +54,9 @@ class ImageAdminController extends AbstractController
                 $image->setPath($uploadfile);
                 $object_manager->save($image);
                 return $this->redirect("/admin/image");
-            } else {
+            } elseif(!is_writable($_SERVER["DOCUMENT_ROOT"] . $uploadfile)){
+                $error .= "Не могу записать файл\n";
+            } else{
                 $error .= "Что то пошло не так\n";
             }
         }
