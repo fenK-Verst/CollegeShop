@@ -46,7 +46,9 @@ class ImageAdminController extends AbstractController
         if ($file && $request_image) {
             $uploadfile = $save_dir . basename($file['name']["path"]);
             $is_file_exsits = file_exists($_SERVER["DOCUMENT_ROOT"] . $uploadfile);
-            if ($is_file_exsits) {
+            if ($file['type'] != "image/gif") {
+                $error .= "Файл должен быть изображением\n";
+            } elseif ($is_file_exsits) {
                 $error .= "Файл уже существует";
             } elseif (move_uploaded_file($file['tmp_name']["path"], $_SERVER["DOCUMENT_ROOT"] . $uploadfile)) {
                 $image = new Image();
@@ -54,9 +56,9 @@ class ImageAdminController extends AbstractController
                 $image->setPath($uploadfile);
                 $object_manager->save($image);
                 return $this->redirect("/admin/image");
-            } elseif(!is_writable($_SERVER["DOCUMENT_ROOT"] . $uploadfile)){
+            } elseif (!is_writable($_SERVER["DOCUMENT_ROOT"] . $uploadfile)) {
                 $error .= "Не могу записать файл\n";
-            } else{
+            } else {
                 $error .= "Что то пошло не так\n";
             }
         }

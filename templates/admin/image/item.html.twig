@@ -22,7 +22,7 @@
                               Название: <span>{{ image.alias }}</span>
                           </div>
                             <div>
-                                Путь: <span>{{ image.path }}</span>
+                                Путь: <span><a href="{{ image.path }}">{{ image.path }}</a></span>
                             </div>
                             <div class="btn-group">
                                 <form action="/admin/image/delete" method="post" class="btn btn-xs btn-danger" style="display: inline">
