@@ -48,9 +48,9 @@
                         </div>
                         <div class="form-group">
                             <label for="product[image_id]">Изображение</label>
-                            <input type="hidden" name="product[image_id]">
+                            <input type="hidden" name="product[image_id]" value="{{ product.image.id }}">
                             <div id="chooseImage" data-toggle="modal" data-target="#modal" class="btn btn-light ">Выбрать</div>
-                            <div class="image-name"></div>
+                            <div class="image-name">{{ product.image.alias }}</div>
                             <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">

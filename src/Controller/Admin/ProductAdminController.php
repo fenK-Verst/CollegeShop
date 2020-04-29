@@ -189,4 +189,16 @@ class ProductAdminController extends AbstractController
         }
         return $this->redirect("/admin/product");
     }
+    /**
+     * @Route("/{id}")
+     */
+    public function item(ProductRepository $product_repository)
+    {
+        $product_id = $this->getRoute()->get("id");
+        $product = $product_repository->find($product_id);
+
+        return $this->render("/admin/product/item.html.twig",[
+            "product"=>$product
+        ]);
+    }
 }
