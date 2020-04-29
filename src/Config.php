@@ -37,7 +37,10 @@ class Config
     {
         return $this->config;
     }
-
+    public function get(string $needed)
+    {
+        return $this->config[$needed] ?? null;
+    }
     private function parseDir(string $dir)
     {
         $files = glob($dir . "/*");

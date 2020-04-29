@@ -13,7 +13,9 @@ use App\Twig;
 define("PROJECT_DIR", __DIR__ . "/../");
 
 session_save_path(PROJECT_DIR."var/sessions");
-session_start();
+if (!session_id()){
+    session_start();
+}
 require_once(PROJECT_DIR . "/vendor/autoload.php");
 //phpinfo();
 $container = new Container([
@@ -53,7 +55,6 @@ if (strtolower($dev) == "prod" ){
             ]);
             die();
         }
-
     });
 }
 

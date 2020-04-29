@@ -1,0 +1,33 @@
+main >.wrapper{
+  max-width: 1440px;
+  width: 100%;
+  margin: auto;
+  padding: 20px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  aside{
+    max-width: 300px;
+    margin-right: 20px;
+    background: #fff;
+    box-sizing: border-box;
+    padding: 30px;
+
+    form div label{
+      font-size: 12px;
+    }
+    form >div>label{
+      font-weight: bold;
+      font-size: 15px;
+    }
+  }
+  .content{
+    flex:1 1 auto;
+    .products{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-column-gap: 20px;
+
+    }
+  }
+}

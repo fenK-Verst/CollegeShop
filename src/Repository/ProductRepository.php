@@ -22,4 +22,38 @@ class ProductRepository extends AbstractRepository
     {
         parent::__construct($object_manager, Product::class);
     }
+
+    public function getFiltered(array $filter, array $limit)
+    {
+        $query = "SELECT id FROM product ";
+        $vendor_ids = $filter["vendor_id"];
+        $where = false;
+        if (!empty($vendor_ids)) {
+            if (!$where){
+                $query.=" WHERE ";
+                $where = true;
+            }
+            $vendors_query = "(" . implode(",", $vendor_ids) . ")";
+            $query .= " vendor_id IN $vendors_query";
+        }
+        if (!empty($limit)) {
+            foreach ($limit as $key => $value) {
+                $key = (int) $key;
+                $value = (int) $value;
+                $query .= " LIMIT $key, $value";
+                break;
+            }
+        }
+        $adm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
+        $result = $adm->query($query);
+        $result = $result->fetch_all();
+        $arr = [];
+        foreach ($result as $value){
+            $value = $value[0];
+            $arr[] = $this->find($value);
+        }
+//        die();
+        return $arr;
+
+    }
 }

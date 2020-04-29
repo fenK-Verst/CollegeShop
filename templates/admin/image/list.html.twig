@@ -1,0 +1,55 @@
+{% extends "admin/base.html.twig" %}
+{% block title %}Фотографии{% endblock %}
+{% block title_small %}Список{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Фотографии</h3>
+                    <div class="box-tools">
+                        <a href="/admin/image/create">
+                            <div class="btn btn-xs btn-success">
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="images">
+                        {% for image in images %}
+                            <div class="image">
+                                <img src="{{ image.path }}" alt="">
+                                <span>{{ image.alias }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block styles %}
+    <style>
+        .images{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-gap: 20px;
+        }
+        .images .image{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border:1px solid black;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .images .image img{
+            /*max-width: 300px;*/
+            /*max-height: 300px;*/
+            width: 100%;
+            object-fit: contain;
+        }
+    </style>
+{% endblock %}

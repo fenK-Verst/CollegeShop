@@ -1,0 +1,75 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="wrapper">
+        <aside>
+            <form action="" class="form">
+                <div class="form-group">
+                    <label for="">Производитель</label>
+                    {% for vendor in vendors %}
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" {% if vendor.id in filter.vendor_id %}checked{% endif %}
+                                name="filter[vendor_id][]"
+                                value="{{ vendor.id }}"> {{ vendor.name }}
+
+                            </label>
+                        </div>
+                    {% endfor %}
+                    </select>
+                </div>
+                <button class="btn btn-danger">Найти</button>
+            </form>
+        </aside>
+        <div class="content">
+            <div class="products">
+                {% for product in products %}
+                    <div class="product_wrapper">
+                        <div class="product">
+                            <div class="product_main">
+                                <div class="product_top">
+                                    <div class="image">
+                                        <div class="flags">
+                                            <div class="flag sale">Распродажа</div>
+                                            <div class="flag new">Новинка</div>
+                                            <div class="flag hit">Хит</div>
+                                        </div>
+                                        <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
+                                    </div>
+                                </div>
+                                <div class="product_middle">
+                                    <div class="product_name">
+                                        <a href="/product/{{ product.id }}">{{ product.name }}</a>
+                                    </div>
+                                    <div class="product_buy">
+                                        <span class="price">{{ product.price}} Т</span>
+                                        <span class="buy_button">Купить</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                        <div class="product_hide">-->
+                            <!--                            <table class="product_params">-->
+                            <!--                                <tr class="param">-->
+                            <!--                                    <td >Материал упаковки</td>-->
+                            <!--                                    <td class="value">Многослойный пакет</td>-->
+                            <!--                                </tr>-->
+                            <!--                                <tr class="param">-->
+                            <!--                                    <td >Обжарка</td>-->
+                            <!--                                    <td class="value">Средняя</td>-->
+                            <!--                                </tr>-->
+                            <!--                                <tr class="param">-->
+                            <!--                                    <td >Особенности вкуса</td>-->
+                            <!--                                    <td class="value">Кислинка</td>-->
+                            <!--                                </tr>-->
+                            <!--                            </table>-->
+                            <!--                        </div>-->
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="/assets/design/css/product_list.css">
+{% endblock %}

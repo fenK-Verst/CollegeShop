@@ -1,8 +1,9 @@
 controllers:
+  - App\Controller\Admin\AdminController
   - App\Controller\Admin\FolderAdminController
   - App\Controller\Admin\ProductAdminController
-  - App\Controller\Admin\AdminController
   - App\Controller\Admin\VendorAdminController
+  - App\Controller\Admin\ImageAdminController
   - App\Controller\DefaultController
   - App\Controller\UserController
   - App\Controller\ProductController
@@ -14,3 +15,4 @@ twig:
 middlewares:
   - App\Middleware\FolderMiddleware
   - App\Middleware\UserMiddleware
+images_directory: /assets/dynamic/images/

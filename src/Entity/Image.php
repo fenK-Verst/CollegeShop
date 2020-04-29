@@ -4,11 +4,12 @@
 namespace App\Entity;
 
 /**
- * Class Flag
- * @Entity(tableName="flag", repositoryClass="App\Repository\FlagRepository")
+ * Class Image
+ * @Entity(tableName="image", repositoryClass="App\Repository\ImageRepository")
+ *
  * @package App\Entity
  */
-class Flag extends AbstractEntity
+class Image extends AbstractEntity
 {
     /**
      * @Entity\PrimaryKey()
@@ -18,11 +19,16 @@ class Flag extends AbstractEntity
     /**
      * @Entity\Column()
      */
-    protected $name;
+    protected $alias;
+
+    /**
+     * @Entity\Column()
+     */
+    protected $path;
 
 
     /**
-     * @Entity\ManyToMany(entity="App\Entity\Product",table_name="product_has_flag" self_primary_key="flag_id",entity_primary_key="product_id")
+     * @Entity\OneToMany(entity="App\Entity\Product", primary_key="image_id")
      */
     protected $products = [];
 
@@ -48,7 +54,7 @@ class Flag extends AbstractEntity
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -56,18 +62,34 @@ class Flag extends AbstractEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getPath(): ?string
     {
-        return $this->name;
+        return $this->path;
     }
 
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setPath(string $path): void
     {
-        $this->name = $name;
+        $this->path = $path;
     }
 
+    /*
+    **
+    * @return string
+    */
+    public function getAlias(): string
+    {
+        return $this->alias;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setAlias(string $alias): void
+    {
+        $this->alias = $alias;
+    }
 
 }
