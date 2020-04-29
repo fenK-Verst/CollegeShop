@@ -4,6 +4,7 @@
 namespace App\Db;
 
 
+use App\Config;
 use App\Db\Interfaces\ObjectDataManagerInterface;
 use App\Entity\AbstractEntity;
 use App\Entity\EntityInterface;
@@ -12,11 +13,12 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
 {
     private ObjectDataManagerInterface $objectDataManager;
 
-    private static string $proxy_namespace = "App\\Entity\\Proxy\\";
+    private static  $proxy_namespace = "App\\Entity\\Proxy\\";
 
-    public function __construct(ObjectDataManagerInterface $object_data_manager)
+    public function __construct(ObjectDataManagerInterface $object_data_manager, Config $config)
     {
         $this->objectDataManager = $object_data_manager;
+        $this::$proxy_namespace = $config->get("proxy")["namespace"]."\\" ?? '';
     }
 
 

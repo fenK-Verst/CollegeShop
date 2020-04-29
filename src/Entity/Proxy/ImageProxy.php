@@ -3,31 +3,20 @@
 
 namespace App\Entity\Proxy;
 
-
-use App\Entity\Image;
-use App\Entity\Product;
-use App\Repository\ImageRepository;
-
-/**
- * Class ImageProxy
- *
- * @package App\Entity\Proxy
- */
-class ImageProxy extends Image
+class ImageProxy extends \App\Entity\Image
 {
-
     private bool $__inited = false;
-    private ImageRepository $repository;
+    private \App\Repository\ImageRepository $repository;
     private $primaryKeyValue;
     private \App\Entity\Image $parent;
 
     /**
      * ImageProxy constructor.
      *
-     * @param ImageRepository $repository
-     * @param                 $primaryKeyValue
+     * @param \App\Repository\ImageRepository $repository
+     * @param $primaryKey
      */
-    public function __construct(ImageRepository $repository, $primaryKeyValue)
+    public function __construct(\App\Repository\ImageRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
         $this->primaryKeyValue = $primaryKeyValue;
@@ -41,78 +30,52 @@ class ImageProxy extends Image
             $this->__inited = true;
         }
     }
-
-    public function getEntityParams(): array
+    public function getEntityParams():array
     {
         $this->init();
         return $this->parent->getEntityParams();
     }
-
-    /**
-     * @return array
-     */
-    public function getProducts(): array
+    
+    public function getProducts() : array
     {
         $this->init();
-        return $this->parent->getProducts();
+        return $this->parent->getProducts();           
     }
 
-
-    /**
-     * @param Product $product
-     *
-     * @return mixed
-     */
-    public function addProduct(Product $product)
+    public function addProduct(?\App\Entity\Product $product)
     {
         $this->init();
-        return $this->parent->addProduct($product);
+        $this->parent->addProduct($product);           
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId() : int
     {
         $this->init();
-        return $this->parent->getId();
+        return $this->parent->getId();           
     }
 
-    /**
-     * @return string
-     */
-    public function getPath(): string
+    public function getPath() : string
     {
         $this->init();
-        return $this->parent->getPath();
+        return $this->parent->getPath();           
     }
 
-    /**
-     * @param string $path
-     */
-    public function setPath(string $path): void
+    public function setPath(string $path) : void
     {
         $this->init();
-        $this->parent->setPath($path);
+        $this->parent->setPath($path);           
     }
 
-    /*
-    **
-    * @return string
-    */
-    public function getAlias(): string
+    public function getAlias() : string
     {
         $this->init();
-        return $this->parent->getAlias();
+        return $this->parent->getAlias();           
     }
 
-    /**
-     * @param string $alias
-     */
-    public function setAlias(string $alias): void
+    public function setAlias(string $alias) : void
     {
         $this->init();
-        $this->parent->setAlias($alias);
+        $this->parent->setAlias($alias);           
     }
 
 }

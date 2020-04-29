@@ -3,27 +3,20 @@
 
 namespace App\Entity\Proxy;
 
-
-use App\Entity\Flag;
-use App\Entity\Folder;
-use App\Entity\Image;
-use App\Entity\Vendor;
-use App\Repository\ProductRepository;
-
 class ProductProxy extends \App\Entity\Product
 {
     private bool $__inited = false;
-    private ProductRepository $repository;
+    private \App\Repository\ProductRepository $repository;
     private $primaryKeyValue;
     private \App\Entity\Product $parent;
 
     /**
      * ProductProxy constructor.
      *
-     * @param ProductRepository $repository
+     * @param \App\Repository\ProductRepository $repository
      * @param $primaryKey
      */
-    public function __construct(ProductRepository $repository, $primaryKeyValue)
+    public function __construct(\App\Repository\ProductRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
         $this->primaryKeyValue = $primaryKeyValue;
@@ -31,7 +24,7 @@ class ProductProxy extends \App\Entity\Product
 
     private function init()
     {
-        if (!$this->__inited){
+        if (!$this->__inited) {
             $original = $this->repository->find($this->primaryKeyValue);
             $this->parent = $original;
             $this->__inited = true;
@@ -42,179 +35,125 @@ class ProductProxy extends \App\Entity\Product
         $this->init();
         return $this->parent->getEntityParams();
     }
-    /**
-     * @return array
-     */
-    public function getFolders(): array
+    
+    public function getFolders()
     {
         $this->init();
-        return $this->parent->getFolders();
+        $this->parent->getFolders();           
     }
 
-    /**
-     * @param Folder $folder
-     */
-    public function addFolder(Folder $folder):void
+    public function addFolder(?\App\Entity\Folder $folder)
     {
         $this->init();
-        $this->parent->addFolder($folder);
+        $this->parent->addFolder($folder);           
     }
 
-    /**
-     * @return array
-     */
-    public function getFlags(): array
+    public function deleteFolder(?\App\Entity\Folder $folder)
     {
         $this->init();
-        return $this->parent->getFlags();
+        $this->parent->deleteFolder($folder);           
     }
 
-    /**
-     * @param Flag $flag
-     */
-    public function addFlag(Flag $flag): void
+    public function getFlags()
     {
         $this->init();
-         $this->parent->addFlag($flag);
+        $this->parent->getFlags();           
     }
 
-
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function addFlag(?\App\Entity\Flag $flag) : void
     {
         $this->init();
-        return $this->parent->getName();
+        $this->parent->addFlag($flag);           
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getName()
     {
         $this->init();
-        return $this->parent->getId();
+        $this->parent->getName();           
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function getId()
     {
         $this->init();
-        $this->parent->setName($name);
+        $this->parent->getId();           
     }
 
-    /**
-     * @return string
-     */
-    public function getArticle(): string
+    public function setName(string $name) : void
     {
         $this->init();
-        return $this->parent->getArticle();
+        $this->parent->setName($name);           
     }
 
-    /**
-     * @param string $article
-     */
-    public function setArticle(string $article): void
+    public function getArticle()
     {
         $this->init();
-        $this->parent->setArticle($article);
+        $this->parent->getArticle();           
     }
 
-    /**
-     * @return int
-     */
-    public function getImage(): ?int
+    public function setArticle(string $article) : void
     {
         $this->init();
-        return $this->parent->getImage();
+        $this->parent->setArticle($article);           
     }
 
-    /**
-     * @param Image $image
-     */
-    public function setImage(?Image $image): void
+    public function getImage()
     {
         $this->init();
-        $this->parent->setImage($image);
+        $this->parent->getImage();           
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription(): string
+    public function setImage(?\App\Entity\Image $image) : void
     {
         $this->init();
-        return $this->parent->getDescription();
+        $this->parent->setImage($image);           
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
+    public function getDescription()
     {
         $this->init();
-        $this->parent->setDescription($description);
+        $this->parent->getDescription();           
     }
 
-    /**
-     * @return float
-     */
-    public function getPrice(): float
+    public function setDescription(string $description) : void
     {
         $this->init();
-        return $this->parent->getPrice();
+        $this->parent->setDescription($description);           
     }
 
-    /**
-     * @param float $price
-     */
-    public function setPrice(float $price): void
+    public function getPrice()
     {
         $this->init();
-        $this->parent->setPrice($price);
+        $this->parent->getPrice();           
     }
+
+    public function setPrice(float $price) : void
+    {
+        $this->init();
+        $this->parent->setPrice($price);           
+    }
+
     public function getCount()
     {
-          $this->init();
-        return $this->parent->getCount();
+        $this->init();
+        $this->parent->getCount();           
     }
 
-    /**
-     * @param int $count
-     */
-    public function setCount(int $count): void
+    public function setCount(int $count) : void
     {
         $this->init();
-        $this->parent->setCount($count);
-    }
-    /**
-     * @return Vendor|null
-     */
-    public function getVendor(): ?Vendor
-    {
-        $this->init();
-        return $this->parent->getVendor();
+        $this->parent->setCount($count);           
     }
 
-    /**
-     * @param Vendor $vendor
-     */
-    public function setVendor(?Vendor $vendor): void
+    public function getVendor() : ?\App\Entity\Vendor
     {
         $this->init();
-        $this->parent->setVendor($vendor);
+        return $this->parent->getVendor();           
     }
 
-    /**
-     * @param Folder $folder
-     */
-    public function deleteFolder(Folder $folder)
+    public function setVendor(?\App\Entity\Vendor $vendor) : void
     {
         $this->init();
-        $this->parent->deleteFolder($folder);
+        $this->parent->setVendor($vendor);           
     }
+
 }

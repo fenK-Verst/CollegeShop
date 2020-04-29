@@ -3,28 +3,20 @@
 
 namespace App\Entity\Proxy;
 
-
-use App\Entity\Product;
-use App\Entity\Vendor;
-use App\Repository\VendorRepository;
-
-class VendorProxy extends Vendor
+class VendorProxy extends \App\Entity\Vendor
 {
     private bool $__inited = false;
-    private VendorRepository $repository;
+    private \App\Repository\VendorRepository $repository;
     private $primaryKeyValue;
-    /**
-     * @var Vendor
-     */
-    private Vendor $parent;
+    private \App\Entity\Vendor $parent;
 
     /**
      * VendorProxy constructor.
      *
-     * @param VendorRepository $repository
+     * @param \App\Repository\VendorRepository $repository
      * @param $primaryKey
      */
-    public function __construct(VendorRepository $repository, $primaryKeyValue)
+    public function __construct(\App\Repository\VendorRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
         $this->primaryKeyValue = $primaryKeyValue;
@@ -32,8 +24,7 @@ class VendorProxy extends Vendor
 
     private function init()
     {
-        if (!$this->__inited){
-
+        if (!$this->__inited) {
             $original = $this->repository->find($this->primaryKeyValue);
             $this->parent = $original;
             $this->__inited = true;
@@ -44,49 +35,35 @@ class VendorProxy extends Vendor
         $this->init();
         return $this->parent->getEntityParams();
     }
-    /**
-     * @return int
-     */
-    public function getId(): int
+    
+    public function getId()
     {
         $this->init();
-        return $this->parent->getId();
+        $this->parent->getId();           
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName()
     {
         $this->init();
-        return $this->parent->getName();
+        $this->parent->getName();           
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function setName(string $name) : void
     {
         $this->init();
-        $this->parent->setName($name);
+        $this->parent->setName($name);           
     }
 
-    /**
-     **
-     * @return array
-     */
-    public function getProducts(): array
+    public function getProducts()
     {
         $this->init();
-        return $this->parent->getProducts();
+        $this->parent->getProducts();           
     }
 
-    /**
-     * @param Product $product
-     */
-    public function addProduct(Product $product)
+    public function addProduct(?\App\Entity\Product $product)
     {
         $this->init();
-        $this->parent->addProduct($product);
+        $this->parent->addProduct($product);           
     }
+
 }

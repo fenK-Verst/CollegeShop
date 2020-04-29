@@ -3,28 +3,20 @@
 
 namespace App\Entity\Proxy;
 
-
-use App\Entity\User;
-use App\Repository\UserRepository;
-
-class UserProxy extends User
+class UserProxy extends \App\Entity\User
 {
-
     private bool $__inited = false;
-    private UserRepository $repository;
+    private \App\Repository\UserRepository $repository;
     private $primaryKeyValue;
-    /**
-     * @var User
-     */
-    private User $parent;
+    private \App\Entity\User $parent;
 
     /**
      * UserProxy constructor.
      *
-     * @param UserRepository $repository
+     * @param \App\Repository\UserRepository $repository
      * @param $primaryKey
      */
-    public function __construct(UserRepository $repository, $primaryKeyValue)
+    public function __construct(\App\Repository\UserRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
         $this->primaryKeyValue = $primaryKeyValue;
@@ -32,7 +24,7 @@ class UserProxy extends User
 
     private function init()
     {
-        if (!$this->__inited){
+        if (!$this->__inited) {
             $original = $this->repository->find($this->primaryKeyValue);
             $this->parent = $original;
             $this->__inited = true;
@@ -43,95 +35,83 @@ class UserProxy extends User
         $this->init();
         return $this->parent->getEntityParams();
     }
+    
     public function getId()
     {
         $this->init();
-        return $this->parent->getId;
+        $this->parent->getId();           
     }
 
     public function getLastname()
     {
         $this->init();
-        return $this->parent->getLastname();
+        $this->parent->getLastname();           
     }
 
-    public function setLastname($lastname): void
+    public function setLastname( $lastname) : void
     {
         $this->init();
-        $this->parent->setLastname($lastname);
+        $this->parent->setLastname($lastname);           
     }
 
     public function getFirstname()
     {
         $this->init();
-        return $this->parent->getFirstname();
+        $this->parent->getFirstname();           
     }
 
-    /**
-     * @param mixed $firstname
-     */
-    public function setFirstname($firstname): void
+    public function setFirstname( $firstname) : void
     {
         $this->init();
-        $this->parent->setFirstname($firstname);
+        $this->parent->setFirstname($firstname);           
     }
 
-    
     public function getEmail()
     {
         $this->init();
-        return $this->parent->getEmail();
+        $this->parent->getEmail();           
     }
 
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email): void
+    public function setEmail( $email) : void
     {
         $this->init();
-        $this->parent->setEmail($email);
+        $this->parent->setEmail($email);           
     }
 
-    
     public function getPhone()
     {
         $this->init();
-        return $this->parent->getPhone();
+        $this->parent->getPhone();           
     }
 
-    /**
-     * @param mixed $phone
-     */
-    public function setPhone($phone): void
+    public function setPhone( $phone) : void
     {
         $this->init();
-        $this->parent->setPhone($phone);
+        $this->parent->setPhone($phone);           
     }
 
-    
     public function getImageId()
     {
         $this->init();
-        return $this->parent->getImageId();
+        $this->parent->getImageId();           
     }
 
-    /**
-     * @param mixed $image_id
-     */
-    public function setImageId($image_id): void
+    public function setImageId( $image_id) : void
     {
         $this->init();
-        $this->parent->setImageId($image_id);
+        $this->parent->setImageId($image_id);           
     }
 
     public function setPassword(string $password)
     {
         $this->init();
-        $this->parent->setPassword($password);
+        $this->parent->setPassword($password);           
     }
+
     public function getPassword()
     {
         $this->init();
-        return $this->parent->getPassword();
+        $this->parent->getPassword();           
     }
+
 }

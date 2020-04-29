@@ -3,24 +3,20 @@
 
 namespace App\Entity\Proxy;
 
-
-use App\Entity\Product;
-use App\Repository\FolderRepository;
-
 class FolderProxy extends \App\Entity\Folder
 {
     private bool $__inited = false;
-    private FolderRepository $repository;
+    private \App\Repository\FolderRepository $repository;
     private $primaryKeyValue;
     private \App\Entity\Folder $parent;
 
     /**
      * FolderProxy constructor.
      *
-     * @param FolderRepository $repository
+     * @param \App\Repository\FolderRepository $repository
      * @param $primaryKey
      */
-    public function __construct(FolderRepository $repository, $primaryKeyValue)
+    public function __construct(\App\Repository\FolderRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
         $this->primaryKeyValue = $primaryKeyValue;
@@ -39,94 +35,71 @@ class FolderProxy extends \App\Entity\Folder
         $this->init();
         return $this->parent->getEntityParams();
     }
-    public function getProducts(): array
+    
+    public function getProducts() : array
     {
         $this->init();
-        return $this->parent->getProducts();
+        return $this->parent->getProducts();           
     }
 
-    /**
-     * @param Product $product
-     */
-    public function addProduct(Product $product)
+    public function addProduct(?\App\Entity\Product $product)
     {
         $this->init();
-        $this->parent->addProduct($product);
-
+        $this->parent->addProduct($product);           
     }
 
-    /**
-     * @return string
-     */
-    public function getLeft(): string
+    public function getLeft()
     {
         $this->init();
-        return $this->parent->getLeft();
+        $this->parent->getLeft();           
     }
 
-    /**
-     * @param string $left
-     */
-    public function setLeft(string $left): void
+    public function setLeft(string $left)
     {
         $this->init();
-        $this->parent->setLeft($left);
+        $this->parent->setLeft($left);           
     }
 
-    /**
-     * @return string
-     */
-    public function getRight(): string
+    public function getRight()
     {
         $this->init();
-        return $this->parent->getRight();
+        $this->parent->getRight();           
     }
 
-    /**
-     * @param string $right
-     */
-    public function setRight(string $right): void
+    public function setRight(string $right) : void
     {
         $this->init();
-        $this->parent->setRight($right);
+        $this->parent->setRight($right);           
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId()
     {
         $this->init();
-        return $this->parent->getId();
+        $this->parent->getId();           
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName()
     {
         $this->init();
-        return $this->parent->getName();
+        $this->parent->getName();           
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function setName(string $name) : void
     {
         $this->init();
-        $this->parent->setName($name);
+        $this->parent->setName($name);           
     }
 
     public function getLvl()
     {
         $this->init();
-        return $this->parent->_lvl;
+        $this->parent->getLvl();           
     }
 
     public function setLvl(int $lvl)
     {
         $this->init();
-        $this->parent->_lvl = $lvl;
+        $this->parent->setLvl($lvl);           
     }
+
 }
