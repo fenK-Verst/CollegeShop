@@ -20,7 +20,7 @@
                         {% for image in images %}
                             <div class="image">
                                 <img src="{{ image.path }}" alt="">
-                                <span>{{ image.alias }}</span>
+                                <a href="/admin/image/{{ image.id }}"> <span>{{ image.alias }}</span></a>
                             </div>
                         {% endfor %}
                     </div>

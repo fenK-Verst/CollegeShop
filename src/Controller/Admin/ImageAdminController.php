@@ -66,4 +66,31 @@ class ImageAdminController extends AbstractController
             "error" => $error
         ]);
     }
+    /**
+     * @Route("/{id}")
+     */
+    public function item(ImageRepository $image_repository)
+    {
+        $image_id = $this->getRoute()->get("id");
+        $image = $image_repository->find($image_id);
+
+        return $this->render("/admin/image/item.html.twig",[
+            "image"=>$image
+        ]);
+    }
+    /**
+     * @Route("/delete")
+     */
+    public function delete(ObjectManager $object_manager, Request $request, ImageRepository $image_repository)
+    {
+        $image_id = $request->post("image_id");
+        $image = $image_repository->find($image_id);
+        if ($image){
+            $path = $image->getPath();
+            if ($object_manager->remove($image)){
+                unlink($_SERVER["DOCUMENT_ROOT"].$path);
+            }
+        }
+        return $this->redirect("/admin/image");
+    }
 }

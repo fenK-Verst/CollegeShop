@@ -1,0 +1,45 @@
+{% extends "/admin/base.html.twig" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+
+                <div class="box-tools">
+
+                </div>
+            </div>
+            <div class="box-body">
+                {% if image %}
+                <div class="image">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <img src="{{ image.path }}" alt="">
+                        </div>
+                        <div class="col-md-5">
+                          <div>
+                              Название: <span>{{ image.alias }}</span>
+                          </div>
+                            <div>
+                                Путь: <span>{{ image.path }}</span>
+                            </div>
+                            <div class="btn-group">
+                                <form action="/admin/image/delete" method="post" class="btn btn-xs btn-danger" style="display: inline">
+                                    <input type="hidden" value="{{ image.id }}" name="image_id">
+                                    <button style="font-size:15px;padding: 0;margin: 0;background: none; border: none">Удалить</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-danger">
+                    Изображение не найдено
+                </div>
+                {% endif %}
+                
+            </div>
+    </div>
+</div>
+{% endblock %}

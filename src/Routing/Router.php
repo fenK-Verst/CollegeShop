@@ -110,9 +110,11 @@ class Router
                     $key = trim($param[0]);
                     $value = trim($param[1], "\"");
                     $params[$key] = $value;
-
                 }
-                $routes[trim($controller_url . $route_url, '"')] = [
+                $controller_url = trim($controller_url, '"');
+                $route_url = trim($route_url, '"');
+                $url = trim($controller_url . $route_url, '"');
+                $routes[$url] = [
                     $controller,
                     $method_name,
                     $params

@@ -1,0 +1,46 @@
+nav.navbar {
+  display: flex;
+
+  div.navbar-custom-menu > ul.nav {
+    display: flex;
+    flex-direction: row;
+    li.open{
+      ul.dropdown-menu{
+        display: block;
+      }
+    }
+    li{
+      .dropdown-toggle{
+        position: relative;
+      }
+    }
+  }
+
+  a.sidebar-toggle {
+    box-sizing: border-box;
+    padding: 6px 10px;
+  }
+
+}
+.navbar-nav>li>a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 20px;
+}
+.nav>li>a {
+  position: relative;
+  display: block;
+  padding: 6px;
+}
+.btn.btn-danger{
+  color:#fff;
+  button{
+    color:#fff;
+
+  }
+}
+@media (min-width: 768px) {
+  .navbar-nav > li > a {
+    padding: 8px;
+  }
+}

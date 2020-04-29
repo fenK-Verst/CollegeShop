@@ -15,4 +15,5 @@ twig:
 middlewares:
   - App\Middleware\FolderMiddleware
   - App\Middleware\UserMiddleware
+  - App\Middleware\SharedMiddleware
 images_directory: /assets/dynamic/images/

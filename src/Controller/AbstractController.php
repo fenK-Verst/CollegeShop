@@ -41,7 +41,7 @@ abstract class AbstractController
     }
     public function addSharedData(string $key, $value)
     {
-        $this->sharedData[$key] = $value;
+        $this->sharedData["app"][$key] = $value;
     }
 
     public function getSharedData()

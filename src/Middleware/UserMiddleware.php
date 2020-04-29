@@ -7,7 +7,7 @@ namespace App\Middleware;
 use App\Routing\Route;
 use App\Service\UserService;
 
-class UserMiddleware
+class UserMiddleware implements MiddlewareInterface
 {
     private UserService $userService;
 

@@ -6,7 +6,8 @@
     <title>CoffeeTime | AdminPanel</title>
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/assets/plugins/adminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css">
+{#    <link rel="stylesheet" href="/assets/plugins/adminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css">#}
+    <link rel="stylesheet" href="/assets/plugins/bootstrap-4.4.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/plugins/adminLTE/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/plugins/adminLTE/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="/assets/plugins/adminLTE/dist/css/AdminLTE.min.css">
@@ -19,6 +20,7 @@
     <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="/assets/design/css/admin.min.css">
     {% block styles %}{% endblock %}
 </head>
 <body class="hold-transition skin-red sidebar-mini">
@@ -239,13 +241,12 @@
 
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="hidden-xs">{{ user.firstname }} {{ user.lastname }}</span>
+                            <span class="hidden-xs">{{ app.user.firstname }} {{ app.user.lastname }}</span>
                         </a>
                         <ul class="dropdown-menu">
 
                             <li class="user-header">
                                 <p>
-
                                     {#                                    <small>Member since Nov. 2012</small>#}
                                 </p>
                             </li>
@@ -318,6 +319,18 @@
                         <li><a href="/admin/product"><i class="fa fa-list"></i> Список</a></li>
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-image"></i>
+                        <span>Галерея</span>
+                        <span class="pull-right-container">
+                             <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/admin/image"><i class="fa fa-list"></i> Список</a></li>
+                    </ul>
+                </li>
             </ul>
         </section>
     </aside>
@@ -343,8 +356,9 @@
 
 <!-- jQuery 3 -->
 <script src="/assets/plugins/adminLTE/bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="/assets/plugins/adminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+{#<!-- Bootstrap 3.3.7 -->#}
+{#<script src="/assets/plugins/adminLTE/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>#}
+<script src="/assets/plugins/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
 <script src="/assets/plugins/adminLTE/dist/js/adminlte.min.js"></script>
 {% block scripts %}{% endblock %}
 </body>

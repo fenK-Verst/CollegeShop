@@ -8,6 +8,7 @@ use App\Db\ObjectManager;
 use App\Entity\Product;
 use App\Http\Request;
 use App\Repository\FolderRepository;
+use App\Repository\ImageRepository;
 use App\Repository\ProductRepository;
 use App\Repository\VendorRepository;
 
@@ -155,5 +156,17 @@ class ProductAdminController extends AbstractController
             "vendors" => $vendors,
             "error" => $error
         ]);
+    }
+    /**
+     * @Route("/delete")
+     */
+    public function delete(ObjectManager $object_manager, Request $request, ProductRepository $product_repository)
+    {
+        $product_id = $request->post("product_id");
+        $product = $product_repository->find($product_id);
+        if ($product){
+            $object_manager->remove($product);
+        }
+        return $this->redirect("/admin/product");
     }
 }
