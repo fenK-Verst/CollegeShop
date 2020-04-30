@@ -127,7 +127,7 @@ class ProductProxy extends \App\Entity\Product
     /**
      * @return int
      */
-    public function getImage(): ?int
+    public function getImage(): ?Image
     {
         $this->init();
         return $this->parent->getImage();
