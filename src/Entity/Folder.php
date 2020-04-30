@@ -61,7 +61,7 @@ class Folder extends AbstractEntity
     /**
      * @return string
      */
-    public function getLeft()
+    public function getLeft(): ?int
     {
         return $this->_left;
     }
@@ -77,7 +77,7 @@ class Folder extends AbstractEntity
     /**
      * @return string
      */
-    public function getRight()
+    public function getRight(): ?int
     {
         return $this->_right;
     }
@@ -92,7 +92,7 @@ class Folder extends AbstractEntity
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -100,7 +100,7 @@ class Folder extends AbstractEntity
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -112,13 +112,15 @@ class Folder extends AbstractEntity
     {
         $this->name = $name;
     }
-    public function getLvl()
+
+    public function getLvl(): ?int
     {
         return $this->_lvl;
     }
+
     public function setLvl(int $lvl)
     {
-         $this->_lvl = $lvl;
+        $this->_lvl = $lvl;
     }
 
 }

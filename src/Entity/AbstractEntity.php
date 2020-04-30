@@ -104,16 +104,17 @@ class AbstractEntity implements EntityInterface
         return $result;
     }
 
-    public function getPrimaryKeyValue()
+    public function getPrimaryKeyValue(): ?string
     {
         $getter = $this->getPropertyGetter($this->getPrimaryKey());
         try {
             $value = $this->{$getter}();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $value = null;
         }
         return $value;
     }
+
     protected function getPropertyGetter(string $property)
     {
         $property = explode("_",$property);

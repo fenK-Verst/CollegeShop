@@ -48,7 +48,7 @@ class Flag extends AbstractEntity
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -56,7 +56,7 @@ class Flag extends AbstractEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

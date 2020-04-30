@@ -30,11 +30,11 @@ class FlagProxy extends \App\Entity\Flag
             $this->__inited = true;
         }
     }
-    public function getEntityParams():array
-    {
-        $this->init();
-        return $this->parent->getEntityParams();
-    }
+//    public function getEntityParams():array
+//    {
+//        $this->init();
+//        return $this->parent->getEntityParams();
+//    }
     
     public function getProducts() : array
     {
@@ -64,6 +64,54 @@ class FlagProxy extends \App\Entity\Flag
     {
         $this->init();
         $this->parent->setName($name);           
+    }
+
+    public function getTableName() : string
+    {
+        $this->init();
+        return $this->parent->getTableName();           
+    }
+
+    public function getRepositoryClass() : string
+    {
+        $this->init();
+        return $this->parent->getRepositoryClass();           
+    }
+
+    public function getPrimaryKey() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKey();           
+    }
+
+    public function getColumns() : array
+    {
+        $this->init();
+        return $this->parent->getColumns();           
+    }
+
+    public function getEntityParams() : array
+    {
+        $this->init();
+        return $this->parent->getEntityParams();           
+    }
+
+    public function getPrimaryKeyValue() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKeyValue();           
+    }
+
+    public function getColumnValue(string $column) : string
+    {
+        $this->init();
+        return $this->parent->getColumnValue($column);           
+    }
+
+    public function getSingleDependencies() : array
+    {
+        $this->init();
+        return $this->parent->getSingleDependencies();           
     }
 
 }

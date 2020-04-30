@@ -30,22 +30,22 @@ class UserProxy extends \App\Entity\User
             $this->__inited = true;
         }
     }
-    public function getEntityParams():array
-    {
-        $this->init();
-        return $this->parent->getEntityParams();
-    }
+//    public function getEntityParams():array
+//    {
+//        $this->init();
+//        return $this->parent->getEntityParams();
+//    }
     
-    public function getId()
+    public function getId() : int
     {
         $this->init();
-        $this->parent->getId();           
+        return $this->parent->getId();           
     }
 
-    public function getLastname()
+    public function getLastname() : string
     {
         $this->init();
-        $this->parent->getLastname();           
+        return $this->parent->getLastname();           
     }
 
     public function setLastname( $lastname) : void
@@ -54,10 +54,10 @@ class UserProxy extends \App\Entity\User
         $this->parent->setLastname($lastname);           
     }
 
-    public function getFirstname()
+    public function getFirstname() : string
     {
         $this->init();
-        $this->parent->getFirstname();           
+        return $this->parent->getFirstname();           
     }
 
     public function setFirstname( $firstname) : void
@@ -66,10 +66,10 @@ class UserProxy extends \App\Entity\User
         $this->parent->setFirstname($firstname);           
     }
 
-    public function getEmail()
+    public function getEmail() : string
     {
         $this->init();
-        $this->parent->getEmail();           
+        return $this->parent->getEmail();           
     }
 
     public function setEmail( $email) : void
@@ -78,10 +78,10 @@ class UserProxy extends \App\Entity\User
         $this->parent->setEmail($email);           
     }
 
-    public function getPhone()
+    public function getPhone() : string
     {
         $this->init();
-        $this->parent->getPhone();           
+        return $this->parent->getPhone();           
     }
 
     public function setPhone( $phone) : void
@@ -90,10 +90,10 @@ class UserProxy extends \App\Entity\User
         $this->parent->setPhone($phone);           
     }
 
-    public function getImageId()
+    public function getImageId() : int
     {
         $this->init();
-        $this->parent->getImageId();           
+        return $this->parent->getImageId();           
     }
 
     public function setImageId( $image_id) : void
@@ -108,10 +108,58 @@ class UserProxy extends \App\Entity\User
         $this->parent->setPassword($password);           
     }
 
-    public function getPassword()
+    public function getPassword() : string
     {
         $this->init();
-        $this->parent->getPassword();           
+        return $this->parent->getPassword();           
+    }
+
+    public function getTableName() : string
+    {
+        $this->init();
+        return $this->parent->getTableName();           
+    }
+
+    public function getRepositoryClass() : string
+    {
+        $this->init();
+        return $this->parent->getRepositoryClass();           
+    }
+
+    public function getPrimaryKey() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKey();           
+    }
+
+    public function getColumns() : array
+    {
+        $this->init();
+        return $this->parent->getColumns();           
+    }
+
+    public function getEntityParams() : array
+    {
+        $this->init();
+        return $this->parent->getEntityParams();           
+    }
+
+    public function getPrimaryKeyValue() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKeyValue();           
+    }
+
+    public function getColumnValue(string $column) : string
+    {
+        $this->init();
+        return $this->parent->getColumnValue($column);           
+    }
+
+    public function getSingleDependencies() : array
+    {
+        $this->init();
+        return $this->parent->getSingleDependencies();           
     }
 
 }

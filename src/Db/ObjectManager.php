@@ -47,8 +47,7 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
 
             $repository_class = $temp_entity->getRepositoryClass();
             $repository = new $repository_class($this, $proxy_class);
-
-            if ($needed_entity_primary_key_value){
+            if (!is_null($needed_entity_primary_key_value)){
                 $needed_entity = new $proxy_class($repository, $needed_entity_primary_key_value);
             }else{
                 $needed_entity = null;
@@ -166,7 +165,6 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
             $getter = $this->getPropertyGetter($entity, $property_name);
             $objects = $entity->{$getter}();
             $ids = [];
-
             foreach ($objects as $object){
                 if (!$object->getPrimaryKeyValue()) {
                     $object = $this->save($object);
@@ -225,7 +223,6 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
     {
         $class = explode('\\', $class_name);
         $name = end($class);
-
         return $this::$proxy_namespace . ucfirst($name) . "Proxy";
     }
 

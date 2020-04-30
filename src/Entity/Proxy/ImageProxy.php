@@ -30,11 +30,11 @@ class ImageProxy extends \App\Entity\Image
             $this->__inited = true;
         }
     }
-    public function getEntityParams():array
-    {
-        $this->init();
-        return $this->parent->getEntityParams();
-    }
+//    public function getEntityParams():array
+//    {
+//        $this->init();
+//        return $this->parent->getEntityParams();
+//    }
     
     public function getProducts() : array
     {
@@ -76,6 +76,54 @@ class ImageProxy extends \App\Entity\Image
     {
         $this->init();
         $this->parent->setAlias($alias);           
+    }
+
+    public function getTableName() : string
+    {
+        $this->init();
+        return $this->parent->getTableName();           
+    }
+
+    public function getRepositoryClass() : string
+    {
+        $this->init();
+        return $this->parent->getRepositoryClass();           
+    }
+
+    public function getPrimaryKey() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKey();           
+    }
+
+    public function getColumns() : array
+    {
+        $this->init();
+        return $this->parent->getColumns();           
+    }
+
+    public function getEntityParams() : array
+    {
+        $this->init();
+        return $this->parent->getEntityParams();           
+    }
+
+    public function getPrimaryKeyValue() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKeyValue();           
+    }
+
+    public function getColumnValue(string $column) : string
+    {
+        $this->init();
+        return $this->parent->getColumnValue($column);           
+    }
+
+    public function getSingleDependencies() : array
+    {
+        $this->init();
+        return $this->parent->getSingleDependencies();           
     }
 
 }

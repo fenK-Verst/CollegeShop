@@ -66,7 +66,7 @@ class Product extends AbstractEntity
     /**
      * @return array
      */
-    public function getFolders()
+    public function getFolders(): ?array
     {
         return $this->folders;
     }
@@ -104,7 +104,7 @@ class Product extends AbstractEntity
     /**
      * @return array
      */
-    public function getFlags()
+    public function getFlags(): ?array
     {
         return $this->flags;
     }
@@ -123,7 +123,7 @@ class Product extends AbstractEntity
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -131,7 +131,7 @@ class Product extends AbstractEntity
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -147,7 +147,7 @@ class Product extends AbstractEntity
     /**
      * @return string
      */
-    public function getArticle()
+    public function getArticle(): ?string
     {
         return $this->article;
     }
@@ -163,7 +163,7 @@ class Product extends AbstractEntity
     /**
      * @return int
      */
-    public function getImage()
+    public function getImage(): ?Image
     {
         return $this->image;
     }
@@ -179,7 +179,7 @@ class Product extends AbstractEntity
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -195,7 +195,7 @@ class Product extends AbstractEntity
     /**
      * @return float
      */
-    public function getPrice()
+    public function getPrice(): ?float
     {
         return $this->price;
     }
@@ -211,7 +211,7 @@ class Product extends AbstractEntity
     /**
      * @return float
      */
-    public function getCount()
+    public function getCount(): ?int
     {
         return $this->count;
     }

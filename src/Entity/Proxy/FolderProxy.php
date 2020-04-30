@@ -30,11 +30,11 @@ class FolderProxy extends \App\Entity\Folder
             $this->__inited = true;
         }
     }
-    public function getEntityParams():array
-    {
-        $this->init();
-        return $this->parent->getEntityParams();
-    }
+//    public function getEntityParams():array
+//    {
+//        $this->init();
+//        return $this->parent->getEntityParams();
+//    }
     
     public function getProducts() : array
     {
@@ -48,10 +48,10 @@ class FolderProxy extends \App\Entity\Folder
         $this->parent->addProduct($product);           
     }
 
-    public function getLeft()
+    public function getLeft() : int
     {
         $this->init();
-        $this->parent->getLeft();           
+        return $this->parent->getLeft();           
     }
 
     public function setLeft(string $left)
@@ -60,10 +60,10 @@ class FolderProxy extends \App\Entity\Folder
         $this->parent->setLeft($left);           
     }
 
-    public function getRight()
+    public function getRight() : int
     {
         $this->init();
-        $this->parent->getRight();           
+        return $this->parent->getRight();           
     }
 
     public function setRight(string $right) : void
@@ -72,16 +72,16 @@ class FolderProxy extends \App\Entity\Folder
         $this->parent->setRight($right);           
     }
 
-    public function getId()
+    public function getId() : int
     {
         $this->init();
-        $this->parent->getId();           
+        return $this->parent->getId();           
     }
 
-    public function getName()
+    public function getName() : string
     {
         $this->init();
-        $this->parent->getName();           
+        return $this->parent->getName();           
     }
 
     public function setName(string $name) : void
@@ -90,16 +90,64 @@ class FolderProxy extends \App\Entity\Folder
         $this->parent->setName($name);           
     }
 
-    public function getLvl()
+    public function getLvl() : int
     {
         $this->init();
-        $this->parent->getLvl();           
+        return $this->parent->getLvl();           
     }
 
     public function setLvl(int $lvl)
     {
         $this->init();
         $this->parent->setLvl($lvl);           
+    }
+
+    public function getTableName() : string
+    {
+        $this->init();
+        return $this->parent->getTableName();           
+    }
+
+    public function getRepositoryClass() : string
+    {
+        $this->init();
+        return $this->parent->getRepositoryClass();           
+    }
+
+    public function getPrimaryKey() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKey();           
+    }
+
+    public function getColumns() : array
+    {
+        $this->init();
+        return $this->parent->getColumns();           
+    }
+
+    public function getEntityParams() : array
+    {
+        $this->init();
+        return $this->parent->getEntityParams();           
+    }
+
+    public function getPrimaryKeyValue() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKeyValue();           
+    }
+
+    public function getColumnValue(string $column) : string
+    {
+        $this->init();
+        return $this->parent->getColumnValue($column);           
+    }
+
+    public function getSingleDependencies() : array
+    {
+        $this->init();
+        return $this->parent->getSingleDependencies();           
     }
 
 }

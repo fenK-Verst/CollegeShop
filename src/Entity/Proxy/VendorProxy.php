@@ -30,22 +30,22 @@ class VendorProxy extends \App\Entity\Vendor
             $this->__inited = true;
         }
     }
-    public function getEntityParams():array
-    {
-        $this->init();
-        return $this->parent->getEntityParams();
-    }
+//    public function getEntityParams():array
+//    {
+//        $this->init();
+//        return $this->parent->getEntityParams();
+//    }
     
-    public function getId()
+    public function getId() : int
     {
         $this->init();
-        $this->parent->getId();           
+        return $this->parent->getId();           
     }
 
-    public function getName()
+    public function getName() : string
     {
         $this->init();
-        $this->parent->getName();           
+        return $this->parent->getName();           
     }
 
     public function setName(string $name) : void
@@ -54,16 +54,64 @@ class VendorProxy extends \App\Entity\Vendor
         $this->parent->setName($name);           
     }
 
-    public function getProducts()
+    public function getProducts() : array
     {
         $this->init();
-        $this->parent->getProducts();           
+        return $this->parent->getProducts();           
     }
 
     public function addProduct(?\App\Entity\Product $product)
     {
         $this->init();
         $this->parent->addProduct($product);           
+    }
+
+    public function getTableName() : string
+    {
+        $this->init();
+        return $this->parent->getTableName();           
+    }
+
+    public function getRepositoryClass() : string
+    {
+        $this->init();
+        return $this->parent->getRepositoryClass();           
+    }
+
+    public function getPrimaryKey() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKey();           
+    }
+
+    public function getColumns() : array
+    {
+        $this->init();
+        return $this->parent->getColumns();           
+    }
+
+    public function getEntityParams() : array
+    {
+        $this->init();
+        return $this->parent->getEntityParams();           
+    }
+
+    public function getPrimaryKeyValue() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKeyValue();           
+    }
+
+    public function getColumnValue(string $column) : string
+    {
+        $this->init();
+        return $this->parent->getColumnValue($column);           
+    }
+
+    public function getSingleDependencies() : array
+    {
+        $this->init();
+        return $this->parent->getSingleDependencies();           
     }
 
 }

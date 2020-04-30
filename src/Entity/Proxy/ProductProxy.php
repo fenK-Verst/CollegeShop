@@ -30,16 +30,16 @@ class ProductProxy extends \App\Entity\Product
             $this->__inited = true;
         }
     }
-    public function getEntityParams():array
-    {
-        $this->init();
-        return $this->parent->getEntityParams();
-    }
+//    public function getEntityParams():array
+//    {
+//        $this->init();
+//        return $this->parent->getEntityParams();
+//    }
     
-    public function getFolders()
+    public function getFolders() : array
     {
         $this->init();
-        $this->parent->getFolders();           
+        return $this->parent->getFolders();           
     }
 
     public function addFolder(?\App\Entity\Folder $folder)
@@ -54,10 +54,10 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->deleteFolder($folder);           
     }
 
-    public function getFlags()
+    public function getFlags() : array
     {
         $this->init();
-        $this->parent->getFlags();           
+        return $this->parent->getFlags();           
     }
 
     public function addFlag(?\App\Entity\Flag $flag) : void
@@ -66,16 +66,16 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->addFlag($flag);           
     }
 
-    public function getName()
+    public function getName() : string
     {
         $this->init();
-        $this->parent->getName();           
+        return $this->parent->getName();           
     }
 
-    public function getId()
+    public function getId() : int
     {
         $this->init();
-        $this->parent->getId();           
+        return $this->parent->getId();           
     }
 
     public function setName(string $name) : void
@@ -84,10 +84,10 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->setName($name);           
     }
 
-    public function getArticle()
+    public function getArticle() : string
     {
         $this->init();
-        $this->parent->getArticle();           
+        return $this->parent->getArticle();           
     }
 
     public function setArticle(string $article) : void
@@ -96,10 +96,10 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->setArticle($article);           
     }
 
-    public function getImage()
+    public function getImage() : ?\App\Entity\Image
     {
         $this->init();
-        $this->parent->getImage();           
+        return $this->parent->getImage();           
     }
 
     public function setImage(?\App\Entity\Image $image) : void
@@ -108,10 +108,10 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->setImage($image);           
     }
 
-    public function getDescription()
+    public function getDescription() : string
     {
         $this->init();
-        $this->parent->getDescription();           
+        return $this->parent->getDescription();           
     }
 
     public function setDescription(string $description) : void
@@ -120,10 +120,10 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->setDescription($description);           
     }
 
-    public function getPrice()
+    public function getPrice() : float
     {
         $this->init();
-        $this->parent->getPrice();           
+        return $this->parent->getPrice();           
     }
 
     public function setPrice(float $price) : void
@@ -132,10 +132,10 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->setPrice($price);           
     }
 
-    public function getCount()
+    public function getCount() : int
     {
         $this->init();
-        $this->parent->getCount();           
+        return $this->parent->getCount();           
     }
 
     public function setCount(int $count) : void
@@ -154,6 +154,54 @@ class ProductProxy extends \App\Entity\Product
     {
         $this->init();
         $this->parent->setVendor($vendor);           
+    }
+
+    public function getTableName() : string
+    {
+        $this->init();
+        return $this->parent->getTableName();           
+    }
+
+    public function getRepositoryClass() : string
+    {
+        $this->init();
+        return $this->parent->getRepositoryClass();           
+    }
+
+    public function getPrimaryKey() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKey();           
+    }
+
+    public function getColumns() : array
+    {
+        $this->init();
+        return $this->parent->getColumns();           
+    }
+
+    public function getEntityParams() : array
+    {
+        $this->init();
+        return $this->parent->getEntityParams();           
+    }
+
+    public function getPrimaryKeyValue() : string
+    {
+        $this->init();
+        return $this->parent->getPrimaryKeyValue();           
+    }
+
+    public function getColumnValue(string $column) : string
+    {
+        $this->init();
+        return $this->parent->getColumnValue($column);           
+    }
+
+    public function getSingleDependencies() : array
+    {
+        $this->init();
+        return $this->parent->getSingleDependencies();           
     }
 
 }
