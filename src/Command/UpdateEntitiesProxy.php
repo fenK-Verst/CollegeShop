@@ -70,11 +70,11 @@ class $p extends \\$entity
             \$this->__inited = true;
         }
     }
-    public function getEntityParams():array
-    {
-        \$this->init();
-        return \$this->parent->getEntityParams();
-    }
+//    public function getEntityParams():array
+//    {
+//        \$this->init();
+//        return \$this->parent->getEntityParams();
+//    }
     
 ";
     $methods = $reflection_class->getMethods();
@@ -83,7 +83,7 @@ class $p extends \\$entity
          * @var ReflectionMethod $method
          */
 
-        if($method->isPublic() && $method->class == $entity){
+        if($method->isPublic() /*&& $method->class == $entity*/){
             $method_name = $method->getName();
             $reflection_params = $method->getParameters();
             $params = [];
@@ -100,21 +100,21 @@ class $p extends \\$entity
             }
             $params = implode(", ", $params);
             $vars = implode(", ", $vars);
-            $return = $method->getReturnType();
-
-                $is_class  = class_exists($return);
+            $return =$method->hasReturnType();
+            $return_type = $method->getReturnType();
+            $is_class  = class_exists($method->getReturnType());
               $content.=
               "    public function $method_name($params)";
               if ($return){
                   if ($is_class){
-                      $content.=" : ?\\$return";
+                      $content.=" : ?\\$return_type";
                   }else{
-                      $content.=" : $return";
+                      $content.=" : $return_type";
                   }
               }
               $content.="\n";
               $r = '';
-              if ($return && $return != "void"){
+              if ($return && $return_type != "void"){
                   $r = "return ";
               }
               $content.=
