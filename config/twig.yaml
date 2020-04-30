@@ -1,0 +1,4 @@
+cache: '/var/cache'
+templates_dir: '/templates'
+auto_reload: true
+debug: true

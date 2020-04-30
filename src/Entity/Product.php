@@ -62,6 +62,10 @@ class Product extends AbstractEntity
      */
     protected $flags = [];
 
+    /**
+     * @Entity\OneToMany(entity="App\Entity\ProductParamValue", primary_key="prdouct_id")
+     */
+    protected $paramValues = [];
 
     /**
      * @return array
@@ -240,4 +244,22 @@ class Product extends AbstractEntity
         $this->vendor = $vendor;
     }
 
+    /**
+     **
+     * @return array
+     */
+    public function getParamValues() :?array
+    {
+        return $this->paramValues;
+    }
+
+    /**
+     * @param ProductParamValue $value
+     */
+    public function addParamValues(ProductParamValue $value)
+    {
+        if (!in_array($value, (array)$this->paramValues)) {
+            $this->paramValues[] = $value;
+        }
+    }
 }

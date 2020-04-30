@@ -40,3 +40,29 @@ $modal.on('show.bs.modal', async function (event) {
     }
 
 });
+
+
+let $params = $("form .form-group.param"),
+    $addButton = $params.find("span.btn.add"),
+    $deleteButton = $params.find("span.btn.remove");
+$deleteButton.click(function () {
+    let $this = $(this);
+    if ($("form .form-group.param").length > 1) {
+        let $parent = $this.closest(".form-group.param");
+        $parent.remove();
+    }
+});
+$addButton.click(function () {
+    let $this = $(this),
+        $parent = $("form .form-group.param").last(),
+        parent_id = $parent.attr("data-id"),
+        $clone = $parent.clone(true);
+        id = +parent_id+1;
+
+        $clone.attr("data-id",id);
+        $clone.find("select").attr("name", `product[param][${id}][id]`);
+        $clone.find(`input[type="text"]`).attr("name", `product[param][${id}][value]`);
+        $parent.after($clone);
+
+
+});
