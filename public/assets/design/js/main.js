@@ -2,16 +2,44 @@ $(document).ready( ()=>{
     let $mainSlider = $("main .main_slider"),
         $newsSlider = $("main .news_slider");
     $mainSlider.slick({
-                          dots: true,
-                          arrows: false,
-                      });
+        dots: true,
+        arrows: false,
+    });
     $newsSlider.slick({
-                          infinite: true,
-                          dots: false,
-                          arrows: true,
-                          slidesToShow: 5,
-                          slidesToScroll: 1,
-                      });
+        infinite: true,
+        dots: false,
+        arrows: true,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 4
+                }
+            },
+            {
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 3
+                }
+            },
+            {
+                breakpoint: 640,
+                settings: {
+                    slidesToShow: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1
+                }
+            }
+        ]
+
+    });
 
     let $formStars = $("form .rating ");
     $formStars.find(".star").hover(function () {
