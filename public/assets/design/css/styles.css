@@ -110,7 +110,7 @@ header .header_wrapper .header_top .links .phones .phone .icon-small svg {
   height: 12px;
 }
 header .header_wrapper .header_bot {
-  padding: 10px 0;
+  padding: 10px;
   background: #A21727;
 }
 header .header_wrapper .header_bot .wrapper {
@@ -150,6 +150,7 @@ header .header_wrapper .header_bot_left nav ul {
   padding: 0;
   margin: 0;
   display: flex;
+  flex-wrap: wrap;
 }
 header .header_wrapper .header_bot_left nav ul li {
   list-style: none;
@@ -326,6 +327,7 @@ main .news_slider .product_wrapper .product .product_main .product_top .image, m
   display: flex;
   align-items: center;
   height: 300px;
+  justify-content: center;
 }
 main .news_slider .product_wrapper .product .product_main .product_middle, main .products .product_wrapper .product .product_main .product_middle {
   padding: 0 30px;
@@ -510,6 +512,63 @@ i.star {
 }
 i.star.empty {
   background: url("/assets/design/images/icons/star_empty.svg") no-repeat center/contain;
+}
+
+@media (max-width: 960px) {
+  header .header_wrapper .header_top > .wrapper {
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  header .header_wrapper .header_top > .wrapper .logo {
+    width: 100%;
+    margin: 0;
+  }
+  header .header_wrapper .header_top > .wrapper .logo img {
+    display: block;
+    margin: auto;
+  }
+  header .header_wrapper .header_top > .wrapper .search {
+    margin-left: 0;
+  }
+
+  footer.footer .wrapper {
+    flex-wrap: wrap;
+  }
+  footer.footer .wrapper .footer_left {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 768px) {
+  footer.footer .wrapper {
+    flex-direction: column;
+  }
+}
+@media (max-width: 640px) {
+  header .header_wrapper .header_top > .wrapper {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  header .header_wrapper .header_top > .wrapper div.search {
+    width: 100%;
+  }
+  header .header_wrapper .header_top > .wrapper .links {
+    margin: 10px;
+  }
+}
+@media (max-width: 420px) {
+  header .header_wrapper .header_top > .wrapper .links {
+    flex-direction: column;
+  }
+  header .header_wrapper .header_top > .wrapper .links .phones {
+    margin-top: 10px;
+  }
+
+  footer.footer .wrapper .footer_middle, footer.footer .wrapper .footer_right .content {
+    flex-direction: column;
+    margin: 10px;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

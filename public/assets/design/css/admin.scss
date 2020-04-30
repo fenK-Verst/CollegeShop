@@ -34,13 +34,120 @@ nav.navbar {
 }
 .btn.btn-danger{
   color:#fff;
-  button{
-    color:#fff;
+
+  button {
+    color: #fff;
 
   }
 }
+
 @media (min-width: 768px) {
   .navbar-nav > li > a {
     padding: 8px;
   }
+}
+
+.box .box-body .images {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  @media (max-width: 1300px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .image {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      display: block;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    a {
+      display: block;
+      margin: 5px 0;
+    }
+  }
+}
+
+#folder_form {
+  display: none;
+  position: absolute;
+  background: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  flex-direction: column;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .close {
+    text-align: right;
+    cursor: pointer;
+  }
+
+  &.active {
+    display: flex;
+
+  }
+}
+
+.folders.nested {
+  padding: 0;
+  margin: 0;
+
+  ul {
+    padding: 0;
+    padding-left: 5px;
+  }
+
+  .folder {
+    list-style: none;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+
+      .title {
+        font-size: 16px;
+        display: block;
+        padding: 5px;
+      }
+    }
+    .folder-controls{
+      margin-left: 40px;
+    }
+
+    > div:hover {
+      background: rgba(236, 236, 236, 0.3);
+
+      > .folder-controls {
+        display: flex;
+      }
+    }
+  }
+
+  .folder-controls {
+    /*margin-left: 20px;*/
+    display: none;
+  }
+
 }

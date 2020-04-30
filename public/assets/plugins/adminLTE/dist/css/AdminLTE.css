@@ -70,7 +70,13 @@ body {
   .main-footer {
     margin-left: 0;
   }
+
+  .navbar-custom-menu .navbar-nav>li>a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
 }
+
 @media (min-width: 768px) {
   .sidebar-collapse .content-wrapper,
   .sidebar-collapse .main-footer {
@@ -5559,4 +5565,10 @@ hr {
 
 img{
   max-width: 100%;
+}
+@media (max-width: 767px) {
+  .navbar-custom-menu .navbar-nav>li>a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
 }

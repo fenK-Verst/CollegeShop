@@ -1,37 +1,5 @@
 {% if folders %}
-    <style>
-        .folders{
-            padding: 0;
-            margin: 0;
-        }
-        .folders ul{
-            padding: 0;
-            padding-left: 5px;
-        }
-        .folders .folder{
-            list-style: none;
-
-        }
-        .folders .folder div{
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 10px;
-        }
-        .folders .folder div >span{
-            font-size: 16px;
-        }
-        .folders .folder-controls{
-            /*margin-left: 20px;*/
-            display: none;
-        }
-        .folder >div:hover > .folder-controls{
-            display: flex;
-        }
-        .folder >div:hover{
-            background: rgba(236,236,236,0.3);
-        }
-    </style>
-    <ul class="folders">
+    <ul class="folders nested">
     {% for k,e in folders %}
     {% if k > 0 %}
         {% if e.lvl > prev_level %}
@@ -45,14 +13,16 @@
             {% endif %}
         {% endif %}
     {% endif %}
-    <li class="folder" data-id="{{ e.id }}" data-lvl="{{ e.lvl }}" data-left="{{ e.left }}" data-right ="{{ e.right }}"><div><span>{{ e.name }}</span>
+    <li class="folder" data-id="{{ e.id }}" data-lvl="{{ e.lvl }}" data-left="{{ e.left }}" data-right ="{{ e.right }}">
+        <div>
+            <span class="title">{{ e.name }}</span>
         {% if controls %}
             <span class="folder-controls btn-group">
-                <a href="/admin/folder/{{ e.id }}/edit" class="btn btn-xs btn-success">
+                <a href="/admin/folder/{{ e.id }}/edit" class="btn btn-sm btn-success">
                     <i class="fa fa-edit"></i>
                 </a>
                 {% if e.right-e.left <=1%}
-                <form action="/admin/folder/delete" method="post" class="btn btn-xs btn-danger" style="order:1"
+                <form action="/admin/folder/delete" method="post" class="btn btn-sm btn-danger delete-folder" style="order:1"
                           style="display: inline">
                     <input type="hidden" value="{{ e.id }}" name="folder_id">
                     <button style="padding: 0;margin: 0;background: none; border: none"><i class="fa fa-remove"></i></button>

@@ -161,7 +161,7 @@ class Product extends AbstractEntity
     }
 
     /**
-     * @return int
+     * @return Image
      */
     public function getImage(): ?Image
     {
