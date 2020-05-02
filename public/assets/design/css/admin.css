@@ -108,7 +108,7 @@ nav.navbar a.sidebar-toggle {
 }
 .folders.nested ul {
   padding: 0;
-  padding-left: 5px;
+  padding-left: 10px;
 }
 .folders.nested .folder {
   list-style: none;

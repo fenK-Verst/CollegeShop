@@ -5,26 +5,30 @@ namespace App\Controller;
 
 
 use App\Http\Request;
+use App\Repository\FolderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\VendorRepository;
 
 /**
  * Class ProductController
  *
- * @Route("/product")
+ * @Route("/folder")
  * @package App\Controller
  */
-class ProductController extends AbstractController
+class FolderController extends AbstractController
 {
     /**
      * @Route("/{id}", name="index")
      */
-    public function index(ProductRepository $product_repository)
+    public function index(FolderRepository $folder_repository)
     {
-        $product_id = $this->getRoute()->get("id");
-        $product = $product_repository->find($product_id);
-        return $this->render("product/item.html.twig", [
-            "product" => $product
+        $folder_id = $this->getRoute()->get("id");
+        $folder = $folder_repository->find($folder_id);
+        $products = $folder->getProducts();
+        $folders = $folder_repository->getSubFolders($folder);
+        return $this->render("product/list.html.twig", [
+            "products" => $products,
+            "folders"=>$folders
         ]);
     }
 
@@ -44,7 +48,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-
+    
 
 
 }

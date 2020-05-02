@@ -22,4 +22,21 @@ class FolderRepository extends AbstractRepository
     {
         parent::__construct($object_manager, Folder::class);
     }
+
+    public function getSubFolders(Folder $folder)
+    {
+        $folder_id = $folder->getId();
+        $adm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
+        $lvl = (int)$folder->getLvl()+1;
+        $left = $folder->getLeft();
+        $right = $folder->getRight();
+        $query = "SELECT id FROM folder WHERE _left > $left AND _right < $right AND _lvl = $lvl";
+        $result = $adm->query($query);
+
+        $a = [];
+        while($value = $result->fetch_assoc()){
+            $a[] = $this->find($value["id"]);
+        }
+        return $a;
+    }
 }

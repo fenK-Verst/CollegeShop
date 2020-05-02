@@ -9,6 +9,7 @@ controllers:
   - App\Controller\DefaultController
   - App\Controller\UserController
   - App\Controller\ProductController
+  - App\Controller\FolderController
 
 middlewares:
   - App\Middleware\FolderMiddleware

@@ -10,16 +10,24 @@
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" {% if vendor.id in filter.vendor_id %}checked{% endif %}
-                                name="filter[vendor_id][]"
-                                value="{{ vendor.id }}"> {{ vendor.name }}
+                                       name="filter[vendor_id][]"
+                                       value="{{ vendor.id }}"> {{ vendor.name }}
 
                             </label>
                         </div>
                     {% endfor %}
-                    </select>
                 </div>
                 <button class="btn btn-danger">Найти</button>
             </form>
+            {% if folders %}
+                <div class="folders">
+                    <ul>
+                        {% for folder in folders %}
+                            <li><a href="/folder/{{ folder.id }}">{{ folder.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
         </aside>
         <div class="content">
             <div class="products">
@@ -37,7 +45,8 @@
                                         {% if product.image %}
                                             <img src="{{ product.image.path }}" alt="">
                                         {% else %}
-                                            <img src="/assets/design/images/no-photo.svg" class="d-block m-auto" width="50%" alt="">
+                                            <img src="/assets/design/images/no-photo.svg" class="d-block m-auto"
+                                                 width="50%" alt="">
                                         {% endif %}
                                     </div>
                                 </div>
@@ -46,7 +55,7 @@
                                         <a href="/product/{{ product.id }}">{{ product.name }}</a>
                                     </div>
                                     <div class="product_buy">
-                                        <span class="price">{{ product.price}} Т</span>
+                                        <span class="price">{{ product.price }} Т</span>
                                         <span class="buy_button">Купить</span>
                                     </div>
                                 </div>

@@ -20,6 +20,19 @@ main >.wrapper{
       font-weight: bold;
       font-size: 15px;
     }
+    .folders{
+      margin-top: 10px;
+      ul {
+        padding: 0;
+        margin: 0;
+        li {
+          list-style: none;
+          a{
+
+          }
+        }
+      }
+    }
   }
   .content{
     flex:1 1 auto;

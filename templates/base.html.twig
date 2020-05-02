@@ -135,8 +135,8 @@
         <section class="footer_middle">
             <ul>
                 <li class="title"><a href="">Каталог</a></li>
-                {% for folder in folders %}
-                    <li><a href="{{ folder.url }}">{{ folder.name }}</a></li>
+                {% for folder in app.folders %}
+                    <li><a href="/folder/{{ folder.id }}">{{folder.name}}</a></li>
                 {% endfor %}
             </ul>
             <ul>
