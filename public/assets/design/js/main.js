@@ -60,11 +60,18 @@ $(document).ready(() => {
 let $product = $(".product[data-id]");
 $product.find(".buy_button").click(async function () {
     let $this = $(this),
-        product_id = $this.closest(".product").attr("data-id");
-    console.log(product_id);
-    let url = new URL(window.location.protocol + `//` + window.location.host + "/api/cart/add");
+        product_id = $this.closest(".product").attr("data-id"),
+        url = new URL(window.location.protocol + `//` + window.location.host + "/api/cart/add"),
+        $count = $this.closest(".product").find(`input[name="product[count]"]`),
+        count = 1;
+    if ($count.length) {
+        $count = $count.first();
+        count = $count.val();
+        if (!count) count = 1;
+    }
     url.searchParams.append("product_id", product_id);
-    url.searchParams.append("count", 1);
+    url.searchParams.append("count", count);
+
     let response = await fetch(url);
     response = await response.json();
     let content = `<span>Товар успешно добавлен в <a href="/cart"> корзину</a></span>`;
@@ -76,9 +83,25 @@ $product.find(".buy_button").click(async function () {
     $popover.html(content);
     $popover.addClass("active");
     $popover.offset($this.offset());
-    setInterval(()=>{
+    setInterval(() => {
         $popover.removeClass("active")
-    },3000);
+    }, 3000);
 
 });
-console.log($product);
+$(".control.minus").click((function () {
+    let $this = $(this),
+        $input = $this.next(),
+        val = $input.val();
+    if (val > 1) val--;
+    $input.val(val);
+}));
+
+$(".control.plus").click((function () {
+    let $this = $(this),
+        $input = $this.prev(),
+        max = $input.attr("max") || 10,
+        val = $input.val();
+
+    if (+val < +max) val++;
+    $input.val(val);
+}));

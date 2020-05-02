@@ -24,11 +24,13 @@ class ProductController extends AbstractController
     {
         $product_id = $this->getRoute()->get("id");
         $product = $product_repository->find($product_id);
-        $folder = $product->getFolders()[0];
-        $pagination_folders = $folder_repository->getParents($folder, true);
+        if ($product) {
+            $folder = $product->getFolders()[0] ?? null;
+            $pagination_folders = $folder_repository->getParents($folder, true);
+        }
         return $this->render("product/item.html.twig", [
             "product" => $product,
-            "product_path"=>$pagination_folders
+            "product_path"=>$pagination_folders ?? null
         ]);
     }
 
