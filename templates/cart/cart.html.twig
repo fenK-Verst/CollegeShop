@@ -10,16 +10,18 @@
                 <th>Товар</th>
                 <th>Количество</th>
                 <th>Цена</th>
+                <th></th>
             </tr>
             {% for product in products %}
-                <th>{{ loop.index }}</th>
-                <th>
+                <td>{{ loop.index }}</td>
+                <td>
                     <div class="d-flex align-items-center">
                         <img src="{{ product.image.path|default("/assets/design/images/no-photo.svg") }}" width="30" height="30" alt="">{{ product.name }}
                     </div>
-                </th>
-                <th>{{ cart[product.id].count }}</th>
-                <th>{{ cart[product.id].count*product.price }}</th>
+                </td>
+                <td>{{ cart[product.id].count }}</td>
+                <td>{{ cart[product.id].count*product.price }}</td>
+                <td class="d-flex justify-content-center align-items-center"><a href="/cart/{{ product.id }}/delete"><i class="fa fa-minus"></i></a></td>
             {% endfor %}
         </table>
         {% else %}
