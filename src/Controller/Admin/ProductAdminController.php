@@ -93,7 +93,7 @@ class ProductAdminController extends AbstractController
                 }
                 $product->setVendor($vendor);
                 $product->setDescription($description);
-
+                
                 $product->setImage($image);
 //                $object_manager->save($product);
 //                return $this->redirect("/admin/product");
