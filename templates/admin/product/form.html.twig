@@ -115,7 +115,30 @@
                                     </div>
                                 </div>
                             {% endfor %}
-                        {% else %}
+                        {% elseif product.param %}
+                            {% for param in product.param %}
+                                <div class="form-group row param" data-id="{{ loop.index }}">
+                                    <div class="col">
+                                        <label for="product[param_value]">Параметр</label>
+                                    </div>
+                                    <div class="col">
+                                        <select name="product[param][{{ loop.index }}][id]" class="form-control" id="product[param]">
+                                            {% for paramm in params %}
+                                                <option {% if paramm.id == param.id %}selected {% endif %}
+                                                        value="{{ paramm.id }}">{{ paramm.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="product[param][{{ loop.index }}][value]" placeholder="Значение" value="{{ param.value }}">
+                                    </div>
+                                    <div class="col btn-group-sm d-flex align-items-center">
+                                        <span class="btn btn-sm btn-success add"><i class="fa fa-plus"></i></span>
+                                        <span class="btn btn-sm btn-danger remove"><i class="fa fa-minus"></i></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            {% else %}
                             <div class="form-group row param" data-id="0">
                                 <div class="col">
                                     <label for="product[param_value]">Параметр</label>
@@ -133,7 +156,7 @@
                                 </div>
                                 <div class="col">
                                     <input type="text" class="form-control" name="product[param][0][value]"
-                                           placeholder="Значение" value="">
+                                           placeholder="Значение" required>
                                 </div>
                                 <div class="col btn-group-sm d-flex align-items-center">
                                     <span class="btn btn-sm btn-success add"><i class="fa fa-plus"></i></span>

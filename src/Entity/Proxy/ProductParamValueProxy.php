@@ -36,7 +36,7 @@ class ProductParamValueProxy extends \App\Entity\ProductParamValue
 //        return $this->parent->getEntityParams();
 //    }
     
-    public function getProductParam() : array
+    public function getProductParam() : ?\App\Entity\ProductParam
     {
         $this->init();
         return $this->parent->getProductParam();           
@@ -54,18 +54,6 @@ class ProductParamValueProxy extends \App\Entity\ProductParamValue
         return $this->parent->getId();           
     }
 
-    public function getName() : string
-    {
-        $this->init();
-        return $this->parent->getName();           
-    }
-
-    public function setName(string $name) : void
-    {
-        $this->init();
-        $this->parent->setName($name);           
-    }
-
     public function getValue() : string
     {
         $this->init();
@@ -76,6 +64,18 @@ class ProductParamValueProxy extends \App\Entity\ProductParamValue
     {
         $this->init();
         $this->parent->setValue($value);           
+    }
+
+    public function getProduct() : ?\App\Entity\Product
+    {
+        $this->init();
+        return $this->parent->getProduct();           
+    }
+
+    public function setProduct(?\App\Entity\Product $product) : void
+    {
+        $this->init();
+        $this->parent->setProduct($product);           
     }
 
     public function getTableName() : string

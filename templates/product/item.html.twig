@@ -180,11 +180,9 @@
                 <div class="product_params">
                     <div class="title">Характеристики</div>
                     <div class="content">
-                        <div class="param"><span class="name">Бренд</span><span class="value">Ceraflame</span></div>
-                        <div class="param"><span class="name">Страна</span><span class="value">Бразилия</span></div>
-                        <div class="param"><span class="name">Цвет</span><span class="value">Шоколадный</span></div>
-                        <div class="param"><span class="name">Материал</span><span class="value">Керамика</span></div>
-                        <div class="param"><span class="name">Объем</span><span class="value">500мл</span></div>
+                        {% for value in product.paramValues %}
+                        <div class="param"><span class="name">  {{ value.productParam.name }}</span><span class="value"> {{ value.value }}</span></div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="product_description">

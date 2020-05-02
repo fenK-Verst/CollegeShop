@@ -63,7 +63,7 @@ class Product extends AbstractEntity
     protected $flags = [];
 
     /**
-     * @Entity\OneToMany(entity="App\Entity\ProductParamValue", primary_key="prdouct_id")
+     * @Entity\OneToMany(entity="App\Entity\ProductParamValue", primary_key="product_id")
      */
     protected $paramValues = [];
 
@@ -256,7 +256,7 @@ class Product extends AbstractEntity
     /**
      * @param ProductParamValue $value
      */
-    public function addParamValues(ProductParamValue $value)
+    public function addParamValue(ProductParamValue $value)
     {
         if (!in_array($value, (array)$this->paramValues)) {
             $this->paramValues[] = $value;

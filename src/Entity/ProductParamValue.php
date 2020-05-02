@@ -28,9 +28,14 @@ class ProductParamValue extends AbstractEntity
     protected $productParam;
 
     /**
+     * @Entity\ManyToOne(entity="App\Entity\Product", primary_key="product_id")
+     */
+    protected $product;
+
+    /**
      * @return array
      */
-    public function getProductParam(): array
+    public function getProductParam(): ?ProductParam
     {
         return $this->productParam;
     }
@@ -53,20 +58,6 @@ class ProductParamValue extends AbstractEntity
     }
 
     /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
 
     /**
      * @return string|null
@@ -84,5 +75,20 @@ class ProductParamValue extends AbstractEntity
         $this->value = $value;
     }
 
+    /**
+     * @return Product|null
+     */
+    public function getProduct():?Product
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param Product $vendor
+     */
+    public function setProduct(?Product $product): void
+    {
+        $this->product = $product;
+    }
 
 }

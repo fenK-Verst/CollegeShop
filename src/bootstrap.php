@@ -19,10 +19,10 @@ if (!session_id()){
 require_once(PROJECT_DIR . "/vendor/autoload.php");
 //phpinfo();
 $container = new Container([
-    "App\Db\Interfaces\ConnectionInterface" => Connection::class,
-    "App\Db\Interfaces\ArrayDataManagerInterface" => \App\Db\ArrayDataManager::class,
-    "App\Db\Interfaces\ObjectDataManagerInterface" => \App\Db\ObjectDataManager::class,
-    "App\Db\Interfaces\ObjectManagerInterface" => \App\Db\ObjectManager::class,
+    \App\Db\Interfaces\ConnectionInterface::class => Connection::class,
+    \App\Db\Interfaces\ArrayDataManagerInterface::class => \App\Db\ArrayDataManager::class,
+    \App\Db\Interfaces\ObjectDataManagerInterface::class => \App\Db\ObjectDataManager::class,
+    \App\Db\Interfaces\ObjectManagerInterface::class => \App\Db\ObjectManager::class,
 ]);
 $container->singletone(Container::class, function () use ($container) {
     return $container;

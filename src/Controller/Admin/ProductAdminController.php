@@ -6,6 +6,8 @@ namespace App\Controller\Admin;
 use App\Controller\AbstractController;
 use App\Db\ObjectManager;
 use App\Entity\Product;
+use App\Entity\ProductParam;
+use App\Entity\ProductParamValue;
 use App\Http\Request;
 use App\Repository\FolderRepository;
 use App\Repository\ImageRepository;
@@ -61,6 +63,8 @@ class ProductAdminController extends AbstractController
             $image_id = (int)$request_product["image_id"] ?? null;
             $image = $image_repository->find($image_id);
 
+            $request_params = (array)$request_product["param"] ?? [];
+
             $needed_folders = [];
             foreach ($folder_ids as $id) {
                 $needed_folders[$id] = $folder_repository->find($id);
@@ -95,8 +99,21 @@ class ProductAdminController extends AbstractController
                 $product->setDescription($description);
                 
                 $product->setImage($image);
-//                $object_manager->save($product);
-//                return $this->redirect("/admin/product");
+                $product = $object_manager->save($product);
+                foreach ($request_params as $param) {
+                    $new_value = new ProductParamValue();
+                    $param_id = $param["id"];
+                    $param_type = $param_repository->find($param_id);
+                    $param_value = $param["value"];
+                    if ($param_type && $param_value){
+                        $new_value->setProductParam($param_type);
+                        $new_value->setValue($param_value);
+                        $new_value->setProduct($product);
+                        $new_value = $object_manager->save($new_value);
+                    }
+                }
+
+                return $this->redirect("/admin/product");
             }
         }
 
@@ -122,6 +139,7 @@ class ProductAdminController extends AbstractController
         VendorRepository $vendor_repository,
         FolderRepository $folder_repository,
         ImageRepository $image_repository,
+        ProductParamRepository $param_repository,
         ObjectManager $object_manager
     ) {
         $error = '';
@@ -139,7 +157,7 @@ class ProductAdminController extends AbstractController
             $vendor = $vendor_repository->find($vendor_id);
             $image_id = (int)$request_product["image_id"] ?? null;
             $image = $image_repository->find($image_id);
-
+            $request_params = (array)$request_product["param"] ?? [];
             $needed_folders = [];
             foreach ( $folder_ids as $id){
                 $needed_folders[$id] = $folder_repository->find($id);
@@ -166,7 +184,26 @@ class ProductAdminController extends AbstractController
                 }
                 $product->setVendor($vendor);
                 $product->setDescription($description);
-                $object_manager->save($product);
+
+                $product = $object_manager->save($product);
+                $product_values = $product->getParamValues();
+                foreach ( $product_values as $product_value){
+                    $object_manager->remove($product_value);
+                }
+                foreach ($request_params as $param) {
+                    $new_value = new ProductParamValue();
+                    $param_id = $param["id"];
+                    $param_type = $param_repository->find($param_id);
+                    $param_value = $param["value"];
+                    if ($param_type && $param_value){
+                        $new_value->setProductParam($param_type);
+                        $new_value->setValue($param_value);
+                        $new_value->setProduct($product);
+                        $new_value = $object_manager->save($new_value);
+                    }
+                }
+
+
                 $this->redirect("/admin/product");
             }
         }
@@ -174,11 +211,13 @@ class ProductAdminController extends AbstractController
 
         $folders = $folder_repository->findAll();
         $vendors = $vendor_repository->findAll();
+        $params = $param_repository->findAll();
         return $this->render("/admin/product/form.html.twig", [
             "product" => $product,
             "folders" => $folders,
             "vendors" => $vendors,
-            "error" => $error
+            "error" => $error,
+            "params"=>$params
         ]);
     }
     /**
@@ -189,6 +228,10 @@ class ProductAdminController extends AbstractController
         $product_id = $request->post("product_id");
         $product = $product_repository->find($product_id);
         if ($product){
+            $values = $product->getParamValues();
+            foreach ($values as $value){
+                $object_manager->remove($value);
+            }
             $object_manager->remove($product);
         }
         return $this->redirect("/admin/product");

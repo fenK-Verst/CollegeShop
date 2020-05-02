@@ -50,6 +50,25 @@
                        <div>
                            Описание: <div class="m-2">{{ product.description }}</div>
                        </div>
+                       <div>
+                           Параметры:
+                           <table class="table mt-1">
+                               <tr>
+                                   <th>Название</th>
+                                   <th>Значение</th>
+                               </tr>
+                               {% for value in product.paramValues %}
+                                 <tr>
+                                     <td>
+                                         {{ value.productParam.name }}
+                                     </td>
+                                     <td>
+                                         {{ value.value }}
+                                     </td>
+                                 </tr>
+                               {% endfor %}
+                           </table>
+                       </div>
                    </div>
                 </div>
             </div>
