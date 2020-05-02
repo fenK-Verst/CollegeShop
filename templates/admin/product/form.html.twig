@@ -92,6 +92,56 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        {% if product.paramValues %}
+                            {% for value in product.paramValues %}
+                                <div class="form-group row param" data-id="{{ loop.index }}">
+                                    <div class="col">
+                                        <label for="product[param_value]">Параметр</label>
+                                    </div>
+                                    <div class="col">
+                                        <select name="product[param][{{ loop.index }}][id]" class="form-control" id="product[param]">
+                                            {% for param in params %}
+                                                <option {% if param.id == value.productParam.id %}selected {% endif %}
+                                                        value="{{ param.id }}">{{ param.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="product[param][{{ loop.index }}][value]" placeholder="Значение" value="{{ value.value }}">
+                                    </div>
+                                    <div class="col btn-group-sm d-flex align-items-center">
+                                        <span class="btn btn-sm btn-success add"><i class="fa fa-plus"></i></span>
+                                        <span class="btn btn-sm btn-danger remove"><i class="fa fa-minus"></i></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="form-group row param" data-id="0">
+                                <div class="col">
+                                    <label for="product[param_value]">Параметр</label>
+                                </div>
+                                <div class="col">
+                                    <select name="product[param][0][id]" class="form-control" id="product[param]">
+                                        {% for param in params %}
+                                            <option {% if param.id in product.param %}selected {% endif %}
+                                                    {% for param_value in product.paramValues %}
+                                                        {% if param_value.productParam.id == param.id %}selected{% endif %}
+                                                    {% endfor %}
+                                                    value="{{ param.id }}">{{ param.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="product[param][0][value]"
+                                           placeholder="Значение" value="">
+                                </div>
+                                <div class="col btn-group-sm d-flex align-items-center">
+                                    <span class="btn btn-sm btn-success add"><i class="fa fa-plus"></i></span>
+                                    <span class="btn btn-sm btn-danger remove"><i class="fa fa-minus"></i></span>
+                                </div>
+                            </div>
+                        {% endif %}
+
                         <button class="btn btn-danger"> {% if product.id %}Изменить{% else %}Добавить{% endif %}</button>
                     </form>
                 </div>

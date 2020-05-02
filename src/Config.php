@@ -25,7 +25,7 @@ class Config
 
     public function getTwigConfig()
     {
-        return $this->config["config"]["twig"] ?? [];
+        return $this->config["twig"] ?? [];
     }
 
     public function getMiddlewares()

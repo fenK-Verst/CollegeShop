@@ -4,15 +4,12 @@ controllers:
   - App\Controller\Admin\ProductAdminController
   - App\Controller\Admin\VendorAdminController
   - App\Controller\Admin\ImageAdminController
+  - App\Controller\Admin\ProductParamAdminController
   - App\Controller\Api\ImageApiController
   - App\Controller\DefaultController
   - App\Controller\UserController
   - App\Controller\ProductController
-twig:
-  cache: '/var/cache'
-  templates_dir: '/templates'
-  auto_reload: true
-  debug: true
+
 middlewares:
   - App\Middleware\FolderMiddleware
   - App\Middleware\UserMiddleware

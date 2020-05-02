@@ -44,12 +44,28 @@ CREATE TABLE product
     `id`          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name`        VARCHAR(255)   NOT NULL,
     `article`     VARCHAR(255)   NOT NULL,
-    `image_id`    INT UNSIGNED DEFAULT NULL,
-    `description` TEXT         DEFAULT NULL,
+    `image_id`    INT UNSIGNED            DEFAULT NULL,
+    `description` TEXT                    DEFAULT NULL,
     `price`       DECIMAL(12, 2) NOT NULL,
-    `count`       INT NOT NULL DEFAULT 0,
-    `vendor_id`   INT UNSIGNED DEFAULT NULL
-)ENGINE=InnoDB;
+    `count`       INT            NOT NULL DEFAULT 0,
+    `vendor_id`   INT UNSIGNED            DEFAULT NULL
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `product_param`;
+CREATE TABLE product_param
+(
+    `id`    INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `name`  VARCHAR(255) NOT NULL
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `product_param_value`;
+CREATE TABLE product_param_value
+(
+    `id`         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `product_id` INT UNSIGNED NOT NULL,
+    `param_id`   INT UNSIGNED NOT NULL,
+    `value`      VARCHAR(255) NOT NULL
+) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `folder_has_product`;
 CREATE TABLE folder_has_product
@@ -57,7 +73,7 @@ CREATE TABLE folder_has_product
     `folder_id`  INT UNSIGNED NOT NULL,
     `product_id` INT UNSIGNED NOT NULL,
     PRIMARY KEY (folder_id, product_id)
-)ENGINE=InnoDB;
+) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `product_has_flag`;
 CREATE TABLE product_has_flag

@@ -9,6 +9,7 @@ use App\Entity\Product;
 use App\Http\Request;
 use App\Repository\FolderRepository;
 use App\Repository\ImageRepository;
+use App\Repository\ProductParamRepository;
 use App\Repository\ProductRepository;
 use App\Repository\VendorRepository;
 
@@ -37,14 +38,15 @@ class ProductAdminController extends AbstractController
      */
     public function create(
         Request $request,
-        ProductRepository $product_repository,
         VendorRepository $vendor_repository,
         FolderRepository $folder_repository,
         ImageRepository $image_repository,
+        ProductParamRepository $param_repository,
         ObjectManager $object_manager
     ) {
         $error = '';
         $request_product = $request->post("product");
+        var_dump($request_product);
         if ($request_product) {
             $name = $request_product["name"];
             $description = $request_product["description"] ?? '';
@@ -91,20 +93,22 @@ class ProductAdminController extends AbstractController
                 }
                 $product->setVendor($vendor);
                 $product->setDescription($description);
-
+                
                 $product->setImage($image);
-                $object_manager->save($product);
-                $this->redirect("/admin/product");
+//                $object_manager->save($product);
+//                return $this->redirect("/admin/product");
             }
         }
 
 
         $folders = $folder_repository->findAll();
         $vendors = $vendor_repository->findAll();
+        $params = $param_repository->findAll();
         return $this->render("/admin/product/form.html.twig", [
             "product" => $request_product,
             "folders" => $folders,
             "vendors" => $vendors,
+            "params"=>$params,
             "error" => $error
         ]);
     }

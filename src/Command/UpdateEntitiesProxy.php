@@ -12,7 +12,10 @@ $entities = [
     \App\Entity\Folder::class,
     \App\Entity\Image::class,
     \App\Entity\User::class,
-    \App\Entity\Vendor::class
+    \App\Entity\Vendor::class,
+    \App\Entity\ProductParamValue::class,
+    \App\Entity\ProductParam::class,
+
 ];
 $config = new \App\Config();
 $proxy_config = $config->get("proxy") ?? null;

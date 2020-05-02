@@ -156,6 +156,18 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->setVendor($vendor);           
     }
 
+    public function getParamValues() : array
+    {
+        $this->init();
+        return $this->parent->getParamValues();           
+    }
+
+    public function addParamValues(?\App\Entity\ProductParamValue $value)
+    {
+        $this->init();
+        $this->parent->addParamValues($value);           
+    }
+
     public function getTableName() : string
     {
         $this->init();
