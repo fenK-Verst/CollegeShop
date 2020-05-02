@@ -101,7 +101,7 @@
                     <div class="cart">
                         <div class="icon">
                             <span class="count">
-                                <span>0</span>
+                                <span>{{ app.cartService.count |default(0) }}</span>
                             </span>
                             <i class="cart">
                                 <svg id="icon-cart" viewBox="0 0 34 37">
@@ -111,7 +111,7 @@
 
                         </div>
                         <span class="title">
-                            <a href="#!">Мой заказ</a>
+                            <a href="/cart">Мой заказ</a>
                         </span>
                     </div>
                 </div>

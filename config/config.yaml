@@ -17,4 +17,5 @@ middlewares:
   - App\Middleware\FolderMiddleware
   - App\Middleware\UserMiddleware
   - App\Middleware\SharedMiddleware
+  - App\Middleware\CartMiddleware
 images_directory: /assets/dynamic/images/
