@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+    <div class="wrapper">
+        {% set folder_links = true %}
+        {% include "admin/folder/folder_ul.html.twig" with folders %}
+    </div>
+{% endblock %}

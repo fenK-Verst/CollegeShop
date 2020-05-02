@@ -39,4 +39,26 @@ class FolderRepository extends AbstractRepository
         }
         return $a;
     }
+
+    public function getParents(Folder $folder, bool $widthFolder)
+    {
+        $adm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
+        $lvl = (int)$folder->getLvl();
+        $left = (int)$folder->getLeft();
+        $right = (int)$folder->getRight();
+        if ($widthFolder){
+            $query = "SELECT id FROM folder WHERE _left <= $left AND _right >= $right ORDER BY _left";
+        }else{
+            $query = "SELECT id FROM folder WHERE _left < $left AND _right > $right ORDER BY _left";
+        }
+
+
+        $result = $adm->query($query);
+
+        $a = [];
+        while($value = $result->fetch_assoc()){
+            $a[] = $this->find($value["id"]);
+        }
+        return $a;
+    }
 }

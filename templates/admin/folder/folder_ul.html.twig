@@ -15,7 +15,11 @@
     {% endif %}
     <li class="folder" data-id="{{ e.id }}" data-lvl="{{ e.lvl }}" data-left="{{ e.left }}" data-right ="{{ e.right }}">
         <div>
-            <span class="title">{{ e.name }}</span>
+            {% if folder_links %}
+                <span class="title"><a href="/folder/{{ e.id }}">{{ e.name }}</a></span>
+            {% else %}
+                <span class="title">{{ e.name }}</span>
+            {% endif %}
         {% if controls %}
             <span class="folder-controls btn-group">
                 <a href="/admin/folder/{{ e.id }}/edit" class="btn btn-sm btn-success">

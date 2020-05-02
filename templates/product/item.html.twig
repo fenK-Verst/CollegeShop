@@ -9,9 +9,10 @@
         <div class="product_top">
             <div class="product_top_left">
                 <ul class="path">
-                    <li><a href="#!">Главная</a></li>
-                    <li><a href="#!">Кофеварки</a></li>
-                    <li><a href="#!">Турки</a></li>
+                    <li><a href="/folder">Категории</a></li>
+                    {% for folder in product_path %}
+                        <li><a href="/folder/{{ folder.id }}">{{folder.name}}</a></li>
+                    {% endfor %}
                 </ul>
                 <div class="product_name">
                     {{ product.name }}
@@ -94,7 +95,7 @@
                                     </span>
                                 </div>
                                 <div class="comment_right_bot">
-                                    <div class="text">SOme text</div>
+                                    <div class="text">Some text</div>
                                 </div>
                             </div>
                         </li>
@@ -118,7 +119,7 @@
                                     </span>
                                 </div>
                                 <div class="comment_right_bot">
-                                    <div class="text">SOme text</div>
+                                    <div class="text">Some text</div>
                                 </div>
                             </div>
                         </li>
@@ -168,6 +169,7 @@
             <div class="product_middle_right">
                 <div class="product_buy">
                     <div class="price">{{ product.price }} Т</div>
+                    {% if product.count %}
                     <div class="controls">
                         <span class="input">
                             <span class="control minus"></span>
@@ -176,6 +178,7 @@
                         </span>
                         <span class="buy_button">Купить</span>
                     </div>
+                    {% endif %}
                 </div>
                 <div class="product_params">
                     <div class="title">Характеристики</div>

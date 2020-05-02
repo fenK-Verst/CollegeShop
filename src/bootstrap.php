@@ -12,7 +12,7 @@ use App\Twig;
 
 define("PROJECT_DIR", __DIR__ . "/../");
 
-session_save_path(PROJECT_DIR."var/sessions");
+//session_save_path(PROJECT_DIR."var/sessions");
 if (!session_id()){
     session_start();
 }

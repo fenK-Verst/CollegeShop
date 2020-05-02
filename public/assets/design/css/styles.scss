@@ -691,3 +691,53 @@ i.star{
     }
   }
 }
+main >.wrapper{
+  max-width: 1440px;
+  width: 100%;
+  padding: 10px;
+  margin: auto;
+  background: #fff;
+}
+.folders.nested {
+  padding: 0;
+  margin: 0;
+
+  ul {
+    padding: 0;
+    padding-left: 10px;
+  }
+
+  .folder {
+    list-style: none;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+
+      .title {
+        font-size: 16px;
+        display: block;
+        padding: 5px;
+      }
+    }
+    .folder-controls{
+      margin-left: 40px;
+    }
+
+    > div:hover {
+      background: rgba(236, 236, 236, 0.3);
+
+      > .folder-controls {
+        display: flex;
+      }
+    }
+  }
+
+  .folder-controls {
+    /*margin-left: 20px;*/
+    display: none;
+  }
+
+}

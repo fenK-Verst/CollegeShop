@@ -35,16 +35,11 @@ class FolderController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function list(Request $request, ProductRepository $product_repository, VendorRepository $vendor_repository)
+    public function list(FolderRepository $folder_repository)
     {
-        $filter = $request->get("filter") ?? [];
-        $vendors = $vendor_repository->findAll();
-        $limit = [0 => 10];
-        $products = $product_repository->getFiltered($filter, $limit);
-        return $this->render("product/list.html.twig", [
-            "products" => $products,
-            "vendors" => $vendors,
-            "filter" => $filter
+        $folders = $folder_repository->findAll();
+        return $this->render("folder/list.html.twig", [
+            "folders"=>$folders
         ]);
     }
 

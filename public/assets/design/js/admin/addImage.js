@@ -5,7 +5,6 @@ let $choose = $("#chooseImage"),
     $alert = $modal.find(".alert"),
     $input = $(` [name="product[image_id]"]`);
 let url = window.location.protocol + `//` + window.location.host + `/api/image`;
-console.log(url);
 $modal.on('show.bs.modal', async function (event) {
     $preloader.show();
     $alert.hide();
