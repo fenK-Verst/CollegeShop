@@ -614,4 +614,15 @@ main > .wrapper {
   display: none;
 }
 
+#popover {
+  position: absolute;
+  display: none;
+  background: #fff;
+  font-size: 13px;
+  padding: 10px;
+}
+#popover.active {
+  display: flex;
+}
+
 /*# sourceMappingURL=styles.css.map */

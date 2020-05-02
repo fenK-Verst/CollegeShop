@@ -741,3 +741,13 @@ main >.wrapper{
   }
 
 }
+#popover{
+  position: absolute;
+  display: none;
+  background: #fff;
+  font-size: 13px;
+  padding: 10px;
+  &.active{
+    display: flex;
+  }
+}

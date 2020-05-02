@@ -2,7 +2,9 @@
 
 {% block body %}
     <div class="wrapper">
-        <table class="table table-bordered  cart">
+        {% if  products %}
+        <a href="/cart/clear" class="float-right">Очистить корзину</a>
+        <table class="table table-bordered  cart mt-2">
             <tr>
                 <th>%</th>
                 <th>Товар</th>
@@ -11,10 +13,15 @@
             </tr>
             {% for product in products %}
                 <th>{{ loop.index }}</th>
-                <th>{{ product.name }}</th>
+                <th>
+                    <div class="d-flex"><img src="{{ product.image.path|default("/assets/design/images/no-photo.svg") }}" alt="">{{ product.name }}</div>
+                </th>
                 <th>{{ cart[product.id].count }}</th>
-                <th>{{ cart[product.id].price }}</th>
+                <th>{{ cart[product.id].count*product.price }}</th>
             {% endfor %}
         </table>
+        {% else %}
+            Корзина пуста. <a href="/product">За покупками</a>
+        {% endif %}
     </div>
 {% endblock %}

@@ -67,6 +67,18 @@ $product.find(".buy_button").click(async function () {
     url.searchParams.append("count", 1);
     let response = await fetch(url);
     response = await response.json();
-    console.log(response);
+    let content = `<span>Товар успешно добавлен в <a href="/cart"> корзину</a></span>`;
+    if (response.status != "OK") {
+
+        content = "Произошла ошибка при добавлении. попробуйте позже";
+    }
+    let $popover = $(`#popover`);
+    $popover.html(content);
+    $popover.addClass("active");
+    $popover.offset($this.offset());
+    setInterval(()=>{
+        $popover.removeClass("active")
+    },3000);
+
 });
 console.log($product);

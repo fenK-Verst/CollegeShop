@@ -34,7 +34,7 @@ class CartController extends AbstractController
     {
         $cartService->clearCart();
 
-        return $this->redirect("/");
+        return $this->redirect("/cart");
     }
     /**
      * @Route("/cart/{id}/delete")

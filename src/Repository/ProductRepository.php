@@ -26,7 +26,7 @@ class ProductRepository extends AbstractRepository
     public function getFiltered(array $filter, array $limit)
     {
         $query = "SELECT id FROM product ";
-        $vendor_ids = $filter["vendor_id"];
+        $vendor_ids = $filter["vendor_id"] ?? [];
         $where = false;
         if (!empty($vendor_ids)) {
             if (!$where){
@@ -52,7 +52,6 @@ class ProductRepository extends AbstractRepository
             $value = $value[0];
             $arr[] = $this->find($value);
         }
-//        die();
         return $arr;
 
     }
