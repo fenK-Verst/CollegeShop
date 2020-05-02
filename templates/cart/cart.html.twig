@@ -9,6 +9,12 @@
                 <th>Количество</th>
                 <th>Цена</th>
             </tr>
+            {% for product in products %}
+                <th>{{ loop.index }}</th>
+                <th>{{ product.name }}</th>
+                <th>{{ cart[product.id].count }}</th>
+                <th>{{ cart[product.id].price }}</th>
+            {% endfor %}
         </table>
     </div>
 {% endblock %}
