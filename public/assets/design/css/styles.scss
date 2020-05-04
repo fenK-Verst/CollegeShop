@@ -751,3 +751,13 @@ main >.wrapper{
     display: flex;
   }
 }
+.store-pagination{
+  display: flex;
+  justify-content: flex-end;
+  li{
+    list-style: none;
+    a.active{
+      background: #fff;
+    }
+  }
+}

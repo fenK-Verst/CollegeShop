@@ -19,6 +19,10 @@ class Request
     {
         return $_GET[$get] ?? null;
     }
+    public function getAll()
+    {
+        return $_GET ?? [];
+    }
     public function post(string $get)
     {
         return $_POST[$get] ?? null;

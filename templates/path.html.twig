@@ -1,1 +1,17 @@
-{#TODO добавить хлебные крошки#}
+<div class="store-filter clearfix">
+    <span class="store-qty">Showing {{ products|length }} products</span>
+    <ul class="store-pagination">
+        {% if page_count >0 %}
+            {% if  current_page != 0 %}
+                <li><a class="btn btn-sm btn-danger" href="/product/?{{ query }}&p={{ current_page-1 }}"><i class="fa fa-angle-left"></i></a></li>
+            {% endif %}
+            {% for i in 0..page_count-1 %}
+                <li><a class="btn btn-sm btn-danger {% if i==current_page %}active{% endif %}"href="/product/?{{ query }}&p={{ i }}">{{ i+1 }}</a></li>
+            {% endfor %}
+            {% if  current_page+1!=page_count %}
+                <li><a class="btn btn-sm btn-danger" href="/product/?{{ query }}&p={{ current_page+1 }}"><i class="fa fa-angle-right"></i></a></li>
+            {% endif %}
+        {% endif %}
+
+    </ul>
+</div>

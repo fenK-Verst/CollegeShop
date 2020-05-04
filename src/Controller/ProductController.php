@@ -17,6 +17,8 @@ use App\Repository\VendorRepository;
  */
 class ProductController extends AbstractController
 {
+    public static $LIMIT = 1;
+
     /**
      * @Route("/{id}", name="index")
      */
@@ -30,7 +32,7 @@ class ProductController extends AbstractController
         }
         return $this->render("product/item.html.twig", [
             "product" => $product,
-            "product_path"=>$pagination_folders ?? null
+            "product_path" => $pagination_folders ?? null
         ]);
     }
 
@@ -41,16 +43,25 @@ class ProductController extends AbstractController
     {
         $filter = $request->get("filter") ?? [];
         $vendors = $vendor_repository->findAll();
-        $limit = [0 => 10];
+        $page = $request->get("p") ?? 0;
+        $limit = [$page * self::$LIMIT => self::$LIMIT];
+        $product_count = (int)$product_repository->getFilteredCount($filter);
+        $get = $request->getAll();
+        unset($get["p"]);
+        $query = http_build_query($get);
         $products = $product_repository->getFiltered($filter, $limit);
+        $page_count = floor($product_count / self::$LIMIT);
+
         return $this->render("product/list.html.twig", [
             "products" => $products,
             "vendors" => $vendors,
-            "filter" => $filter
+            "filter" => $filter,
+            "page" => $page,
+            "page_count" => $page_count,
+            "query" => $query,
+            "current_page" => $page
         ]);
     }
-
-
 
 
 }

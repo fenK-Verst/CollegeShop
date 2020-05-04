@@ -10,6 +10,7 @@ controllers:
   - App\Controller\Api\CartApiController
   - App\Controller\DefaultController
   - App\Controller\UserController
+  - App\Controller\SearchController
   - App\Controller\ProductController
   - App\Controller\FolderController
   - App\Controller\CartController

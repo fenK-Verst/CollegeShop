@@ -627,4 +627,15 @@ main > .wrapper {
   display: flex;
 }
 
+.store-pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+.store-pagination li {
+  list-style: none;
+}
+.store-pagination li a.active {
+  background: #fff;
+}
+
 /*# sourceMappingURL=styles.css.map */

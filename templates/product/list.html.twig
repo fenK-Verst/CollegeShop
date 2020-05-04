@@ -84,6 +84,8 @@
                     </div>
                 {% endfor %}
             </div>
+            {% include "path.html.twig" with {page:page,count:count} %}
+
         </div>
     </div>
 {% endblock %}

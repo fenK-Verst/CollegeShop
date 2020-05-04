@@ -25,30 +25,42 @@ class ProductRepository extends AbstractRepository
 
     public function getFiltered(array $filter, array $limit)
     {
+        $adm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
         $query = "SELECT id FROM product ";
         $vendor_ids = $filter["vendor_id"] ?? [];
+        $name = $filter["name"] ?? '';
         $where = false;
         if (!empty($vendor_ids)) {
-            if (!$where){
-                $query.=" WHERE ";
+            if (!$where) {
+                $query .= " WHERE ";
                 $where = true;
             }
             $vendors_query = "(" . implode(",", $vendor_ids) . ")";
             $query .= " vendor_id IN $vendors_query";
         }
+        if ($name) {
+            if (!$where) {
+                $query .= " WHERE ";
+                $where = true;
+            }else{
+                $query.=" AND ";
+            }
+            $name = $adm->escape($name);
+            $query .= " name LIKE '%$name%'";
+        }
         if (!empty($limit)) {
             foreach ($limit as $key => $value) {
-                $key = (int) $key;
-                $value = (int) $value;
+                $key = (int)$key;
+                $value = (int)$value;
                 $query .= " LIMIT $key, $value";
                 break;
             }
         }
-        $adm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
+
         $result = $adm->query($query);
         $result = $result->fetch_all();
         $arr = [];
-        foreach ($result as $value){
+        foreach ($result as $value) {
             $value = $value[0];
             $arr[] = $this->find($value);
         }
@@ -56,15 +68,75 @@ class ProductRepository extends AbstractRepository
 
     }
 
-    public function getWithFlags(array $flag_ids)
-    {   if (empty($flag_ids)) return $this->findAll();
-        $flags = "(".implode(",",$flag_ids).")";
-        $query = "SELECT p.id FROM product p LEFT JOIN product_has_flag phf ON p.id = phf.product_id WHERE phf.flag_id in $flags";
+    public function getFilteredCount(array $filter)
+    {
         $adm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
+        $query = "SELECT COUNT(id) as count FROM product ";
+        $vendor_ids = $filter["vendor_id"] ?? [];
+        $name = $filter["name"] ?? '';
+        $where = false;
+        if (!empty($vendor_ids)) {
+            if (!$where) {
+                $query .= " WHERE ";
+                $where = true;
+            }
+            $vendors_query = "(" . implode(",", $vendor_ids) . ")";
+            $query .= " vendor_id IN $vendors_query";
+        }
+        if ($name) {
+            if (!$where) {
+                $query .= " WHERE ";
+                $where = true;
+            }else{
+                $query.=" AND ";
+            }
+            $name = $adm->escape($name);
+            $query .= " name LIKE '%$name%'";
+        }
+
+        $result = $adm->query($query);
+
+        while ($value = $result->fetch_assoc()) {
+            $a = $value["count"];
+            break;
+        }
+        return $a;
+
+    }
+    public function getWithFlags(array $flag_ids, array $limit = [])
+    {
+        if (empty($flag_ids)) {
+            return $this->findAll();
+        }
+        $adm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
+        $flags = "(" . implode(",", $flag_ids) . ")";
+
+        $query = "SELECT p.id FROM product p LEFT JOIN product_has_flag phf ON p.id = phf.product_id WHERE phf.flag_id in $flags";
+        foreach ($limit as $key => $value) {
+            $query .= " LIMIT $key, $value";
+            break;
+        }
         $result = $adm->query($query);
         $a = [];
-        while($product = $result->fetch_assoc()){
+        while ($product = $result->fetch_assoc()) {
             $a[] = $this->find($product["id"]);
+        }
+        return $a;
+    }
+
+    public function getByName($product_name, array $limit = [])
+    {
+        if (!$product_name) return $this->findAll();
+        $adm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
+        $query = "SELECT id FROM product WHERE name LIKE '%$product_name%'";
+        $result = $adm->query($query);
+        $a = [];
+        while ($product = $result->fetch_assoc()) {
+            $a[] = $this->find($product["id"]);
+        }
+        foreach ($limit as $key => $value) {
+            $query .= " LIMIT $key, $value";
+            break;
         }
         return $a;
     }

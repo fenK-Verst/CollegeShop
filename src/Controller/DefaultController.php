@@ -23,7 +23,7 @@ class DefaultController extends AbstractController
      */
     public function index(ProductRepository $product_repository)
     {
-        $news = $product_repository->getWithFlags([2]);
+        $news = $product_repository->getWithFlags([2], [8]);
         return $this->render("title.html.twig",[
             "news"=>$news
         ]);
