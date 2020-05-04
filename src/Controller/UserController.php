@@ -158,7 +158,9 @@ class UserController extends AbstractController
         if (!$user) {
             return $this->redirect("/login");
         }
-        return $this->render("user/cabinet.html.twig");
+        return $this->render("user/cabinet.html.twig", [
+            "user"=>$user
+        ]);
     }
 
     /**
