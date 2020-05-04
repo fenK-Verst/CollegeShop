@@ -23,7 +23,9 @@ class ImageAdminController extends AbstractController
      */
     public function index(ImageRepository $image_repository, Request $request)
     {
-        $images = $image_repository->findAll();
+        $images = $image_repository->findBy([
+            "type"=>image::$PRODUCT_TYPE
+        ]);
         return $this->render("admin/image/list.html.twig", [
             "images" => $images
         ]);
