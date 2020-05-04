@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 
 
 use App\Controller\AbstractController;
+use App\Entity\Image;
 use App\Repository\ImageRepository;
 
 /**
@@ -20,7 +21,9 @@ class ImageApiController extends AbstractController
      */
     public function getAll(ImageRepository $image_repository)
     {
-        $images = $image_repository->findAll();
+        $images = $image_repository->findBy([
+            "type"=>Image::$PRODUCT_TYPE
+        ]);
         $data = [];
         foreach ( $images as $image){
             $id = $image->getId();

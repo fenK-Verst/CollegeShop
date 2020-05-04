@@ -23,6 +23,7 @@
                             <th>Артикул</th>
                             <th>Производитель</th>
                             <th>Количество</th>
+                            <th>Флаги</th>
                         </tr>
                     {% for product in products %}
                        <tr>
@@ -31,6 +32,11 @@
                            <td>{{ product.article }}</td>
                            <td>{{ product.vendor.name }}</td>
                            <td>{{ product.count }}</td>
+                           <td>
+                               {% for flag in product.flags %}
+                                <div>{{ flag.name }}</div>
+                               {% endfor %}
+                           </td>
                            <td class="text-right">
                               <div class="btn-group align-items-start">
                                   <a href="/admin/product/{{ product.id }}/edit" class="btn btn-xs btn-primary">

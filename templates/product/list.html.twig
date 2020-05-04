@@ -4,6 +4,7 @@
     <div class="wrapper">
         <aside>
             <form action="" class="form">
+                {%  if vendors %}
                 <div class="form-group">
                     <label for="">Производитель</label>
                     {% for vendor in vendors %}
@@ -17,6 +18,7 @@
                         </div>
                     {% endfor %}
                 </div>
+                {% endif %}
                 <button class="btn btn-danger">Найти</button>
             </form>
             {% if folders %}

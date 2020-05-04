@@ -92,6 +92,18 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="product[flag_id]">Флаги</label>
+                            <select name="product[flag_id][]" multiple class="form-control" id="product[flag_id]">
+                                {% for flag in flags %}
+                                    <option {% if flag.id in product.flag_id %}selected {% endif %}
+                                            {% for product_flag in product.flags %}
+                                                {% if product_flag.id == flag.id %}selected{% endif %}
+                                            {% endfor %}
+                                            value="{{ flag.id }}">{{ flag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         {% if product.paramValues %}
                             {% for value in product.paramValues %}
                                 <div class="form-group row param" data-id="{{ loop.index }}">

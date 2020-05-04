@@ -9,6 +9,7 @@ use App\Entity\Product;
 use App\Entity\ProductParam;
 use App\Entity\ProductParamValue;
 use App\Http\Request;
+use App\Repository\FlagRepository;
 use App\Repository\FolderRepository;
 use App\Repository\ImageRepository;
 use App\Repository\ProductParamRepository;
@@ -44,11 +45,11 @@ class ProductAdminController extends AbstractController
         FolderRepository $folder_repository,
         ImageRepository $image_repository,
         ProductParamRepository $param_repository,
+        FlagRepository $flag_repository,
         ObjectManager $object_manager
     ) {
         $error = '';
         $request_product = $request->post("product");
-        var_dump($request_product);
         if ($request_product) {
             $name = $request_product["name"];
             $description = $request_product["description"] ?? '';
@@ -56,6 +57,7 @@ class ProductAdminController extends AbstractController
             $article = $request_product["article"] ?? '';
             $count = (int)$request_product["count"] ?? 0;
             $folder_ids = $request_product["folder_id"];
+            $flag_ids = $request_product["flag_id"];
 
             $vendor_id = (int)$request_product["vendor_id"];
             $vendor = $vendor_repository->find($vendor_id);
@@ -70,6 +72,13 @@ class ProductAdminController extends AbstractController
                 $needed_folders[$id] = $folder_repository->find($id);
             }
             $needed_folders = array_filter($needed_folders);
+
+            $needed_flags = [];
+            foreach ($flag_ids as $id) {
+                $needed_flags[$id] = $flag_repository->find($id);
+            }
+            $needed_flags = array_filter($needed_flags);
+
             if (!$name) {
                 $error .= "Не указано название товара";
             }
@@ -94,6 +103,9 @@ class ProductAdminController extends AbstractController
                 $product->setCount($count);
                 foreach ($needed_folders as $needed_folder){
                     $product->addFolder($needed_folder);
+                }
+                foreach ($needed_flags as $needed_flag){
+                    $product->addFlag($needed_flag);
                 }
                 $product->setVendor($vendor);
                 $product->setDescription($description);
@@ -121,10 +133,12 @@ class ProductAdminController extends AbstractController
         $folders = $folder_repository->findAll();
         $vendors = $vendor_repository->findAll();
         $params = $param_repository->findAll();
+        $flags = $flag_repository->findAll();
         return $this->render("/admin/product/form.html.twig", [
             "product" => $request_product,
             "folders" => $folders,
             "vendors" => $vendors,
+            "flags" => $flags,
             "params"=>$params,
             "error" => $error
         ]);
@@ -140,6 +154,7 @@ class ProductAdminController extends AbstractController
         FolderRepository $folder_repository,
         ImageRepository $image_repository,
         ProductParamRepository $param_repository,
+        FlagRepository $flag_repository,
         ObjectManager $object_manager
     ) {
         $error = '';
@@ -152,7 +167,8 @@ class ProductAdminController extends AbstractController
             $price = (float)$request_product["price"];
             $article = $request_product["article"] ?? '';
             $count = (int)$request_product["count"] ?? 0;
-            $folder_ids = $request_product["folder_id"];
+            $folder_ids = $request_product["folder_id"] ?? [];
+            $flag_ids = $request_product["flag_id"] ?? [];
             $vendor_id = $request_product["vendor_id"];
             $vendor = $vendor_repository->find($vendor_id);
             $image_id = (int)$request_product["image_id"] ?? null;
@@ -163,6 +179,12 @@ class ProductAdminController extends AbstractController
                 $needed_folders[$id] = $folder_repository->find($id);
             }
             $needed_folders = array_filter($needed_folders);
+
+            $needed_flags = [];
+            foreach ( $flag_ids as $id){
+                $needed_flags[$id] = $flag_repository->find($id);
+            }
+            $needed_flags = array_filter($needed_flags);
             if (!$name) $error.="Не указано название товара";
             if (!$price) $error.="Не указана цена товара";
             if (!$article) $error.="Не указан артикул товара";
@@ -182,6 +204,16 @@ class ProductAdminController extends AbstractController
                 foreach ($needed_folders as $needed_folder){
                     $product->addFolder($needed_folder);
                 }
+
+                $product_flags = $product->getFlags();
+                foreach ( $product_flags as $product_flag){
+                    $product->deleteFlag($product_flag);
+                }
+                foreach ($needed_flags as $needed_flag){
+                    $product->addFlag($needed_flag);
+                }
+
+
                 $product->setVendor($vendor);
                 $product->setDescription($description);
 
@@ -212,10 +244,12 @@ class ProductAdminController extends AbstractController
         $folders = $folder_repository->findAll();
         $vendors = $vendor_repository->findAll();
         $params = $param_repository->findAll();
+        $flags = $flag_repository->findAll();
         return $this->render("/admin/product/form.html.twig", [
             "product" => $product,
             "folders" => $folders,
             "vendors" => $vendors,
+            "flags" => $flags,
             "error" => $error,
             "params"=>$params
         ]);

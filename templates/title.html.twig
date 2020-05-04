@@ -18,342 +18,59 @@
             </ul>
         </div>
     </section>
-    <section class="slider">
-        <div class="title">Новинки</div>
-        <div class="wrapper">
-            <div class="news_slider products">
-                <div class="product_wrapper">
-                    <div class="product">
-                        <div class="product_main">
-                            <div class="product_top">
-                                <div class="image">
-                                    <div class="flags">
-                                        <div class="flag sale">Распродажа</div>
-                                        <div class="flag new">Новинка</div>
-                                        <div class="flag hit">Хит</div>
+    {% if news %}
+        <section class="slider">
+            <div class="title">Новинки</div>
+            <div class="wrapper">
+                <div class="news_slider products">
+                    {% for product in news %}
+                        <div class="product_wrapper">
+                            <div class="product " data-id="{{ product.id }}">
+                                <div class="product_main">
+                                    <div class="product_top">
+                                        <div class="image">
+                                            <div class="flags">
+                                                {% for flag in product.flags %}
+                                                    <div class="flag{% if flag.id == 1 %} sale {% endif %}{% if flag.id == 2 %} new {% endif %}{% if flag.id == 3 %} hit {% endif %}">{{ flag.name }}</div>
+                                                {% endfor %}
+                                            </div>
+                                            <img src="{{ product.image.path }}" alt="">
+                                        </div>
                                     </div>
-                                    <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
+                                    <div class="product_middle">
+                                        <div class="product_name">
+                                            <a href="/product/{{ product.id }}">{{ product.name }}</a>
+                                        </div>
+                                        <div class="product_buy">
+                                            <span class="price">{{ product.price }} ТГ</span>
+                                            <span class="buy_button">Купить</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="product_middle">
-                                <div class="product_name">
-                                    <a href="#!">КОФЕ В ЗЕРНАХ ORO, 1 КГ, LAVAZZA</a>
-                                </div>
-                                <div class="product_buy">
-                                    <span class="price">564 грн</span>
-                                    <span class="buy_button">Купить</span>
-                                </div>
+                                <!--                        <div class="product_hide">-->
+                                <!--                            <table class="product_params">-->
+                                <!--                                <tr class="param">-->
+                                <!--                                    <td >Материал упаковки</td>-->
+                                <!--                                    <td class="value">Многослойный пакет</td>-->
+                                <!--                                </tr>-->
+                                <!--                                <tr class="param">-->
+                                <!--                                    <td >Обжарка</td>-->
+                                <!--                                    <td class="value">Средняя</td>-->
+                                <!--                                </tr>-->
+                                <!--                                <tr class="param">-->
+                                <!--                                    <td >Особенности вкуса</td>-->
+                                <!--                                    <td class="value">Кислинка</td>-->
+                                <!--                                </tr>-->
+                                <!--                            </table>-->
+                                <!--                        </div>-->
                             </div>
                         </div>
-                        <!--                        <div class="product_hide">-->
-                        <!--                            <table class="product_params">-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Материал упаковки</td>-->
-                        <!--                                    <td class="value">Многослойный пакет</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Обжарка</td>-->
-                        <!--                                    <td class="value">Средняя</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Особенности вкуса</td>-->
-                        <!--                                    <td class="value">Кислинка</td>-->
-                        <!--                                </tr>-->
-                        <!--                            </table>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
-                <div class="product_wrapper">
-                    <div class="product">
-                        <div class="product_main">
-                            <div class="product_top">
-                                <div class="image">
-                                    <div class="flags">
-                                        <div class="flag sale">Распродажа</div>
-                                        <div class="flag new">Новинка</div>
-                                        <div class="flag hit">Хит</div>
-                                    </div>
-                                    <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
-                                </div>
-                            </div>
-                            <div class="product_middle">
-                                <div class="product_name">
-                                    <a href="#!">КОФЕ В ЗЕРНАХ ORO, 1 КГ, LAVAZZA</a>
-                                </div>
-                                <div class="product_buy">
-                                    <span class="price">564 грн</span>
-                                    <span class="buy_button">Купить</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--                        <div class="product_hide">-->
-                        <!--                            <table class="product_params">-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Материал упаковки</td>-->
-                        <!--                                    <td class="value">Многослойный пакет</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Обжарка</td>-->
-                        <!--                                    <td class="value">Средняя</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Особенности вкуса</td>-->
-                        <!--                                    <td class="value">Кислинка</td>-->
-                        <!--                                </tr>-->
-                        <!--                            </table>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
-                <div class="product_wrapper">
-                    <div class="product">
-                        <div class="product_main">
-                            <div class="product_top">
-                                <div class="image">
-                                    <div class="flags">
-                                        <div class="flag sale">Распродажа</div>
-                                        <div class="flag new">Новинка</div>
-                                        <div class="flag hit">Хит</div>
-                                    </div>
-                                    <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
-                                </div>
-                            </div>
-                            <div class="product_middle">
-                                <div class="product_name">
-                                    <a href="#!">КОФЕ В ЗЕРНАХ ORO, 1 КГ, LAVAZZA</a>
-                                </div>
-                                <div class="product_buy">
-                                    <span class="price">564 грн</span>
-                                    <span class="buy_button">Купить</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--                        <div class="product_hide">-->
-                        <!--                            <table class="product_params">-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Материал упаковки</td>-->
-                        <!--                                    <td class="value">Многослойный пакет</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Обжарка</td>-->
-                        <!--                                    <td class="value">Средняя</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Особенности вкуса</td>-->
-                        <!--                                    <td class="value">Кислинка</td>-->
-                        <!--                                </tr>-->
-                        <!--                            </table>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
-                <div class="product_wrapper">
-                    <div class="product">
-                        <div class="product_main">
-                            <div class="product_top">
-                                <div class="image">
-                                    <div class="flags">
-                                        <div class="flag sale">Распродажа</div>
-                                        <div class="flag new">Новинка</div>
-                                        <div class="flag hit">Хит</div>
-                                    </div>
-                                    <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
-                                </div>
-                            </div>
-                            <div class="product_middle">
-                                <div class="product_name">
-                                    <a href="#!">КОФЕ В ЗЕРНАХ ORO, 1 КГ, LAVAZZA</a>
-                                </div>
-                                <div class="product_buy">
-                                    <span class="price">564 грн</span>
-                                    <span class="buy_button">Купить</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--                        <div class="product_hide">-->
-                        <!--                            <table class="product_params">-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Материал упаковки</td>-->
-                        <!--                                    <td class="value">Многослойный пакет</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Обжарка</td>-->
-                        <!--                                    <td class="value">Средняя</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Особенности вкуса</td>-->
-                        <!--                                    <td class="value">Кислинка</td>-->
-                        <!--                                </tr>-->
-                        <!--                            </table>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
-                <div class="product_wrapper">
-                    <div class="product">
-                        <div class="product_main">
-                            <div class="product_top">
-                                <div class="image">
-                                    <div class="flags">
-                                        <div class="flag sale">Распродажа</div>
-                                        <div class="flag new">Новинка</div>
-                                        <div class="flag hit">Хит</div>
-                                    </div>
-                                    <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
-                                </div>
-                            </div>
-                            <div class="product_middle">
-                                <div class="product_name">
-                                    <a href="#!">КОФЕ В ЗЕРНАХ ORO, 1 КГ, LAVAZZA</a>
-                                </div>
-                                <div class="product_buy">
-                                    <span class="price">564 грн</span>
-                                    <span class="buy_button">Купить</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--                        <div class="product_hide">-->
-                        <!--                            <table class="product_params">-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Материал упаковки</td>-->
-                        <!--                                    <td class="value">Многослойный пакет</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Обжарка</td>-->
-                        <!--                                    <td class="value">Средняя</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Особенности вкуса</td>-->
-                        <!--                                    <td class="value">Кислинка</td>-->
-                        <!--                                </tr>-->
-                        <!--                            </table>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
-                <div class="product_wrapper">
-                    <div class="product">
-                        <div class="product_main">
-                            <div class="product_top">
-                                <div class="image">
-                                    <div class="flags">
-                                        <div class="flag sale">Распродажа</div>
-                                        <div class="flag new">Новинка</div>
-                                        <div class="flag hit">Хит</div>
-                                    </div>
-                                    <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
-                                </div>
-                            </div>
-                            <div class="product_middle">
-                                <div class="product_name">
-                                    <a href="#!">КОФЕ В ЗЕРНАХ ORO, 1 КГ, LAVAZZA</a>
-                                </div>
-                                <div class="product_buy">
-                                    <span class="price">564 грн</span>
-                                    <span class="buy_button">Купить</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--                        <div class="product_hide">-->
-                        <!--                            <table class="product_params">-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Материал упаковки</td>-->
-                        <!--                                    <td class="value">Многослойный пакет</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Обжарка</td>-->
-                        <!--                                    <td class="value">Средняя</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Особенности вкуса</td>-->
-                        <!--                                    <td class="value">Кислинка</td>-->
-                        <!--                                </tr>-->
-                        <!--                            </table>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
-                <div class="product_wrapper">
-                    <div class="product">
-                        <div class="product_main">
-                            <div class="product_top">
-                                <div class="image">
-                                    <div class="flags">
-                                        <div class="flag sale">Распродажа</div>
-                                        <div class="flag new">Новинка</div>
-                                        <div class="flag hit">Хит</div>
-                                    </div>
-                                    <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
-                                </div>
-                            </div>
-                            <div class="product_middle">
-                                <div class="product_name">
-                                    <a href="#!">КОФЕ В ЗЕРНАХ ORO, 1 КГ, LAVAZZA</a>
-                                </div>
-                                <div class="product_buy">
-                                    <span class="price">564 грн</span>
-                                    <span class="buy_button">Купить</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--                        <div class="product_hide">-->
-                        <!--                            <table class="product_params">-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Материал упаковки</td>-->
-                        <!--                                    <td class="value">Многослойный пакет</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Обжарка</td>-->
-                        <!--                                    <td class="value">Средняя</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Особенности вкуса</td>-->
-                        <!--                                    <td class="value">Кислинка</td>-->
-                        <!--                                </tr>-->
-                        <!--                            </table>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
-                <div class="product_wrapper">
-                    <div class="product">
-                        <div class="product_main">
-                            <div class="product_top">
-                                <div class="image">
-                                    <div class="flags">
-                                        <div class="flag sale">Распродажа</div>
-                                        <div class="flag new">Новинка</div>
-                                        <div class="flag hit">Хит</div>
-                                    </div>
-                                    <img src="/assets/design/images/dyn/coffe_small_1.jpeg" alt="">
-                                </div>
-                            </div>
-                            <div class="product_middle">
-                                <div class="product_name">
-                                    <a href="#!">КОФЕ В ЗЕРНАХ ORO, 1 КГ, LAVAZZA</a>
-                                </div>
-                                <div class="product_buy">
-                                    <span class="price">564 грн</span>
-                                    <span class="buy_button">Купить</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--                        <div class="product_hide">-->
-                        <!--                            <table class="product_params">-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Материал упаковки</td>-->
-                        <!--                                    <td class="value">Многослойный пакет</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Обжарка</td>-->
-                        <!--                                    <td class="value">Средняя</td>-->
-                        <!--                                </tr>-->
-                        <!--                                <tr class="param">-->
-                        <!--                                    <td >Особенности вкуса</td>-->
-                        <!--                                    <td class="value">Кислинка</td>-->
-                        <!--                                </tr>-->
-                        <!--                            </table>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
+                    {% endfor %}
 
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    {% endif %}
     <section class="about">
         <div class="wrapper">
             <div class="title">О магазине</div>

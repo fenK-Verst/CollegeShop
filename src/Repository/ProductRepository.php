@@ -55,4 +55,17 @@ class ProductRepository extends AbstractRepository
         return $arr;
 
     }
+
+    public function getWithFlags(array $flag_ids)
+    {   if (empty($flag_ids)) return $this->findAll();
+        $flags = "(".implode(",",$flag_ids).")";
+        $query = "SELECT p.id FROM product p LEFT JOIN product_has_flag phf ON p.id = phf.product_id WHERE phf.flag_id in $flags";
+        $adm = $this->getObjectManager()->getObjectDataManager()->getArrayDataManager();
+        $result = $adm->query($query);
+        $a = [];
+        while($product = $result->fetch_assoc()){
+            $a[] = $this->find($product["id"]);
+        }
+        return $a;
+    }
 }

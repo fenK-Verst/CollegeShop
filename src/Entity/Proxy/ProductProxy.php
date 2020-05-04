@@ -66,6 +66,12 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->addFlag($flag);           
     }
 
+    public function deleteFlag(?\App\Entity\Flag $flag)
+    {
+        $this->init();
+        $this->parent->deleteFlag($flag);           
+    }
+
     public function getName() : string
     {
         $this->init();

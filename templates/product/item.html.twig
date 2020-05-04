@@ -38,9 +38,9 @@
                 <div class="product_middle_left">
                     <div class="product_image">
                         <div class="flags">
-                            <div class="flag sale">Распродажа</div>
-                            <div class="flag new">Новинка</div>
-                            <div class="flag hit">Хит</div>
+                            {% for flag in product.flags %}
+                                <div class="flag{% if flag.id == 1 %} sale {% endif %}{% if flag.id == 2 %} new {% endif %}{% if flag.id == 3 %} hit {% endif %}">{{ flag.name }}</div>
+                            {% endfor %}
                         </div>
                         {% if product.image %}
                             <img src="{{ product.image.path }}" alt="">

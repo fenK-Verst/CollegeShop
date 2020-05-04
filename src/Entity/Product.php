@@ -118,11 +118,29 @@ class Product extends AbstractEntity
      */
     public function addFlag(Flag $flag): void
     {
-        if (!in_array($flag, (array)$this->flags)) {
+        $finded = false;
+        foreach ($this->flags as $this_flag) {
+            if ($flag->getId() == $this_flag->getId()) {
+                $finded = true;
+                break;
+            }
+        }
+        if (!$finded) {
             $this->flags[] = $flag;
         }
     }
+    /**
+     * @param Flag $flag
+     */
+    public function deleteFlag(Flag $flag)
+    {
+        foreach ($this->flags as $key => $this_flag) {
+            if ($flag->getId() == $this_flag->getId()) {
+                unset($this->flags[$key]);
+            }
+        }
 
+    }
 
     /**
      * @return string

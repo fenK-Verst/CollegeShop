@@ -42,6 +42,14 @@
                            </ul>
                        </div>
                        <div>
+                           Флаги
+                           <ul>
+                               {% for flag in product.flags %}
+                                   <li>{{ flag.name }}</li>
+                               {% endfor %}
+                           </ul>
+                       </div>
+                       <div>
                            Цена: <span>{{ product.price }}</span>
                        </div>
                        <div>
@@ -50,6 +58,7 @@
                        <div>
                            Описание: <div class="m-2">{{ product.description }}</div>
                        </div>
+
                        <div>
                            Параметры:
                            <table class="table mt-1">

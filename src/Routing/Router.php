@@ -5,6 +5,7 @@ namespace App\Routing;
 use App\Config;
 use App\Di\Container;
 use App\Http\Request;
+use App\Twig;
 
 class Router
 {
@@ -153,7 +154,16 @@ class Router
 
     private function notFound()
     {
-        die("404");
+        header('HTTP/1.0 404 Not Found', true, 404);
+        /**
+         * @var Twig $twig
+         */
+        $twig = $this->container->get(Twig::class);
+        $html = $twig->render("HttpErrors/error.html.twig", [
+            "code"=>404,
+            "name"=>'Page not found'
+        ]);
+        die($html);
     }
 
     private function assertUrlAndRouteChunk(string $url_chunk, string $route_key_chunk)

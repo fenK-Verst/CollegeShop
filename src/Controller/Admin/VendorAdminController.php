@@ -17,17 +17,7 @@ use App\Repository\VendorRepository;
  */
 class VendorAdminController extends AbstractController
 {
-    /**
-     * @Route("/{id}")
-     */
-    public function vendor(VendorRepository $vendor_repository)
-    {
-        $id = $this->getRoute()->get("id");
-        $vendor = $vendor_repository->find($id);
-        return $this->render("/admin/vendor/list.html.twig", [
-            "vendor" => $vendor
-        ]);
-    }
+
 
     /**
      * @Route("/create")

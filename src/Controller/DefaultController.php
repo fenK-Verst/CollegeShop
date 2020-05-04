@@ -9,6 +9,7 @@ use App\Entity\Folder;
 use App\Entity\Product;
 use App\Entity\Vendor;
 use App\Repository\FolderRepository;
+use App\Repository\ProductRepository;
 
 /**
  * Class DefaultController
@@ -20,9 +21,12 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="default")
      */
-    public function index()
+    public function index(ProductRepository $product_repository)
     {
-        return $this->render("title.html.twig");
+        $news = $product_repository->getWithFlags([2]);
+        return $this->render("title.html.twig",[
+            "news"=>$news
+        ]);
     }
 
 
