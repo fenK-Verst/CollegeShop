@@ -78,6 +78,18 @@ class ImageProxy extends \App\Entity\Image
         $this->parent->setAlias($alias);           
     }
 
+    public function getType() : string
+    {
+        $this->init();
+        return $this->parent->getType();           
+    }
+
+    public function setType(string $type) : void
+    {
+        $this->init();
+        $this->parent->setType($type);           
+    }
+
     public function getTableName() : string
     {
         $this->init();

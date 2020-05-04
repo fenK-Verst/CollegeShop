@@ -37,9 +37,9 @@ class User extends AbstractEntity
     protected $phone;
 
     /**
-     * @Entity\Column()
+     * @Entity\ManyToOne(entity="App\Entity\Image", primary_key="image_id")
      */
-    protected $image_id;
+    protected $image;
 
     /**
      * @Entity\Column()
@@ -104,17 +104,18 @@ class User extends AbstractEntity
     }
 
 
-    public function getImageId(): ?int
+    public function getImage(): ?Image
     {
-        return $this->image_id;
+        return $this->image;
     }
 
     /**
-     * @param mixed $image_id
+     * @param mixed $image
      */
-    public function setImageId($image_id): void
+    public function setImage(?Image $image): void
     {
-        $this->image_id = $image_id;
+        if ($image) $image->setType("avatar");
+        $this->image = $image;
     }
 
     public function setPassword(string $password)

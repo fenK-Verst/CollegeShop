@@ -19,3 +19,4 @@ middlewares:
   - App\Middleware\SharedMiddleware
   - App\Middleware\CartMiddleware
 images_directory: /assets/dynamic/images/
+avatar_directory: /assets/dynamic/images/avatars/

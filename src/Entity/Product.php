@@ -173,10 +173,11 @@ class Product extends AbstractEntity
     }
 
     /**
-     * @param int $image
+     * @param Image|null $image
      */
     public function setImage(?Image $image): void
     {
+        if ($image) $image->setType("avatar");
         $this->image = $image;
     }
 

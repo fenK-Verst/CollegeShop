@@ -2,6 +2,27 @@
 
 {% block body %}
     <section class="content">
+        <div>
+            {% if user.image %}
+                <img src="{{ user.image.path }}" alt="">
+            {% else %}
+                <img src="/assets/design/images/no-photo.svg" class="d-block m-auto" width="50%" alt="">
+            {% endif %}
+        </div>
+        <table>
+            <tr>
+                <td>Имя</td>
+                <td>{{ user.firstname }}</td>
+            </tr>
+            <tr>
+                <td>Фамилия</td>
+                <td>{{ user.lastname }}</td>
+            </tr>
+            <tr>
+                <td>Телефон</td>
+                <td><a href="tel:{{ user.phone }}">{{ user.phone }}</a></td>
+            </tr>
 
+        </table>
     </section>
 {% endblock %}

@@ -4,7 +4,9 @@
 namespace App\Controller;
 
 
+use App\Config;
 use App\Db\ObjectManager;
+use App\Entity\Image;
 use App\Entity\User;
 use App\Http\Request;
 use App\Repository\UserRepository;
@@ -44,10 +46,15 @@ class UserController extends AbstractController
         Request $request,
         UserService $user_service,
         ObjectManager $object_manager,
-        UserRepository $user_repository
+        UserRepository $user_repository,
+        Config $config
     ) {
         $request_user = $request->post("user");
         $error = '';
+        $save_dir = $config->get("config")["avatar_directory"];
+        if (!$save_dir || !is_dir($_SERVER["DOCUMENT_ROOT"] . $save_dir)) {
+            $error .= "Не найдена директория для сохранения. Обратитесь к разработчику";
+        }
         if (!empty($request_user)) {
             $user = new User();
             $email = $request_user["email"];
@@ -56,7 +63,7 @@ class UserController extends AbstractController
             $phone = $request_user["phone"];
             $password = $request_user["password"];
             $password_a = $request_user["password_a"];
-
+            $image = null;
             if (!$firstname) {
                 $error .= "Не указано имя\n";
             }
@@ -69,7 +76,6 @@ class UserController extends AbstractController
             if ($password !== $password_a) {
                 $error .= "Пароли не совпадают\n";
             }
-
             if (
                 strlen($firstname) > 255 ||
                 strlen($lastname) > 255 ||
@@ -79,19 +85,56 @@ class UserController extends AbstractController
             ) {
                 $error .= "Слишком длинные значения\n";
             }
+
+            $file = $_FILES["user"];
+
             if (!$error) {
                 $user->setEmail($email);
                 $user->setFirstname($firstname);
                 $user->setLastname($lastname);
                 $user->setPhone($phone);
+                $user->setImage($image);
                 $unique = $user_repository->getNonUnique($user);
                 if ($unique == 0) {
-                    $password = $user_service->generatePassword($password);
-                    $user->setPassword($password);
+                    if ($file && !$error) {
+                        $uploadfile = $save_dir . basename($file['name']["avatar"]);
+                        $is_file_exsits = file_exists($_SERVER["DOCUMENT_ROOT"] . $uploadfile);
 
-                    $user = $object_manager->save($user);
-                    $user_service->login($user);
-                    return $this->redirect("/cabinet");
+                        $types = [
+                            "image/gif",
+                            "image/png",
+                            "image/svg",
+                            "image/jpg",
+                            "image/jpeg",
+                            "image/svg"
+                        ];
+                        if (!in_array($file['type']["avatar"], $types)) {
+                            $error .= "Файл должен быть изображением\n";
+                        } elseif ($is_file_exsits) {
+                            $error .= "Файл уже существует. Попробуйте изменить название файла";
+                        } elseif (move_uploaded_file($file['tmp_name']["avatar"],
+                            $_SERVER["DOCUMENT_ROOT"] . $uploadfile)) {
+                            $image = new Image();
+                            $image->setAlias($file['name']["avatar"]);
+                            $image->setPath($uploadfile);
+                            $image->setType(image::$AVATAR_TYPE);
+                            $image = $object_manager->save($image);
+                        } elseif (!is_writable($_SERVER["DOCUMENT_ROOT"] . $uploadfile)) {
+                            $error .= "Не могу записать файл\n";
+                        } else {
+                            $error .= "Что то пошло не так\n";
+                        }
+                    }
+                    if (!$error) {
+                        $password = $user_service->generatePassword($password);
+                        $user->setPassword($password);
+                        $user->setImage($image);
+                        $user = $object_manager->save($user);
+                        $user_service->login($user);
+                        return $this->redirect("/cabinet");
+                    }
+
+
                 } else {
                     $error .= "Человек с таким телефоном/почтой уже зарегистрирован\n";
                 }
@@ -107,8 +150,10 @@ class UserController extends AbstractController
     /**
      * @Route("/cabinet")
      */
-    public function cabinet(UserService $user_service)
-    {
+    public
+    function cabinet(
+        UserService $user_service
+    ) {
         $user = $user_service->getCurrentUser();
         if (!$user) {
             return $this->redirect("/login");
@@ -119,8 +164,10 @@ class UserController extends AbstractController
     /**
      * @Route("/logout")
      */
-    public function logout(UserService $user_service)
-    {
+    public
+    function logout(
+        UserService $user_service
+    ) {
         $user_service->logout();
         return $this->redirect("/");
     }

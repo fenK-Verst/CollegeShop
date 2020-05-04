@@ -19,7 +19,7 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
     public function query(string $query)
     {
         $result = $this->connection->query($query);
-//        var_dump($query);
+        var_dump($query);
         if ($this->connection->errno) {
             $error = $this->connection->error;
             $erno = $this->connection->errno;

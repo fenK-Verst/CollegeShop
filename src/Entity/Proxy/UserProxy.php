@@ -90,16 +90,16 @@ class UserProxy extends \App\Entity\User
         $this->parent->setPhone($phone);           
     }
 
-    public function getImageId() : int
+    public function getImage() : ?\App\Entity\Image
     {
         $this->init();
-        return $this->parent->getImageId();           
+        return $this->parent->getImage();           
     }
 
-    public function setImageId( $image_id) : void
+    public function setImage(?\App\Entity\Image $image) : void
     {
         $this->init();
-        $this->parent->setImageId($image_id);           
+        $this->parent->setImage($image);           
     }
 
     public function setPassword(string $password)

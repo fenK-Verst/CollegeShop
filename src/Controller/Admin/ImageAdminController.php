@@ -63,6 +63,7 @@ class ImageAdminController extends AbstractController
                 $image = new Image();
                 $image->setAlias($request_image["alias"]);
                 $image->setPath($uploadfile);
+                $image->setType(image::$PRODUCT_TYPE);
                 $object_manager->save($image);
                 return $this->redirect("/admin/image");
             } elseif (!is_writable($_SERVER["DOCUMENT_ROOT"] . $uploadfile)) {

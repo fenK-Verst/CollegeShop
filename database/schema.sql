@@ -30,6 +30,7 @@ CREATE TABLE image
 (
     `id`    INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `alias` VARCHAR(255) NOT NULL,
+    `type` SET('avatar', 'product') NOT NULL,
     `path`  TEXT         NOT NULL
 )ENGINE=InnoDB;
 DROP TABLE IF EXISTS `flag`;
