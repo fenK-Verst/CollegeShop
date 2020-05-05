@@ -51,78 +51,35 @@
                     <div class="product_comments">
                         <div class="title">Отзывы <span class="count">1</span></div>
                         <ul class="comments">
-                            <li class="comment">
-                                <div class="comment_left">
-                                    <div class="avatar">
-                                        <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32" height="32"
-                                             alt="">
+                            {% for comment in product.comments %}
+                                <li class="comment">
+                                    <div class="comment_left">
+                                        <div class="avatar">
+                                            <img src="{% if comment.user.image.path %}{{ comment.user.image.path }}{% else %}/assets/design/images/no-photo.svg{% endif %}"
+                                                 width="32"
+                                                 height="32"
+                                                 alt="">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="comment_right">
-                                    <div class="comment_right_top">
-                                        <span class="author">fenK</span>
-                                        <span class="rating">
-                                        <i class="star"></i>
-                                        <i class="star"></i>
-                                        <i class="star"></i>
-                                        <i class="star"></i>
-                                        <i class="star empty"></i>
+                                    <div class="comment_right">
+                                        <div class="comment_right_top">
+                                            <span class="author">{{ comment.user.firstname }} {{ comment.user.lastname }}</span>
+                                            <span class="rating">
+                                            {% for val in 1..comment.rating %}
+                                                <i class="star"></i>
+                                            {% endfor %}
+                                                {% for val in comment.rating+1..5 %}
+                                                    <i class="star empty"></i>
+                                                {% endfor %}
 
                                     </span>
+                                        </div>
+                                        <div class="comment_right_bot">
+                                            <div class="text">Some text</div>
+                                        </div>
                                     </div>
-                                    <div class="comment_right_bot">
-                                        <div class="text">Some text</div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="comment">
-                                <div class="comment_left">
-                                    <div class="avatar">
-                                        <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32" height="32"
-                                             alt="">
-                                    </div>
-                                </div>
-                                <div class="comment_right">
-                                    <div class="comment_right_top">
-                                        <span class="author">fenK</span>
-                                        <span class="rating">
-                                        <i class="star"></i>
-                                        <i class="star"></i>
-                                        <i class="star"></i>
-                                        <i class="star"></i>
-                                        <i class="star empty"></i>
-
-                                    </span>
-                                    </div>
-                                    <div class="comment_right_bot">
-                                        <div class="text">Some text</div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="comment">
-                                <div class="comment_left">
-                                    <div class="avatar">
-                                        <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32" height="32"
-                                             alt="">
-                                    </div>
-                                </div>
-                                <div class="comment_right">
-                                    <div class="comment_right_top">
-                                        <span class="author">fenK</span>
-                                        <span class="rating">
-                                        <i class="star"></i>
-                                        <i class="star"></i>
-                                        <i class="star"></i>
-                                        <i class="star"></i>
-                                        <i class="star empty"></i>
-
-                                    </span>
-                                    </div>
-                                    <div class="comment_right_bot">
-                                        <div class="text">Some text</div>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            {% endfor %}
                         </ul>
                         {% if app.user %}
                             <div class="form">
@@ -132,7 +89,8 @@
                                 <form action="" class="comment_form" method="POST">
                                     <div class="comment_form_left">
                                         <div class="avatar">
-                                            <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32"
+                                            <img src="{% if app.user.image.path %}{{ app.user.image.path }}{% else %}/assets/design/images/no-photo.svg{% endif %}"
+                                                 width="32"
                                                  height="32"
                                                  alt="">
                                         </div>
@@ -141,11 +99,11 @@
                                         <input type="hidden" value="{{ app.user.id }}" name="comment[user_id]">
                                         <input type="hidden" value="{{ product.id }}" name="comment[product_id]">
                                         <div class="form_control">
-                                            <span class="author">fenK</span>
+                                            <span class="author">{{ app.user.firstname }} {{ app.user.lastname }}</span>
                                         </div>
                                         <div class="form_control">
                                             <label>
-                                            <textarea name="text" placeholder="Текст комментария"
+                                            <textarea name="comment[value]" placeholder="Текст комментария"
                                                       maxlength="250"></textarea>
                                             </label>
                                         </div>
@@ -168,7 +126,9 @@
                                 </form>
                             </div>
                         {% else %}
-                            <div><a href="/register">Зарегистрируйтесь</a> или <a href="/login">войдите</a> чтобы оставить комментарий</div>
+                            <div><a href="/register">Зарегистрируйтесь</a> или <a href="/login">войдите</a> чтобы
+                                оставить комментарий
+                            </div>
                         {% endif %}
                     </div>
 

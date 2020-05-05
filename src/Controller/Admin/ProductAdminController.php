@@ -266,6 +266,10 @@ class ProductAdminController extends AbstractController
             foreach ($values as $value){
                 $object_manager->remove($value);
             }
+            $comments = $product->getComments();
+            foreach ($comments as $comment){
+                $object_manager->remove($comment);
+            }
             $object_manager->remove($product);
         }
         return $this->redirect("/admin/product");

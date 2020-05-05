@@ -4,9 +4,12 @@
 namespace App\Controller;
 
 
+use App\Db\ObjectManager;
+use App\Entity\ProductComment;
 use App\Http\Request;
 use App\Repository\FolderRepository;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use App\Repository\VendorRepository;
 
 /**
@@ -22,17 +25,53 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}", name="index")
      */
-    public function index(ProductRepository $product_repository, FolderRepository $folder_repository)
-    {
+    public function index(
+        ProductRepository $product_repository,
+        FolderRepository $folder_repository,
+        Request $request,
+        UserRepository $user_repository,
+        ObjectManager $object_manager
+    ) {
         $product_id = $this->getRoute()->get("id");
         $product = $product_repository->find($product_id);
+        $request_comment = $request->post("comment");
+        $error = '';
+
         if ($product) {
             $folder = $product->getFolders()[0] ?? null;
             $pagination_folders = $folder_repository->getParents($folder, true);
+
+            if ($request_comment) {
+                $comment = new ProductComment();
+                $comment_text = $request_comment["value"];
+                $comment_author = $request_comment["user_id"];
+                $comment_rating = (float)$request_comment["rating"] ?? null;
+
+                $author = $user_repository->find($comment_author);
+
+                if (!$author) {
+                    $error .= "Вы должны быть авторизованными, что бы оставлять комментарии";
+                }
+                if (!$comment_text) {
+                    $error .= "Текст комментария не может быть пустым";
+                }
+                if (!$comment_rating) {
+                    $error .= "Рейтинг товара не может быть пустым";
+                }
+
+                if (!$error) {
+                    $comment->setProduct($product);
+                    $comment->setValue($comment_text);
+                    $comment->setUser($author);
+                    $comment->setRating($comment_rating);
+                    $object_manager->save($comment);
+                }
+            }
         }
         return $this->render("product/item.html.twig", [
             "product" => $product,
-            "product_path" => $pagination_folders ?? null
+            "product_path" => $pagination_folders ?? null,
+            "error"=>$error
         ]);
     }
 
