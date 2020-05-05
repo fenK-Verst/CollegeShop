@@ -43,7 +43,7 @@ class ImageAdminController extends AbstractController
             $error .= "Не найдена директория для сохранения. Обратитесь к разработчику";
         }
         $request_image = $request->post("image");
-        $file = $_FILES["image"];
+        $file = $_FILES["image"] ?? null;
         if ($file && $request_image && !$error) {
             $uploadfile = $save_dir . basename($file['name']["path"]);
             $is_file_exsits = file_exists($_SERVER["DOCUMENT_ROOT"] . $uploadfile);

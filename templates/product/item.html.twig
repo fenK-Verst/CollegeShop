@@ -49,7 +49,10 @@
                         {% endif %}
                     </div>
                     <div class="product_comments">
-                        <div class="title">Отзывы <span class="count">1</span></div>
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error|nl2br }}</div>
+                        {% endif %}
+                        <div class="title">Отзывы <span class="count">{{ product.comments|length }}</span></div>
                         <ul class="comments">
                             {% for comment in product.comments %}
                                 <li class="comment">
@@ -68,14 +71,16 @@
                                             {% for val in 1..comment.rating %}
                                                 <i class="star"></i>
                                             {% endfor %}
-                                                {% for val in comment.rating+1..5 %}
-                                                    <i class="star empty"></i>
-                                                {% endfor %}
+                                                {% if comment.rating < 5 %}
+                                                    {% for val in comment.rating+1..5 %}
+                                                        <i class="star empty"></i>
+                                                    {% endfor %}
+                                                {% endif %}
 
                                     </span>
                                         </div>
                                         <div class="comment_right_bot">
-                                            <div class="text">Some text</div>
+                                            <div class="text">{{ comment.value }}</div>
                                         </div>
                                     </div>
                                 </li>

@@ -90,6 +90,6 @@ CREATE TABLE `product_comment`
     `id`         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `product_id` INT UNSIGNED           NOT NULL,
     `user_id`    INT UNSIGNED           NOT NULL,
-    `rating`     DECIMAL(1, 1) UNSIGNED NOT NULL DEFAULT 0,
+    `rating`     DECIMAL(5, 2) UNSIGNED NOT NULL DEFAULT 0,
     `value`      TEXT                            DEFAULT NULL
 ) ENGINE = InnoDB;
