@@ -2,7 +2,14 @@
 
 
 use App\Config;
+use App\Db\ArrayDataManager;
 use App\Db\Connection;
+use App\Db\Interfaces\ArrayDataManagerInterface;
+use App\Db\Interfaces\ConnectionInterface;
+use App\Db\Interfaces\ObjectDataManagerInterface;
+use App\Db\Interfaces\ObjectManagerInterface;
+use App\Db\ObjectDataManager;
+use App\Db\ObjectManager;
 use App\Di\Container;
 use App\Http\Request;
 use App\Http\Response;
@@ -13,24 +20,25 @@ use App\Twig;
 define("PROJECT_DIR", __DIR__ . "/../");
 
 //session_save_path(PROJECT_DIR."var/sessions");
+session_set_cookie_params(0);
 if (!session_id()){
     session_start();
 }
 require_once(PROJECT_DIR . "/vendor/autoload.php");
 //phpinfo();
 $container = new Container([
-    \App\Db\Interfaces\ConnectionInterface::class => Connection::class,
-    \App\Db\Interfaces\ArrayDataManagerInterface::class => \App\Db\ArrayDataManager::class,
-    \App\Db\Interfaces\ObjectDataManagerInterface::class => \App\Db\ObjectDataManager::class,
-    \App\Db\Interfaces\ObjectManagerInterface::class => \App\Db\ObjectManager::class,
+    ConnectionInterface::class => Connection::class,
+    ArrayDataManagerInterface::class => ArrayDataManager::class,
+    ObjectDataManagerInterface::class => ObjectDataManager::class,
+    ObjectManagerInterface::class => ObjectManager::class,
 ]);
 $container->singletone(Container::class, function () use ($container) {
     return $container;
 });
 $container->singletone(Config::class);
-$container->singletone(\App\Db\ObjectManager::class);
-$container->singletone(\App\Db\ArrayDataManager::class);
-$container->singletone(\App\Db\ObjectDataManager::class);
+$container->singletone(ObjectManager::class);
+$container->singletone(ArrayDataManager::class);
+$container->singletone(ObjectDataManager::class);
 $container->singletone(Response::class);
 $container->singletone(Request::class);
 $container->singletone(Twig::class);

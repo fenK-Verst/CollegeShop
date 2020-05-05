@@ -124,34 +124,37 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="form">
-                            <div class="title">
-                                Новый отзыв или комментарий
-                            </div>
-                            <form action="" class="comment_form" method="POST">
-                                <div class="comment_form_left">
-                                    <div class="avatar">
-                                        <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32" height="32"
-                                             alt="">
-                                    </div>
+                        {% if app.user %}
+                            <div class="form">
+                                <div class="title">
+                                    Новый отзыв или комментарий
                                 </div>
-                                <div class="comment_form_right">
-                                    <input type="hidden" value="{{ user.id }}">
-                                    <div class="form_control">
-                                        <span class="author">fenK</span>
+                                <form action="" class="comment_form" method="POST">
+                                    <div class="comment_form_left">
+                                        <div class="avatar">
+                                            <img src="/assets/design/images/dyn/avatar_small_1.jpg" width="32"
+                                                 height="32"
+                                                 alt="">
+                                        </div>
                                     </div>
-                                    <div class="form_control">
-                                        <label>
+                                    <div class="comment_form_right">
+                                        <input type="hidden" value="{{ app.user.id }}" name="comment[user_id]">
+                                        <input type="hidden" value="{{ product.id }}" name="comment[product_id]">
+                                        <div class="form_control">
+                                            <span class="author">fenK</span>
+                                        </div>
+                                        <div class="form_control">
+                                            <label>
                                             <textarea name="text" placeholder="Текст комментария"
                                                       maxlength="250"></textarea>
-                                        </label>
-                                    </div>
-                                    <div class="form_control">
-                                        <label>
-                                            Оцените товар:
-                                        </label>
-                                        <input type="hidden" name="rating" value="1">
-                                        <span class="rating">
+                                            </label>
+                                        </div>
+                                        <div class="form_control">
+                                            <label>
+                                                Оцените товар:
+                                            </label>
+                                            <input type="hidden" name="comment[rating]" value="1">
+                                            <span class="rating">
                                         <i class="star "></i>
                                         <i class="star empty"></i>
                                         <i class="star empty"></i>
@@ -159,11 +162,14 @@
                                         <i class="star empty"></i>
 
                                     </span>
+                                        </div>
+                                        <button>Отправить</button>
                                     </div>
-                                    <button>Отправить</button>
-                                </div>
-                            </form>
-                        </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <div><a href="/register">Зарегистрируйтесь</a> или <a href="/login">войдите</a> чтобы оставить комментарий</div>
+                        {% endif %}
                     </div>
 
                 </div>
@@ -174,7 +180,8 @@
                             <div class="controls">
                         <span class="input">
                             <span class="control minus"></span>
-                            <input type="number" value="1" min="1" step="1" max="{{ product.count }}" name="product[count]">
+                            <input type="number" value="1" min="1" step="1" max="{{ product.count }}"
+                                   name="product[count]">
                             <span class="control plus"></span>
                         </span>
                                 <span class="buy_button">Купить</span>

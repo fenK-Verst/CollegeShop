@@ -35,107 +35,107 @@ class ProductCommentProxy extends \App\Entity\ProductComment
 //        $this->init();
 //        return $this->parent->getEntityParams();
 //    }
-
-    public function getId(): int
+    
+    public function getId() : int
     {
         $this->init();
-        return $this->parent->getId();
+        return $this->parent->getId();           
     }
 
-    public function getValue(): string
+    public function getValue() : string
     {
         $this->init();
-        return $this->parent->getValue();
+        return $this->parent->getValue();           
     }
 
-    public function setValue(string $value): void
+    public function setValue(string $value) : void
     {
         $this->init();
-        $this->parent->setValue($value);
+        $this->parent->setValue($value);           
     }
 
-    public function getRating(): float
+    public function getRating() : float
     {
         $this->init();
-        return $this->parent->getRating();
+        return $this->parent->getRating();           
     }
 
-    public function setRating(float $rating): void
+    public function setRating(float $rating) : void
     {
         $this->init();
-        $this->parent->setRating($rating);
+        $this->parent->setRating($rating);           
     }
 
-    public function getProduct(): ?\App\Entity\Product
+    public function getProduct() : ?\App\Entity\Product
     {
         $this->init();
-        return $this->parent->getProduct();
+        return $this->parent->getProduct();           
     }
 
-    public function setProduct(?\App\Entity\Product $product): void
+    public function setProduct(?\App\Entity\Product $product) : void
     {
         $this->init();
-        $this->parent->setProduct($product);
+        $this->parent->setProduct($product);           
     }
 
-    public function getUser(): ?\App\Entity\User
+    public function getUser() : ?\App\Entity\User
     {
         $this->init();
-        return $this->parent->getUser();
+        return $this->parent->getUser();           
     }
 
-    public function setUser(?\App\Entity\User $user): void
+    public function setUser(?\App\Entity\User $user) : void
     {
         $this->init();
-        $this->parent->setUser($user);
+        $this->parent->setUser($user);           
     }
 
-    public function getTableName(): string
+    public function getTableName() : string
     {
         $this->init();
-        return $this->parent->getTableName();
+        return $this->parent->getTableName();           
     }
 
-    public function getRepositoryClass(): string
+    public function getRepositoryClass() : string
     {
         $this->init();
-        return $this->parent->getRepositoryClass();
+        return $this->parent->getRepositoryClass();           
     }
 
-    public function getPrimaryKey(): string
+    public function getPrimaryKey() : string
     {
         $this->init();
-        return $this->parent->getPrimaryKey();
+        return $this->parent->getPrimaryKey();           
     }
 
-    public function getColumns(): array
+    public function getColumns() : array
     {
         $this->init();
-        return $this->parent->getColumns();
+        return $this->parent->getColumns();           
     }
 
-    public function getEntityParams(): array
+    public function getEntityParams() : array
     {
         $this->init();
-        return $this->parent->getEntityParams();
+        return $this->parent->getEntityParams();           
     }
 
-    public function getPrimaryKeyValue(): string
+    public function getPrimaryKeyValue() : string
     {
         $this->init();
-        return $this->parent->getPrimaryKeyValue();
+        return $this->parent->getPrimaryKeyValue();           
     }
 
-    public function getColumnValue(string $column): string
+    public function getColumnValue(string $column) : string
     {
         $this->init();
-        return $this->parent->getColumnValue($column);
+        return $this->parent->getColumnValue($column);           
     }
 
-    public function getSingleDependencies(): array
+    public function getSingleDependencies() : array
     {
         $this->init();
-        return $this->parent->getSingleDependencies();
+        return $this->parent->getSingleDependencies();           
     }
 
 }

@@ -45,7 +45,7 @@ $(document).ready(() => {
     $formStars.find(".star").hover(function () {
         let $this = $(this),
             $form = $this.closest("form"),
-            $input = $form.find(`input[name=rating]`),
+            $input = $form.find(`input[name="comment[rating]"]`),
             $parent = $this.parent(),
             index = $this.index();
         $input.val(index + 1);

@@ -68,6 +68,11 @@ class Product extends AbstractEntity
     protected $paramValues = [];
 
     /**
+     * @Entity\OneToMany(entity="App\Entity\ProductComment", primary_key="product_id")
+     */
+    protected $comments = [];
+
+    /**
      * @return array
      */
     public function getFolders(): ?array
@@ -129,6 +134,7 @@ class Product extends AbstractEntity
             $this->flags[] = $flag;
         }
     }
+
     /**
      * @param Flag $flag
      */
@@ -141,6 +147,46 @@ class Product extends AbstractEntity
         }
 
     }
+
+    /**
+     **
+     * @return array
+     */
+    public function getComments(): ?array
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param ProductComment $comment
+     */
+    public function addComment(ProductComment $comment): void
+    {
+        $finded = false;
+        foreach ($this->comments as $this_comment) {
+            if ($comment->getId() == $this_comment->getId()) {
+                $finded = true;
+                break;
+            }
+        }
+        if (!$finded) {
+            $this->comments[] = $comment;
+        }
+    }
+
+    /**
+     * @param ProductComment $comment
+     */
+    public function deleteComment(ProductComment $comment)
+    {
+        foreach ($this->comments as $key => $this_comment) {
+            if ($comment->getId() == $this_comment->getId()) {
+                unset($this->comments[$key]);
+            }
+        }
+
+    }
+
 
     /**
      * @return string
@@ -195,7 +241,9 @@ class Product extends AbstractEntity
      */
     public function setImage(?Image $image): void
     {
-        if ($image) $image->setType("avatar");
+        if ($image) {
+            $image->setType("avatar");
+        }
         $this->image = $image;
     }
 
@@ -250,7 +298,7 @@ class Product extends AbstractEntity
     /**
      * @return Vendor|null
      */
-    public function getVendor():?Vendor
+    public function getVendor(): ?Vendor
     {
         return $this->vendor;
     }
@@ -267,7 +315,7 @@ class Product extends AbstractEntity
      **
      * @return array
      */
-    public function getParamValues() :?array
+    public function getParamValues(): ?array
     {
         return $this->paramValues;
     }
