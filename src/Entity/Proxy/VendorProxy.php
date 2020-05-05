@@ -14,7 +14,7 @@ class VendorProxy extends \App\Entity\Vendor
      * VendorProxy constructor.
      *
      * @param \App\Repository\VendorRepository $repository
-     * @param $primaryKey
+     * @param $primaryKeyValue
      */
     public function __construct(\App\Repository\VendorRepository $repository, $primaryKeyValue)
     {

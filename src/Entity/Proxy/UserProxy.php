@@ -14,7 +14,7 @@ class UserProxy extends \App\Entity\User
      * UserProxy constructor.
      *
      * @param \App\Repository\UserRepository $repository
-     * @param $primaryKey
+     * @param $primaryKeyValue
      */
     public function __construct(\App\Repository\UserRepository $repository, $primaryKeyValue)
     {

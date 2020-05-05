@@ -5,6 +5,7 @@ namespace App;
 
 
 use App\Di\Container;
+use App\Http\Response;
 use App\Routing\Route;
 use App\Routing\Router;
 
@@ -34,7 +35,7 @@ class Kernel
 
         $response->send();
     }
-    private function dispatch(Route $route)
+    private function dispatch(Route $route): Response
     {
         return $this->container->getInjector()->callMethod(
             $route->getController(),

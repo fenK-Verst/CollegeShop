@@ -17,8 +17,6 @@ use App\Repository\FlagRepository;
  */
 class FlagAdminController extends AbstractController
 {
-
-
     /**
      * @Route("/create")
      */

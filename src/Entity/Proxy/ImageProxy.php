@@ -14,7 +14,7 @@ class ImageProxy extends \App\Entity\Image
      * ImageProxy constructor.
      *
      * @param \App\Repository\ImageRepository $repository
-     * @param $primaryKey
+     * @param $primaryKeyValue
      */
     public function __construct(\App\Repository\ImageRepository $repository, $primaryKeyValue)
     {

@@ -14,7 +14,7 @@ class FolderProxy extends \App\Entity\Folder
      * FolderProxy constructor.
      *
      * @param \App\Repository\FolderRepository $repository
-     * @param $primaryKey
+     * @param $primaryKeyValue
      */
     public function __construct(\App\Repository\FolderRepository $repository, $primaryKeyValue)
     {

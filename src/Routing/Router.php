@@ -3,6 +3,7 @@
 namespace App\Routing;
 
 use App\Config;
+use App\Controller\UserRoutesController;
 use App\Di\Container;
 use App\Http\Request;
 use App\Twig;
@@ -24,7 +25,8 @@ class Router
     {
         $route_data = $this->findRouteData();
         if (!$route_data) {
-            $this->notFound();
+           $this->notFound();
+
         }
         $controller = $route_data[0];
         $method = $route_data[1];
@@ -33,8 +35,15 @@ class Router
         $controller = $this->container->get($controller);
         return new Route($controller, $method, $params);
     }
-
-    private function findRouteData(): array
+    private function findRouteData()
+    {
+        $route_data = $this->getRouteData();
+        if (!$route_data){
+            $route_data = $this->getUserRouteData();
+        }
+        return $route_data;
+    }
+    private function getRouteData(): array
     {
 
         $routes = $this->getRoutes();
@@ -185,5 +194,18 @@ class Router
         return [
             $route_chunk => $url_chunk,
         ];
+    }
+
+    private function getUserRouteData() : ?array
+    {
+        $route_data = [
+            UserRoutesController::class,
+            "index",
+            [
+                "template_name"=>"title.html.twig",
+                "params"=>[]
+            ]
+        ];
+        return null;
     }
 }

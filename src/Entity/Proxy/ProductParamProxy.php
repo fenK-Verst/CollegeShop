@@ -14,7 +14,7 @@ class ProductParamProxy extends \App\Entity\ProductParam
      * ProductParamProxy constructor.
      *
      * @param \App\Repository\ProductParamRepository $repository
-     * @param $primaryKey
+     * @param $primaryKeyValue
      */
     public function __construct(\App\Repository\ProductParamRepository $repository, $primaryKeyValue)
     {

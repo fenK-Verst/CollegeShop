@@ -1,23 +1,34 @@
 <?php
 
+use App\Config;
 use App\Entity\EntityInterface;
+use App\Entity\Flag;
+use App\Entity\Folder;
+use App\Entity\Image;
+use App\Entity\Product;
+use App\Entity\ProductComment;
+use App\Entity\ProductParam;
+use App\Entity\ProductParamValue;
+use App\Entity\User;
+use App\Entity\Vendor;
 
 define("PROJECT_DIR", __DIR__ . "/../../");
 
 require_once(PROJECT_DIR . "/vendor/autoload.php");
 
 $entities = [
-    \App\Entity\Product::class,
-    \App\Entity\Flag::class,
-    \App\Entity\Folder::class,
-    \App\Entity\Image::class,
-    \App\Entity\User::class,
-    \App\Entity\Vendor::class,
-    \App\Entity\ProductParamValue::class,
-    \App\Entity\ProductParam::class,
+    Product::class,
+    Flag::class,
+    Folder::class,
+    Image::class,
+    User::class,
+    Vendor::class,
+    ProductParamValue::class,
+    ProductParam::class,
+    ProductComment::class,
 
 ];
-$config = new \App\Config();
+$config = new Config();
 $proxy_config = $config->get("proxy") ?? null;
 if (!$proxy_config) exit("Can't find proxy config");
 $namespace = $proxy_config["namespace"];
@@ -57,7 +68,7 @@ class $p extends \\$entity
      * $p constructor.
      *
      * @param $repository \$repository
-     * @param \$primaryKey
+     * @param \$primaryKeyValue
      */
     public function __construct($repository \$repository, \$primaryKeyValue)
     {
@@ -82,9 +93,6 @@ class $p extends \\$entity
 ";
     $methods = $reflection_class->getMethods();
     foreach ($methods as $method){
-        /**
-         * @var ReflectionMethod $method
-         */
 
         if($method->isPublic() /*&& $method->class == $entity*/){
             $method_name = $method->getName();

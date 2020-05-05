@@ -14,7 +14,7 @@ class FlagProxy extends \App\Entity\Flag
      * FlagProxy constructor.
      *
      * @param \App\Repository\FlagRepository $repository
-     * @param $primaryKey
+     * @param $primaryKeyValue
      */
     public function __construct(\App\Repository\FlagRepository $repository, $primaryKeyValue)
     {
