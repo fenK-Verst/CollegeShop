@@ -33,6 +33,7 @@ class Image extends AbstractEntity
 
     public static $PRODUCT_TYPE = 'product';
     public static $AVATAR_TYPE = 'avatar';
+
     /**
      * @Entity\OneToMany(entity="App\Entity\Product", primary_key="image_id")
      */

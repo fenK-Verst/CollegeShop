@@ -44,7 +44,7 @@ abstract class AbstractRepository //implements RepositoryInterface
             $where_array[] = '`'.$this->escape($key) .'`' . ' = "' . $this->escape($value) . '"';
         }
         $table_name = $this->entity->getTableName();
-        $query = "SELECT * FROM $table_name";
+        $query = "SELECT * FROM `$table_name`";
 
         if (!empty($where_array)) {
             $where_query = implode(" AND ", $where_array);

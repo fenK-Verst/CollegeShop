@@ -29,6 +29,11 @@ class OrderItem extends AbstractEntity
     protected $order;
 
     /**
+     * @Entity\ManyToOne(entity="App\Entity\Product", primary_key="product_id")
+     */
+    protected $product;
+
+    /**
      * @return int
      */
     public function getId() :?int
@@ -66,5 +71,22 @@ class OrderItem extends AbstractEntity
     public function setOrder(Order $order)
     {
         $this->order = $order;
+    }
+
+
+    /**
+     * @return Product|null
+     */
+    public function getProduct() :?Product
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param Product $product
+     */
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
     }
 }

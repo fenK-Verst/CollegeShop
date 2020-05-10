@@ -13,10 +13,10 @@ use DateTime;
  */
 class Order extends AbstractEntity
 {
-    public const STATUS_WAITING = 1;
-    public const STATUS_PAID = 2;
-    public const STATUS_DONE = 3;
-    public const STATUS_ARCHIVED = 4;
+    public const STATUS_WAITING = "waiting";
+    public const STATUS_PAID = "paid";
+    public const STATUS_DONE = "done";
+    public const STATUS_ARCHIVED = "archived";
     /**
      * @Entity\PrimaryKey()
      */
@@ -38,6 +38,12 @@ class Order extends AbstractEntity
     protected $user;
 
     /**
+     * @Entity\OneToMany(entity="App\Entity\OrderItem", primary_key="order_id")
+     */
+    protected $order_items = [];
+
+
+    /**
      * @return int
      */
     public function getId(): ?int
@@ -46,11 +52,11 @@ class Order extends AbstractEntity
     }
 
     /**
-     * @return DateTime|null
+     * @return string|null
      */
-    public function getCreatedAt(): ?DateTime
+    public function getCreatedAt() : string
     {
-        return DateTime::createFromFormat("Y-m-d H:i:s", $this->created_at);
+        return $this->created_at;
     }
 
     /**
@@ -64,15 +70,15 @@ class Order extends AbstractEntity
     /**
      * @return int|null
      */
-    public function getStatus(): ?int
+    public function getStatus(): ?string
     {
-        return $this->status;
+        return (string)$this->status;
     }
 
     /**
-     * @param int $status
+     * @param string $status
      */
-    public function setStatus(int $status)
+    public function setStatus(string $status)
     {
         if (in_array($status, [
             self::STATUS_WAITING,
@@ -82,5 +88,44 @@ class Order extends AbstractEntity
         ])) {
             $this->status = $status;
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrderItems(): array
+    {
+        return $this->order_items;
+    }
+
+    /**
+     * @param OrderItem $item
+     */
+    public function addOrderItem(OrderItem $item)
+    {
+        if (!in_array($item, (array)$this->order_items)) {
+            $this->order_items[] = $item;
+        }
+    }
+
+    public function getSum(): int
+    {
+        $sum = 0;
+        $items = $this->getOrderItems();
+        foreach ($items as $item) {
+            /**
+             * @var OrderItem $item
+             */
+            $sum += (int)$item->getProduct()->getPrice() * (int)$item->getCount();
+        }
+        return $sum;
+    }
+    public function setUser(User $user):void
+    {
+        $this->user = $user;
+    }
+    public function getUser(): ?User
+    {
+        return $this->user;
     }
 }

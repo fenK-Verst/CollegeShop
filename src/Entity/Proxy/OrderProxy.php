@@ -42,7 +42,7 @@ class OrderProxy extends \App\Entity\Order
         return $this->parent->getId();           
     }
 
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt() : string
     {
         $this->init();
         return $this->parent->getCreatedAt();           
@@ -54,16 +54,46 @@ class OrderProxy extends \App\Entity\Order
         $this->parent->setCreatedAt($date_time);           
     }
 
-    public function getStatus() : int
+    public function getStatus() : string
     {
         $this->init();
         return $this->parent->getStatus();           
     }
 
-    public function setStatus(int $status)
+    public function setStatus(string $status)
     {
         $this->init();
         $this->parent->setStatus($status);           
+    }
+
+    public function getOrderItems() : array
+    {
+        $this->init();
+        return $this->parent->getOrderItems();           
+    }
+
+    public function addOrderItem(?\App\Entity\OrderItem $item)
+    {
+        $this->init();
+        $this->parent->addOrderItem($item);           
+    }
+
+    public function getSum() : int
+    {
+        $this->init();
+        return $this->parent->getSum();           
+    }
+
+    public function setUser(?\App\Entity\User $user) : void
+    {
+        $this->init();
+        $this->parent->setUser($user);           
+    }
+
+    public function getUser() : ?\App\Entity\User
+    {
+        $this->init();
+        return $this->parent->getUser();           
     }
 
     public function getTableName() : string

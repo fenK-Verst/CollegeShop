@@ -24,6 +24,13 @@
                 <td class="d-flex justify-content-center align-items-center"><a href="/cart/{{ product.id }}/delete"><i class="fa fa-minus"></i></a></td>
             {% endfor %}
         </table>
+            {% if app.user %}
+                <div><a class="btn btn-danger" href="/orders/add">Оформить заказ</a></div>
+            {% else %}
+                <div><a href="/register">Зарегистрируйтесь</a> или <a href="/login">войдите</a> чтобы
+                    оформить заказ
+                </div>
+            {% endif %}
         {% else %}
             Корзина пуста. <a href="/product">За покупками</a>
         {% endif %}

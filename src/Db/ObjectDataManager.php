@@ -28,7 +28,7 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
             $primary_key_value = $this->create($entity);
             $table_name = $entity->getTableName();
             $primary_key = $entity->getPrimaryKey();
-            $entity = $this->fetchRow("SELECT * FROM $table_name WHERE $primary_key = $primary_key_value", get_class($entity));
+            $entity = $this->fetchRow("SELECT * FROM `$table_name` WHERE $primary_key = $primary_key_value", get_class($entity));
         }
         return $entity;
     }
@@ -133,7 +133,6 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
             $properties[$single_dependency] = $entity->{$single_dependency};
         }
         $table_name = $entity->getTableName();
-
         return  $this->getArrayDataManager()->insert($table_name, $properties);
     }
 

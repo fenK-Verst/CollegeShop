@@ -54,9 +54,8 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
         $query_keys = implode(",", $query_keys);
         $query_values = implode(",", $query_values);
 
-        $query = "INSERT INTO $table_name($query_keys) VALUES($query_values)";
+        $query = "INSERT INTO `$table_name`($query_keys) VALUES($query_values)";
         $result = $this->query($query);
-
         return $this->connection->insert_id;
 
     }
@@ -79,7 +78,7 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
 
         $query_where = implode(" AND ", $where_array);
         $query_set = implode(", ", $set_array);
-        $query = "UPDATE $table_name SET $query_set WHERE $query_where";
+        $query = "UPDATE `$table_name` SET $query_set WHERE $query_where";
         $this->query($query);
 
         return $this->connection->affected_rows;

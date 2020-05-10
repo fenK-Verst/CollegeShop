@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="content">
+        <h3>Заказы</h3>
+
+        <table class="table">
+            <tr>
+                <th>№</th>
+                <th>Количество</th>
+                <th>Сумма</th>
+                <th>Статус</th>
+            </tr>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ order.orderItems|length }}</td>
+                    <td>{{ order.sum }} Тг</td>
+                    <td>{{ statuses[order.status] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+{% endblock %}

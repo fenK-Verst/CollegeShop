@@ -14,6 +14,7 @@ controllers:
   - App\Controller\ProductController
   - App\Controller\FolderController
   - App\Controller\CartController
+  - App\Controller\OrderController
 
 middlewares:
   - App\Middleware\FolderMiddleware

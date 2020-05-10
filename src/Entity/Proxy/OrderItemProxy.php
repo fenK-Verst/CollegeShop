@@ -66,6 +66,18 @@ class OrderItemProxy extends \App\Entity\OrderItem
         $this->parent->setOrder($order);           
     }
 
+    public function getProduct() : ?\App\Entity\Product
+    {
+        $this->init();
+        return $this->parent->getProduct();           
+    }
+
+    public function setProduct(?\App\Entity\Product $product)
+    {
+        $this->init();
+        $this->parent->setProduct($product);           
+    }
+
     public function getTableName() : string
     {
         $this->init();

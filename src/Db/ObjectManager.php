@@ -142,6 +142,7 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
             $entity->{$needed_primary_key} = $saved_entity->getPrimaryKeyValue();
         }
         $e = $this->getObjectDataManager()->save($entity);
+
         $e_primary_key = $e->getPrimaryKeyValue();
         foreach ($otm_dep as $dep) {
 
@@ -186,7 +187,7 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
                 $adm->query($query);
             }
         }
-        return $e;
+        return $this->addDependenciesToEntity($e);
     }
 
     private function removeDependencies(EntityInterface $entity)
