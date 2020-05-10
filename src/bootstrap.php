@@ -47,7 +47,7 @@ $container->singletone(Connection::class, function () {
     $db_name = getenv("DB_NAME");
     $password = getenv("DB_PASSWORD");
     $user = getenv("DB_USER");
-    $port = getenv("DB_PORT");
+    $port = (int)getenv("DB_PORT");
     return new Connection($host, $user, $password, $db_name, $port);
 });
 $dev =  getenv("env");

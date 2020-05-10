@@ -57,9 +57,9 @@ class ObjectDataManager implements Interfaces\ObjectDataManagerInterface
 
     public function fetchAllArray(string $query, string $class_name): array
     {
-
         $query_result = $this->query($query);
         $result = [];
+        if (is_bool($query_result)) return $result;
         while($row = $query_result->fetch_object($class_name)){
             $result[] = $row;
         };

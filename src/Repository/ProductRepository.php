@@ -58,6 +58,7 @@ class ProductRepository extends AbstractRepository
         }
 
         $result = $adm->query($query);
+        if (is_bool($result)) return [];
         $result = $result->fetch_all();
         $arr = [];
         foreach ($result as $value) {
@@ -95,7 +96,7 @@ class ProductRepository extends AbstractRepository
         }
 
         $result = $adm->query($query);
-
+        if (is_bool($result)) return [];
         while ($value = $result->fetch_assoc()) {
             $a = $value["count"];
             break;
@@ -118,6 +119,7 @@ class ProductRepository extends AbstractRepository
         }
         $result = $adm->query($query);
         $a = [];
+        if (is_bool($result)) return $a;
         while ($product = $result->fetch_assoc()) {
             $a[] = $this->find($product["id"]);
         }

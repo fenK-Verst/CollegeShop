@@ -9,8 +9,6 @@ use App\Service\UserService;
 
 class SharedMiddleware implements MiddlewareInterface
 {
-
-
     public function run(Route $route)
     {
         $controller = $route->getController();

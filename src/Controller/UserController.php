@@ -96,7 +96,7 @@ class UserController extends AbstractController
                 $user->setImage($image);
                 $unique = $user_repository->getNonUnique($user);
                 if ($unique == 0) {
-                    if ($file && !$error) {
+                    if ($file["name"]["avatar"] && !$error) {
                         $uploadfile = $save_dir . basename($file['name']["avatar"]);
                         $is_file_exsits = file_exists($_SERVER["DOCUMENT_ROOT"] . $uploadfile);
 

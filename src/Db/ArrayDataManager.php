@@ -143,6 +143,7 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
     public function fetchAllArray(string $query): array
     {
         $query_result = $this->query($query);
+        if (is_bool($query_result)) return [];
         return $query_result->fetch_all(MYSQLI_ASSOC) ?? [];
     }
 }

@@ -72,22 +72,22 @@ class ProductProxy extends \App\Entity\Product
         $this->parent->deleteFlag($flag);           
     }
 
-    public function getProductComments() : array
+    public function getComments() : array
     {
         $this->init();
-        return $this->parent->getProductComments();           
+        return $this->parent->getComments();           
     }
 
-    public function addProductComment(?\App\Entity\ProductComment $comment) : void
+    public function addComment(?\App\Entity\ProductComment $comment) : void
     {
         $this->init();
-        $this->parent->addProductComment($comment);           
+        $this->parent->addComment($comment);           
     }
 
-    public function deleteProductComment(?\App\Entity\ProductComment $comment)
+    public function deleteComment(?\App\Entity\ProductComment $comment)
     {
         $this->init();
-        $this->parent->deleteProductComment($comment);           
+        $this->parent->deleteComment($comment);           
     }
 
     public function getName() : string

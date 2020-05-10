@@ -93,3 +93,21 @@ CREATE TABLE `product_comment`
     `rating`     DECIMAL(5, 2) UNSIGNED NOT NULL DEFAULT 0,
     `value`      TEXT                            DEFAULT NULL
 ) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order`
+(
+    `id`         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `user_id`    INT UNSIGNED           NOT NULL,
+    `status`  SET ('waiting', 'paid','done','archived') NOT NULL,
+    `created_at` DATETIME               DEFAULT NOW()
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `order_item`;
+CREATE TABLE `order_item`
+(
+    `id`         INT UNSIGNED AUTO_INCREMENT    PRIMARY KEY,
+    `order_id`   INT UNSIGNED                   NOT NULL,
+    `product_id` INT UNSIGNED                   NOT NULL,
+    `count`      INT UNSIGNED                   NOT NULL,
+) ENGINE = InnoDB;
