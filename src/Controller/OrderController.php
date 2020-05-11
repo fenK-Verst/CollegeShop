@@ -52,6 +52,8 @@ class OrderController extends AbstractController
         ProductRepository $product_repository,
         ObjectManager $object_manager
     ) {
+        $start = microtime(true);
+
         $error = '';
         $user = $user_service->getCurrentUser();
         if (!$user) {
@@ -71,10 +73,10 @@ class OrderController extends AbstractController
         foreach ($cart as $product_id => $item) {
             $product = $product_repository->find($product_id);
             if ($product) {
-//                if ($item["count"] > $product->getCount()){
-//                    $error .="Товара ".$product->getName()." недостаточно на складе\n";
-//                    break;
-//                }
+                if ($item["count"] > $product->getCount()){
+                    $error .="Товара ".$product->getName()." недостаточно на складе\n";
+                    break;
+                }
                 $order_item = new OrderItem();
                 $order_item->setCount($item["count"]);
                 $order_item->setProduct($product);
@@ -85,14 +87,16 @@ class OrderController extends AbstractController
         if (!$error){
             $object_manager->save($order);
             $cart_service->clearCart();
-//            foreach ($cart as $product_id => $item) {
-//                $product = $product_repository->find($product_id);
-//                if ($product) {
-//                    $product->setCount($product->getCount() - $item["count"]);
-//                    $object_manager->save($product);
-//                }
-//            }
+            foreach ($cart as $product_id => $item) {
+                $product = $product_repository->find($product_id);
+                if ($product) {
+                    $product->setCount($product->getCount() - $item["count"]);
+                    $object_manager->save($product);
+                }
+            }
             echo "\n\nAll done";
+            // тело скрипта
+            echo 'Время выполнения скрипта: '.(microtime(true) - $start).' сек.';
             die();
             return $this->redirect("/orders");
 
