@@ -2,28 +2,37 @@
 
 {% block body %}
     <div class="wrapper">
+        {% if error %}
+            <div class="alert alert-danger">{{ error|nl2br }}</div>
+        {% endif %}
         {% if  products %}
-        <a href="/cart/clear" class="float-right">Очистить корзину</a>
-        <table class="table table-bordered  cart mt-2">
-            <tr>
-                <th>№</th>
-                <th>Товар</th>
-                <th>Количество</th>
-                <th>Цена</th>
-                <th></th>
-            </tr>
-            {% for product in products %}
-                <td>{{ loop.index }}</td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <img src="{{ product.image.path|default("/assets/design/images/no-photo.svg") }}" width="30" height="30" alt="">{{ product.name }}
-                    </div>
-                </td>
-                <td>{{ cart[product.id].count }}</td>
-                <td>{{ cart[product.id].count*product.price }}</td>
-                <td class="d-flex justify-content-center align-items-center"><a href="/cart/{{ product.id }}/delete"><i class="fa fa-minus"></i></a></td>
-            {% endfor %}
-        </table>
+            {% set sum = 0 %}
+            <a href="/cart/clear" class="float-right">Очистить корзину</a>
+            <table class="table table-bordered  cart mt-2">
+                <tr>
+                    <th>№</th>
+                    <th>Товар</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th></th>
+                </tr>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="{{ product.image.path|default("/assets/design/images/no-photo.svg") }}"
+                                     width="30" height="30" alt="">{{ product.name }}
+                            </div>
+                        </td>
+                        <td>{{ cart[product.id].count }}</td>
+                        <td>{{ cart[product.id].count*product.price }} {% set sum = sum+cart[product.id].count*product.price %}</td>
+                        <td class="d-flex justify-content-center align-items-center"><a
+                                    href="/cart/{{ product.id }}/delete"><i class="fa fa-minus"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <div>Итого на сумму {{ sum }} Тг</div>
             {% if app.user %}
                 <div><a class="btn btn-danger" href="/orders/add">Оформить заказ</a></div>
             {% else %}

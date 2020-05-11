@@ -109,5 +109,5 @@ CREATE TABLE `order_item`
     `id`         INT UNSIGNED AUTO_INCREMENT    PRIMARY KEY,
     `order_id`   INT UNSIGNED                   NOT NULL,
     `product_id` INT UNSIGNED                   NOT NULL,
-    `count`      INT UNSIGNED                   NOT NULL,
+    `count`      INT UNSIGNED                   NOT NULL
 ) ENGINE = InnoDB;

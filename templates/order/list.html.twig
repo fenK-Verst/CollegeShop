@@ -13,10 +13,11 @@
             </tr>
             {% for order in orders %}
                 <tr>
+                    {% set stat = order.stat %}
                     <td>{{ loop.index }}</td>
-                    <td>{{ order.orderItems|length }}</td>
-                    <td>{{ order.sum }} Тг</td>
-                    <td>{{ statuses[order.status] }}</td>
+                    <td>{{ stat.count }}</td>
+                    <td>{{ stat.sum }} Тг</td>
+                    <td>{{ order.statuses[order.status] }}</td>
                 </tr>
             {% endfor %}
         </table>

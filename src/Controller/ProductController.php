@@ -20,7 +20,7 @@ use App\Repository\VendorRepository;
  */
 class ProductController extends AbstractController
 {
-    public static $LIMIT = 1;
+    public static $LIMIT = 10;
 
     /**
      * @Route("/{id}", name="index")
@@ -39,7 +39,8 @@ class ProductController extends AbstractController
 
         if ($product) {
             $folder = $product->getFolders()[0] ?? null;
-            $pagination_folders = $folder_repository->getParents($folder, true);
+            if ($folder)  $pagination_folders = $folder_repository->getParents($folder, true);
+
 
             if ($request_comment) {
                 $comment = new ProductComment();

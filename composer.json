@@ -4,7 +4,8 @@
         "vlucas/phpdotenv": "^4.1",
         "ext-json": "*",
         "ext-yaml": "*",
-        "ext-mysqli": "*"
+        "ext-mysqli": "*",
+        "fzaninotto/faker": "^1.9"
     },
     "autoload": {
         "psr-4": {

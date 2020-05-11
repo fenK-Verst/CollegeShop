@@ -52,6 +52,7 @@ class OrderController extends AbstractController
         ProductRepository $product_repository,
         ObjectManager $object_manager
     ) {
+        $error = '';
         $user = $user_service->getCurrentUser();
         if (!$user) {
             return $this->redirect("/");
@@ -70,16 +71,46 @@ class OrderController extends AbstractController
         foreach ($cart as $product_id => $item) {
             $product = $product_repository->find($product_id);
             if ($product) {
+                if ($item["count"] > $product->getCount()){
+                    $error .="Товара ".$product->getName()." недостаточно на складе\n";
+                    break;
+                }
                 $order_item = new OrderItem();
                 $order_item->setCount($item["count"]);
                 $order_item->setProduct($product);
+                $order->addOrderItem($order_item);
                 $order_item->setOrder($order);
-                $order_item = $object_manager->save($order_item);
             }
         }
-        $object_manager->save($order);
+        if (!$error){
+            $object_manager->save($order);
+            $cart_service->clearCart();
+            foreach ($cart as $product_id => $item) {
+                $product = $product_repository->find($product_id);
+                if ($product) {
+                    $product->setCount($product->getCount() - $item["count"]);
+                    $object_manager->save($product);
+                }
+            }
+            return $this->redirect("/orders");
+
+        }else{
+            $object_manager->remove($order);
+            $cart = $cart_service->getCart();
+            $products = [];
+            foreach ($cart as $id=>$product)
+            {
+                $products[] = $product_repository->find($id);
+            }
+
+            return $this->render("cart/cart.html.twig", [
+                "cart"=>$cart,
+                "products"=>$products
+            ]);
+
+        }
 
 
-        return $this->redirect("/orders");
+
     }
 }

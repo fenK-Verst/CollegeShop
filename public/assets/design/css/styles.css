@@ -630,6 +630,7 @@ main > .wrapper {
 .store-pagination {
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
 }
 .store-pagination li {
   list-style: none;

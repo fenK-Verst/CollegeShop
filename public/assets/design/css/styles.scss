@@ -754,6 +754,7 @@ main >.wrapper{
 .store-pagination{
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
   li{
     list-style: none;
     a.active{

@@ -17,6 +17,8 @@ class Order extends AbstractEntity
     public const STATUS_PAID = "paid";
     public const STATUS_DONE = "done";
     public const STATUS_ARCHIVED = "archived";
+
+
     /**
      * @Entity\PrimaryKey()
      */
@@ -54,7 +56,7 @@ class Order extends AbstractEntity
     /**
      * @return string|null
      */
-    public function getCreatedAt() : string
+    public function getCreatedAt(): string
     {
         return $this->created_at;
     }
@@ -80,12 +82,7 @@ class Order extends AbstractEntity
      */
     public function setStatus(string $status)
     {
-        if (in_array($status, [
-            self::STATUS_WAITING,
-            self::STATUS_PAID,
-            self::STATUS_DONE,
-            self::STATUS_ARCHIVED
-        ])) {
+        if (in_array($status, array_keys($this::getStatuses()))) {
             $this->status = $status;
         }
     }
@@ -108,24 +105,41 @@ class Order extends AbstractEntity
         }
     }
 
-    public function getSum(): int
+    public function getStat(): array
     {
         $sum = 0;
+        $count = 0;
         $items = $this->getOrderItems();
         foreach ($items as $item) {
             /**
              * @var OrderItem $item
              */
             $sum += (int)$item->getProduct()->getPrice() * (int)$item->getCount();
+            $count += $item->getCount();
         }
-        return $sum;
+        return [
+            "sum" => $sum,
+            "count" => $count
+        ];
     }
-    public function setUser(User $user):void
+
+    public function setUser(User $user): void
     {
         $this->user = $user;
     }
+
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    public static function getStatuses()
+    {
+        return [
+            self::STATUS_WAITING => "Ожидание оплаты",
+            self::STATUS_PAID => "Оплачено",
+            self::STATUS_DONE => "Готово",
+            self::STATUS_ARCHIVED => "В архиве"
+        ];
     }
 }
