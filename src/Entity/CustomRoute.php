@@ -5,7 +5,7 @@ namespace App\Entity;
 
 /**
  * Class CustomRoute
- * @Entity(tableName="route", repositoryClass="App\Repository\RouteRepository")
+ * @Entity(tableName="route", repositoryClass="App\Repository\CustomRouteRepository")
  * @package App\Entity
  */
 class CustomRoute extends AbstractEntity
@@ -25,6 +25,10 @@ class CustomRoute extends AbstractEntity
      */
     protected $real_url;
 
+    /**
+     * @Entity\Column()
+     */
+    protected $name;
     /**
      * @Entity\Column()
      */
@@ -191,6 +195,20 @@ class CustomRoute extends AbstractEntity
         $this->menu = $menu;
     }
 
+    /**
+     * @return string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 
 }

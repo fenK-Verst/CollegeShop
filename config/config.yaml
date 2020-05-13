@@ -5,9 +5,11 @@ controllers:
   - App\Controller\Admin\VendorAdminController
   - App\Controller\Admin\FlagAdminController
   - App\Controller\Admin\ImageAdminController
+  - App\Controller\Admin\MenuAdminController
   - App\Controller\Admin\ProductParamAdminController
   - App\Controller\Api\ImageApiController
   - App\Controller\Api\CartApiController
+  - App\Controller\Api\RouteApiController
   - App\Controller\DefaultController
   - App\Controller\UserController
   - App\Controller\SearchController

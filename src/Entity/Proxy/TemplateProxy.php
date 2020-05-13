@@ -36,6 +36,18 @@ class TemplateProxy extends \App\Entity\Template
 //        return $this->parent->getEntityParams();
 //    }
     
+    public function getVars()
+    {
+        $this->init();
+        $this->parent->getVars();           
+    }
+
+    public function setVars(array $vars) : void
+    {
+        $this->init();
+        $this->parent->setVars($vars);           
+    }
+
     public function getId() : int
     {
         $this->init();

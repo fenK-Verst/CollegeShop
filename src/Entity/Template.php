@@ -27,14 +27,32 @@ class Template extends AbstractEntity
     protected $path;
 
     /**
-     * @Entity\OneToMany(entity="App\Entity\Route", primary_key="menu_id")
+     * @Entity\Column()
+     */
+    protected $vars = [];
+
+    public function getVars()
+    {
+        return $this->vars;
+    }
+
+    /**
+     * @param array|null $vars
+     */
+    public function setVars(?array $vars): void
+    {
+        $this->vars = $vars;
+    }
+
+    /**
+     * @Entity\OneToMany(entity="App\Entity\CustomRoute", primary_key="menu_id")
      */
     protected $routes = [];
 
     /**
      * @return int
      */
-    public function getId() :?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -89,4 +107,6 @@ class Template extends AbstractEntity
             $this->routes[] = $route;
         }
     }
+
+
 }

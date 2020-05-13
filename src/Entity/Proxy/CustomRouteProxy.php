@@ -6,17 +6,17 @@ namespace App\Entity\Proxy;
 class CustomRouteProxy extends \App\Entity\CustomRoute
 {
     private bool $__inited = false;
-    private \App\Repository\RouteRepository $repository;
+    private \App\Repository\CustomRouteRepository $repository;
     private $primaryKeyValue;
     private \App\Entity\CustomRoute $parent;
 
     /**
      * CustomRouteProxy constructor.
      *
-     * @param \App\Repository\RouteRepository $repository
+     * @param \App\Repository\CustomRouteRepository $repository
      * @param $primaryKeyValue
      */
-    public function __construct(\App\Repository\RouteRepository $repository, $primaryKeyValue)
+    public function __construct(\App\Repository\CustomRouteRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
         $this->primaryKeyValue = $primaryKeyValue;
@@ -136,6 +136,18 @@ class CustomRouteProxy extends \App\Entity\CustomRoute
     {
         $this->init();
         $this->parent->setMenu($menu);           
+    }
+
+    public function getName() : string
+    {
+        $this->init();
+        return $this->parent->getName();           
+    }
+
+    public function setName(string $name) : void
+    {
+        $this->init();
+        $this->parent->setName($name);           
     }
 
     public function getTableName() : string

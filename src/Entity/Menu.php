@@ -22,7 +22,7 @@ class Menu extends AbstractEntity
     protected $name;
 
     /**
-     * @Entity\OneToMany(entity="App\Entity\Route", primary_key="menu_id")
+     * @Entity\OneToMany(entity="App\Entity\CustomRoute", primary_key="menu_id")
      */
     protected $routes = [];
 

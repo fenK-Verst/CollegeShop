@@ -1,0 +1,85 @@
+{% extends "admin/base.html.twig" %}
+{% block title %}Меню{% endblock %}
+{% block title_small %}Список{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Меню</h3>
+                    <div class="box-tools">
+                        <a href="/admin/menu/create">
+                            <div class="btn btn-xs btn-success">
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            {% for menu in menus %}
+                                <a class="nav-item nav-link {% if loop.index == 1 %} active {% endif %}"
+                                   id="menu-{{ loop.index }}-tab" data-toggle="tab" href="#menu-{{ loop.index }}"
+                                   role="tab" aria-controls="menu-{{ loop.index }}"
+                                   aria-selected="{{ loop.index == 1 ? true : false }}">{{ menu.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        {% for menu in menus %}
+
+                            <div class="tab-pane  {% if loop.index == 1 %}show active {% endif %}"
+                                 id="menu-{{ loop.index }}" role="tabpanel" aria-labelledby="menu-{{ loop.index }}-tab">
+                                <div class="btn btn-xs btn-success float-right addRoute" data-parent-id="null"
+                                     data-menu-id="{{ menu.id }}">Добавить страницу
+                                </div>
+                                {{ menu.name }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Выбор шаблона</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="lds-roller preloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/assets/design/js/admin/addRoute.js"></script>
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="/assets/design/css/preloader.min.css">
+    <style>
+        .templates-wrapper{
+            display: flex;
+            flex-wrap: wrap;
+
+        }
+        .templates-wrapper .template{
+            padding: 10px;
+            box-sizing: border-box;
+            border:1px solid black;
+            margin: 10px;
+        }
+    </style>
+{% endblock %}

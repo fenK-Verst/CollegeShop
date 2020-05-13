@@ -123,7 +123,8 @@ CREATE TABLE `template`
 (
     `id`   int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` varchar(255) NOT NULL,
-    `path` varchar(255) NOT NULL
+    `path` varchar(255) NOT NULL,
+    `vars` json NOT NULL
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `route`;
@@ -131,6 +132,7 @@ CREATE TABLE `route`
 (
     `id`          int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `real_url`    varchar(255)     NOT NULL,
+    `name`    varchar(255)     NOT NULL,
     `short_url`   varchar(255)     NOT NULL,
     `_left`       int(30) UNSIGNED NOT NULL,
     `_right`      int(30) UNSIGNED NOT NULL,
