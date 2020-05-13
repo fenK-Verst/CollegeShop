@@ -3,20 +3,20 @@
 
 namespace App\Entity\Proxy;
 
-class OrderProxy extends \App\Entity\Order
+class CustomRouteProxy extends \App\Entity\CustomRoute
 {
     private bool $__inited = false;
-    private \App\Repository\OrderRepository $repository;
+    private \App\Repository\RouteRepository $repository;
     private $primaryKeyValue;
-    private \App\Entity\Order $parent;
+    private \App\Entity\CustomRoute $parent;
 
     /**
-     * OrderProxy constructor.
+     * CustomRouteProxy constructor.
      *
-     * @param \App\Repository\OrderRepository $repository
+     * @param \App\Repository\RouteRepository $repository
      * @param $primaryKeyValue
      */
-    public function __construct(\App\Repository\OrderRepository $repository, $primaryKeyValue)
+    public function __construct(\App\Repository\RouteRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
         $this->primaryKeyValue = $primaryKeyValue;
@@ -36,70 +36,106 @@ class OrderProxy extends \App\Entity\Order
 //        return $this->parent->getEntityParams();
 //    }
     
+    public function getLeft() : int
+    {
+        $this->init();
+        return $this->parent->getLeft();           
+    }
+
+    public function setLeft(string $left)
+    {
+        $this->init();
+        $this->parent->setLeft($left);           
+    }
+
+    public function getRight() : int
+    {
+        $this->init();
+        return $this->parent->getRight();           
+    }
+
+    public function setRight(string $right) : void
+    {
+        $this->init();
+        $this->parent->setRight($right);           
+    }
+
     public function getId() : int
     {
         $this->init();
         return $this->parent->getId();           
     }
 
-    public function getCreatedAt() : string
+    public function getShortUrl() : string
     {
         $this->init();
-        return $this->parent->getCreatedAt();           
+        return $this->parent->getShortUrl();           
     }
 
-    public function setCreatedAt(?\DateTime $date_time) : void
+    public function setShortUrl(string $url) : void
     {
         $this->init();
-        $this->parent->setCreatedAt($date_time);           
+        $this->parent->setShortUrl($url);           
     }
 
-    public function getStatus() : string
+    public function getRealUrl() : string
     {
         $this->init();
-        return $this->parent->getStatus();           
+        return $this->parent->getRealUrl();           
     }
 
-    public function setStatus(string $status)
+    public function setRealUrl(string $url) : void
     {
         $this->init();
-        $this->parent->setStatus($status);           
+        $this->parent->setRealUrl($url);           
     }
 
-    public function getOrderItems() : array
+    public function getLvl() : int
     {
         $this->init();
-        return $this->parent->getOrderItems();           
+        return $this->parent->getLvl();           
     }
 
-    public function addOrderItem(?\App\Entity\OrderItem $item)
+    public function setLvl(int $lvl)
     {
         $this->init();
-        $this->parent->addOrderItem($item);           
+        $this->parent->setLvl($lvl);           
     }
 
-    public function getStat() : array
+    public function getIsHidden() : bool
     {
         $this->init();
-        return $this->parent->getStat();           
+        return $this->parent->getIsHidden();           
     }
 
-    public function setUser(?\App\Entity\User $user) : void
+    public function setIsHidden(bool $is_hidden)
     {
         $this->init();
-        $this->parent->setUser($user);           
+        $this->parent->setIsHidden($is_hidden);           
     }
 
-    public function getUser() : ?\App\Entity\User
+    public function getTemplate() : ?\App\Entity\Template
     {
         $this->init();
-        return $this->parent->getUser();           
+        return $this->parent->getTemplate();           
     }
 
-    public function getStatuses()
+    public function setTemplate(?\App\Entity\Template $template) : void
     {
         $this->init();
-        $this->parent->getStatuses();           
+        $this->parent->setTemplate($template);           
+    }
+
+    public function getMenu() : ?\App\Entity\Menu
+    {
+        $this->init();
+        return $this->parent->getMenu();           
+    }
+
+    public function setMenu(?\App\Entity\Menu $menu) : void
+    {
+        $this->init();
+        $this->parent->setMenu($menu);           
     }
 
     public function getTableName() : string

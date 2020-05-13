@@ -3,20 +3,20 @@
 
 namespace App\Entity\Proxy;
 
-class OrderProxy extends \App\Entity\Order
+class TemplateProxy extends \App\Entity\Template
 {
     private bool $__inited = false;
-    private \App\Repository\OrderRepository $repository;
+    private \App\Repository\TemplateRepository $repository;
     private $primaryKeyValue;
-    private \App\Entity\Order $parent;
+    private \App\Entity\Template $parent;
 
     /**
-     * OrderProxy constructor.
+     * TemplateProxy constructor.
      *
-     * @param \App\Repository\OrderRepository $repository
+     * @param \App\Repository\TemplateRepository $repository
      * @param $primaryKeyValue
      */
-    public function __construct(\App\Repository\OrderRepository $repository, $primaryKeyValue)
+    public function __construct(\App\Repository\TemplateRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
         $this->primaryKeyValue = $primaryKeyValue;
@@ -42,64 +42,40 @@ class OrderProxy extends \App\Entity\Order
         return $this->parent->getId();           
     }
 
-    public function getCreatedAt() : string
+    public function getName() : string
     {
         $this->init();
-        return $this->parent->getCreatedAt();           
+        return $this->parent->getName();           
     }
 
-    public function setCreatedAt(?\DateTime $date_time) : void
+    public function setName(string $name) : void
     {
         $this->init();
-        $this->parent->setCreatedAt($date_time);           
+        $this->parent->setName($name);           
     }
 
-    public function getStatus() : string
+    public function getPath() : string
     {
         $this->init();
-        return $this->parent->getStatus();           
+        return $this->parent->getPath();           
     }
 
-    public function setStatus(string $status)
+    public function setPath(string $path) : void
     {
         $this->init();
-        $this->parent->setStatus($status);           
+        $this->parent->setPath($path);           
     }
 
-    public function getOrderItems() : array
+    public function getRoutes() : array
     {
         $this->init();
-        return $this->parent->getOrderItems();           
+        return $this->parent->getRoutes();           
     }
 
-    public function addOrderItem(?\App\Entity\OrderItem $item)
+    public function addRoute(?\App\Entity\CustomRoute $route)
     {
         $this->init();
-        $this->parent->addOrderItem($item);           
-    }
-
-    public function getStat() : array
-    {
-        $this->init();
-        return $this->parent->getStat();           
-    }
-
-    public function setUser(?\App\Entity\User $user) : void
-    {
-        $this->init();
-        $this->parent->setUser($user);           
-    }
-
-    public function getUser() : ?\App\Entity\User
-    {
-        $this->init();
-        return $this->parent->getUser();           
-    }
-
-    public function getStatuses()
-    {
-        $this->init();
-        $this->parent->getStatuses();           
+        $this->parent->addRoute($route);           
     }
 
     public function getTableName() : string

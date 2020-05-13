@@ -5,12 +5,15 @@ use App\Entity\EntityInterface;
 use App\Entity\Flag;
 use App\Entity\Folder;
 use App\Entity\Image;
+use App\Entity\Menu;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\Product;
 use App\Entity\ProductComment;
 use App\Entity\ProductParam;
 use App\Entity\ProductParamValue;
+use App\Entity\CustomRoute;
+use App\Entity\Template;
 use App\Entity\User;
 use App\Entity\Vendor;
 
@@ -29,7 +32,10 @@ $entities = [
     ProductParam::class,
     ProductComment::class,
     Order::class,
-    OrderItem::class
+    OrderItem::class,
+    Menu::class,
+    CustomRoute::class,
+    Template::class
 ];
 $config = new Config();
 $proxy_config = $config->get("proxy") ?? null;
