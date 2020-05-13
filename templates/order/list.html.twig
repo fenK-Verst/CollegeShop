@@ -14,7 +14,7 @@
             {% for order in orders %}
                 <tr>
                     {% set stat = order.stat %}
-                    <td>{{ loop.index }}</td>
+                    <td>{{ order.id }}</td>
                     <td>{{ stat.count }}</td>
                     <td>{{ stat.sum }} Тг</td>
                     <td>{{ order.statuses[order.status] }}</td>

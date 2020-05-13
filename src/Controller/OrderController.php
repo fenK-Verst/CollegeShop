@@ -52,7 +52,7 @@ class OrderController extends AbstractController
         ProductRepository $product_repository,
         ObjectManager $object_manager
     ) {
-        $start = microtime(true);
+//        $start = microtime(true);
 
         $error = '';
         $user = $user_service->getCurrentUser();
@@ -94,10 +94,9 @@ class OrderController extends AbstractController
                     $object_manager->save($product);
                 }
             }
-            echo "\n\nAll done";
-            // тело скрипта
-            echo 'Время выполнения скрипта: '.(microtime(true) - $start).' сек.';
-            die();
+//            echo "\n\nAll done";
+//            echo 'Время выполнения скрипта: '.(microtime(true) - $start).' сек.';
+//            die();
             return $this->redirect("/orders");
 
         }else{
