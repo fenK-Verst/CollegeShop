@@ -5,7 +5,9 @@ namespace App\Routing;
 use App\Config;
 use App\Controller\UserRoutesController;
 use App\Di\Container;
+use App\Entity\CustomRoute;
 use App\Http\Request;
+use App\Repository\CustomRouteRepository;
 use App\Twig;
 
 class Router
@@ -198,14 +200,27 @@ class Router
 
     private function getUserRouteData() : ?array
     {
-        $route_data = [
-            UserRoutesController::class,
-            "index",
-            [
-                "template_name"=>"title.html.twig",
-                "params"=>[]
-            ]
-        ];
-        return null;
+        $route_data = null;
+        $route_repository = $this->container->get(CustomRouteRepository::class);
+        $url = $this->request->getUrl();
+        $routes = $route_repository->findBy([
+            "real_url"=>$url
+        ]);
+        if (!empty($routes)){
+            /**
+             * @var CustomRoute $route
+             */
+            $route = $routes[0];
+            $route_data = [
+                UserRoutesController::class,
+                "index",
+                [
+                    "template_name"=>$route->getTemplate()->getPath(),
+                    "params"=>json_decode($route->getParams(), true)
+                ]
+            ];
+        }
+
+        return $route_data;
     }
 }

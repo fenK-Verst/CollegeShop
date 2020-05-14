@@ -70,11 +70,18 @@ class RouteApiController extends AbstractController
             ]);
         }
 
-        $parent_route_id = (int)$request->get("parent_id") ?? null;
-        $route = $route_repository->find($parent_route_id);
+        $parent_route_id = $request->get("parent_id") ?? null;
+        $parent_route = $route_repository->find($parent_route_id);
 
+        $route_id = $request->get("route_id");
+        $route = $route_repository->find($route_id);
+
+        if ($route && !$parent_route) {
+            $parent_route = $route_repository->getParent($route);
+        }
         try {
             $rendered_form = $twig->render($template->getFormPath(), [
+                "parent_route" => $parent_route,
                 "route" => $route,
                 "host" => $_SERVER["HTTP_HOST"]
             ]);
@@ -105,6 +112,68 @@ class RouteApiController extends AbstractController
             "data" => [
                 "form" => $rendered_form
             ]
+        ]);
+    }
+
+    /**
+     * @Route("/route/{id}/edit")
+     */
+    public function editRoute(
+        Request $request,
+        TemplateRepository $template_repository,
+        ObjectManager $object_manager,
+        CustomRouteRepository $route_repository,
+        MenuRepository $menu_repository,
+        ArrayDataManager $adm
+    ) {
+        $route_id = $this->getRoute()->get("id");
+        $route = $route_repository->find($route_id);
+        $request_route = $request->post("route") ?? null;
+        if (!($request_route && $request_route["short_url"] && $request_route["name"] && $request_route["params"])) {
+            return $this->error("Не указаны все данные");
+        }
+        $template_id = $request_route["template_id"] ?? null;
+        $template = $template_repository->find($template_id);
+        if (!$template) {
+            return $this->error("Не указан шаблон");
+        }
+        $parent_route_id = $request_route["parent_id"] ?? null;
+        $parent_route = $route_repository->find($parent_route_id);
+        $old_real_url = $route->getRealUrl();
+
+        if ($parent_route) {
+            $real_url = $parent_route->getRealUrl();
+            $short_url = $request_route["short_url"];
+            $url = $real_url . "/" . $short_url;
+            $url = preg_replace("/\s+/", "", $url);
+            $route->setShortUrl($short_url);
+            $route->setRealUrl($url);
+        } else {
+            $short_url = $request_route["short_url"];
+            $short_url = preg_replace("/\s+/", "", $short_url);
+            $route->setShortUrl($short_url);
+            $route->setRealUrl("/" . $short_url);
+        }
+
+        $route_childs = $route_repository->getChilds($route);
+        foreach ($route_childs as $key => $route_child) {
+            /**
+             * @var CustomRoute $route_child
+             */
+            $real_url = $route_child->getRealUrl();
+            $real_url = substr($real_url, strlen($old_real_url));
+            $real_url = $route->getRealUrl() . $real_url;
+            $route_child->setRealUrl($real_url);
+            $object_manager->save($route_child);
+        }
+
+        $route->setName($request_route["name"]);
+        $route->setParams(json_encode($request_route["params"]));
+        $object_manager->save($route);
+        return $this->json([
+            "error" => false,
+            "status" => "OK",
+            "error_msg" => '',
         ]);
     }
 
@@ -213,10 +282,8 @@ class RouteApiController extends AbstractController
         ]);
     }
 
-    private
-    function error(
-        string $error_msg
-    ) {
+    private function error(string $error_msg)
+    {
         return $this->json([
             "error" => true,
             "status" => "KO",

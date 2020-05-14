@@ -51,7 +51,7 @@ $addRouteBtn.click(async function () {
     if (menuId) {
         $modalBody.find(" > :not(.preloader)").remove();
         $modal.modal("show");
-        console.log(menuId);
+        console.log(menuId, parentId);
         let response = await request(url + `/template/get`);
 
         if (!response.error) {
@@ -67,12 +67,17 @@ $addRouteBtn.click(async function () {
                     $modalTitle.text(template.name);
                     $modalBody.find(" > :not(.preloader)").remove();
                     $preloader.show();
-                    let response = await request(url + `/template/${template.id}/get/form`);
+                    let response = await request(url + `/template/${template.id}/get/form`,{
+                        parent_id: parentId
+                    });
                     if (!response.error) {
                         let $form = $(response.data.form);
                         $preloader.hide();
                         $alert.hide();
                         $form.appendTo($modalBody);
+                        var quill = new Quill('[data-type="html"]', {
+                            theme: 'snow'
+                        });
                         $form.submit(async (e)=>{
                             e.preventDefault();
                             e.stopPropagation();
@@ -82,7 +87,11 @@ $addRouteBtn.click(async function () {
                             $form.find('input, textarea, select').each(function () {
                                 params[this.name] = $(this).val();
                             });
+                            $form.find(`div[data-type="html"]`).each(function () {
+                                params[$(this).attr("name")] = $(this).html()
+                            })
                             params[`route[menu_id]`] = menuId;
+                            if (parentId) params[`route[parent_id]`] = parentId;
                             let response = await request(`${url}/route/create`, params, "POST");
                             console.log(response);
                             if(!response.error){
@@ -114,3 +123,57 @@ $addRouteBtn.click(async function () {
         }
     }
 });
+
+$(".editRoute").click(async function () {
+    $preloader.show();
+    $alert.hide();
+    let $this = $(this),
+        id = $this.data("id"),
+        template_id = $this.data("template-id");
+    if (id && template_id) {
+        $modalBody.find(" > :not(.preloader)").remove();
+        $modal.modal("show");
+        $modalTitle.text($this.closest(".btn-group").prev().text());
+        $modalBody.find(" > :not(.preloader)").remove();
+        $preloader.show();
+        let response = await request(url + `/template/${template_id}/get/form`,{
+            route_id: id
+        });
+        if (!response.error) {
+            let $form = $(response.data.form);
+            $preloader.hide();
+            $alert.hide();
+            $form.appendTo($modalBody);
+            $('div[data-type="html"]').trumbowyg();
+            $form.submit(async (e)=>{
+                e.preventDefault();
+                e.stopPropagation();
+                let params = {};
+                $form.find('input, textarea, select').each(function () {
+                    params[this.name] = $(this).val();
+                });
+                $form.find(`div[data-type="html"]`).each(function () {
+                    params[$(this).attr("name")] = $(this).html()
+                })
+                console.log(params);
+                let response = await request(`${url}/route/${id}/edit`, params, "POST");
+                console.log(response);
+                if(!response.error){
+                    location.reload();
+                }else{
+                    $alert.addClass("alert-danger");
+                    $alert.text(response.error_msg);
+                    $alert.show();
+                    $preloader.hide();
+                }
+            });
+        }else{
+            $alert.addClass("alert-danger");
+            $alert.text(response.error_msg);
+            $alert.show();
+            $preloader.hide();
+        }
+    }
+})
+
+

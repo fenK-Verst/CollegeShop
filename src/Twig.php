@@ -27,6 +27,10 @@ class Twig
             return "/".$path;
         });
         $this->twig->addFunction($function);
+        $function = new TwigFunction('json_decode', function ($string) {
+            return json_decode($string);
+        });
+        $this->twig->addFunction($function);
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
 
     }

@@ -16,6 +16,11 @@
                     </div>
                 </div>
                 <div class="box-body">
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error|nl2br }}
+                    </div>
+                    {% endif %}
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             {% for menu in menus %}
@@ -35,7 +40,8 @@
                                      data-menu-id="{{ menu.id }}">Добавить страницу
                                 </div>
                                 {{ menu.name }}
-                                {% include "/admin/menu/routes.ul.html.twig" with {"routes":menu.routes, "controls":true} %}
+
+                                {% include "/admin/menu/routes.ul.html.twig" with {"routes":menu.routes|sort((a, b) => a.left <=> b.left), "controls":true} %}
                             </div>
                         {% endfor %}
                     </div>
@@ -69,10 +75,14 @@
     </div>
 {% endblock %}
 {% block scripts %}
+{#    <script src="/assets/plugins/quill/quill.js"></script>#}
+    <script src="/assets/plugins/Trumbowyg/trumbowyg.min.js"></script>
     <script src="/assets/design/js/admin/addRoute.js"></script>
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="/assets/design/css/preloader.min.css">
+{#<link rel="stylesheet" href="/assets/plugins/quill/quill.snow.css">#}
+<link rel="stylesheet" href="/assets/plugins/Trumbowyg/trumbowyg.min.css">
     <style>
         .templates-wrapper{
             display: flex;

@@ -4,6 +4,9 @@
     <input type="hidden" name="route[template_id]" value="1">
    <div class="form-group">
        <label for="route[params][text]">Содержание</label>
-       <textarea name="route[params][text]" id="route[params][text]" class="form-control">{{ route.text }}</textarea>
+       {% if route %}
+           {% set route_params = json_decode(route.params) %}
+           {% endif %}
+       <div data-type="html" name="route[params][text]" id="route[params][text]" class="form-control">{{ route_params.text|raw }}</div>
    </div>
 {% endblock %}

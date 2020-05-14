@@ -1,13 +1,13 @@
 <form action="">
     {% if parent_route %}
-        <input type="hidden" name="route[parent_id]" value>
+        <input type="hidden" name="route[parent_id]" value="{{ parent_route.id }}">
     {% endif %}
     {% if route %}
-        <input type="hidden" name="route[id]" value>
+        <input type="hidden" name="route[id]" value = "{{ route.id }}">
     {% endif %}
     <div class="form-group">
         <label for="route[name]">Название страницы</label>
-        <input type="text" class="form-control"  name="route[name]" id="route[name]">
+        <input type="text" class="form-control"  name="route[name]" id="route[name]" value="{{ route.name }}">
     </div>
     <div class="form-group">
             <label for="route[short_url]">Адрес</label>

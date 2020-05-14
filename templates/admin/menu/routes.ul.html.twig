@@ -22,9 +22,12 @@
             {% endif %}
             {% if controls %}
                 <span class="route-controls btn-group align-items-start">
-                <a href="/admin/route/{{ e.id }}/edit" class="btn btn-sm btn-success">
+                    <span class="btn btn-sm btn-primary addRoute" {% if menu %}data-menu-id="{{ menu.id }}" {% endif %} data-parent-id="{{ e.id }}">
+                        <i class="fa fa-plus"></i>
+                    </span>
+                <span class="btn btn-sm btn-success editRoute" {% if menu %}data-menu-id="{{ menu.id }}" {% endif %} data-id="{{ e.id }}" data-template-id="{{ e.template.id }}">
                     <i class="fa fa-edit"></i>
-                </a>
+                </span>
                 {% if e.right-e.left <=1%}
                     <form action="/admin/route/delete" method="post" class="btn btn-sm btn-danger delete-route" style="order:1"
                           style="display: inline">
