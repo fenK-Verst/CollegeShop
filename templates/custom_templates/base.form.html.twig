@@ -1,0 +1,23 @@
+<form action="">
+    {% if parent_route %}
+        <input type="hidden" name="route[parent_id]" value>
+    {% endif %}
+    {% if route %}
+        <input type="hidden" name="route[id]" value>
+    {% endif %}
+    <div class="form-group">
+        <label for="route[name]">Название страницы</label>
+        <input type="text" class="form-control"  name="route[name]" id="route[name]">
+    </div>
+    <div class="form-group">
+            <label for="route[short_url]">Адрес</label>
+        <div class="d-inline-flex align-items-center">
+            <input type="text" class="form-control" name="route[long_url]" id="route[long_url]" value="{{ host }}{{ parent_route.realUrl }}/" disabled>
+            <input type="text" class="form-control" name="route[short_url]" id="route[short_url]" value="{{ route.shortUrl }}">
+        </div>
+    </div>
+    {% block body %}
+
+    {% endblock %}
+    <button class="btn btn-danger">Добавить</button>
+</form>

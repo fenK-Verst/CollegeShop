@@ -23,5 +23,5 @@ middlewares:
   - App\Middleware\UserMiddleware
   - App\Middleware\SharedMiddleware
   - App\Middleware\CartMiddleware
-images_directory: /assets/dynamic/images/
+images_directory: /assets/dynamic/images/product/
 avatar_directory: /assets/dynamic/images/avatars/

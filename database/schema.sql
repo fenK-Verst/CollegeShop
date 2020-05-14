@@ -124,7 +124,7 @@ CREATE TABLE `template`
     `id`   int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` varchar(255) NOT NULL,
     `path` varchar(255) NOT NULL,
-    `vars` json NOT NULL
+    `form_path` varchar(255) NOT NULL
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `route`;
@@ -139,6 +139,7 @@ CREATE TABLE `route`
     `_lvl`        int(30) UNSIGNED NOT NULL,
     `menu_id`     int UNSIGNED     NOT NULL,
     `is_hidden`   bool DEFAULT FALSE,
-    `template_id` int UNSIGNED     NOT NULL
+    `template_id` int UNSIGNED     NOT NULL,
+    `params` TEXT NOT NULL
 ) ENGINE = InnoDB;
 

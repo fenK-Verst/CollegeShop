@@ -29,19 +29,19 @@ class Template extends AbstractEntity
     /**
      * @Entity\Column()
      */
-    protected $vars = [];
+    protected $form_path;
 
-    public function getVars()
+    public function getFormPath()
     {
-        return $this->vars;
+        return $this->form_path;
     }
 
     /**
-     * @param array|null $vars
+     * @param string|null $form_path
      */
-    public function setVars(?array $vars): void
+    public function setFormPath(?string $form_path): void
     {
-        $this->vars = $vars;
+        $this->form_path = $form_path;
     }
 
     /**

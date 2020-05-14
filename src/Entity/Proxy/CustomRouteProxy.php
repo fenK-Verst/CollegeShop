@@ -150,6 +150,18 @@ class CustomRouteProxy extends \App\Entity\CustomRoute
         $this->parent->setName($name);           
     }
 
+    public function getParams() : string
+    {
+        $this->init();
+        return $this->parent->getParams();           
+    }
+
+    public function setParams(string $params) : void
+    {
+        $this->init();
+        $this->parent->setParams($params);           
+    }
+
     public function getTableName() : string
     {
         $this->init();

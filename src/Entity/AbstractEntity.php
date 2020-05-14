@@ -146,7 +146,11 @@ class AbstractEntity implements EntityInterface
 
         $getter = $this->getPropertyGetter($column);
 
-        return $this->{$getter}();
+        $value =  $this->{$getter}();
+        if (gettype($value) == "boolean"){
+            $value = $value ? "1" : "0";
+        }
+        return $value;
     }
     private function isColumnExists(string $column):bool
     {

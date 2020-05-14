@@ -3,6 +3,9 @@
 
 namespace App;
 use \Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use \Twig\Loader\FilesystemLoader;
 use \Twig\TwigFunction;
 
@@ -29,6 +32,14 @@ class Twig
     }
     public function render(string $template_name, array $params = [])
     {
-        return $this->twig->render($template_name, $params);
+        try {
+            return $this->twig->render($template_name, $params);
+        } catch (LoaderError $e) {
+            throw new LoaderError($e);
+        } catch (RuntimeError $e) {
+            throw new RuntimeError($e);
+        } catch (SyntaxError $e) {
+            throw new SyntaxError($e);
+        }
     }
 }

@@ -1,0 +1,9 @@
+{% extends 'custom_templates/base.form.html.twig' %}
+
+{% block body %}
+    <input type="hidden" name="route[template_id]" value="1">
+   <div class="form-group">
+       <label for="route[params][text]">Содержание</label>
+       <textarea name="route[params][text]" id="route[params][text]" class="form-control">{{ route.text }}</textarea>
+   </div>
+{% endblock %}

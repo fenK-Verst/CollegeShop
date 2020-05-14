@@ -50,6 +50,11 @@ class CustomRoute extends AbstractEntity
     protected $is_hidden;
 
     /**
+     * @Entity\Column()
+     */
+    protected $params;
+
+    /**
      * @Entity\ManyToOne(entity="App\Entity\Template", primary_key="template_id")
      */
     protected $template;
@@ -152,7 +157,7 @@ class CustomRoute extends AbstractEntity
      */
     public function getIsHidden(): ?bool
     {
-        return $this->is_hidden;
+        return $this->is_hidden == 1;
     }
 
     /**
@@ -160,7 +165,7 @@ class CustomRoute extends AbstractEntity
      */
     public function setIsHidden(bool $is_hidden)
     {
-        $this->is_hidden = $is_hidden;
+        $this->is_hidden = $is_hidden ? 1 : 0;
     }
 
     /**
@@ -211,4 +216,19 @@ class CustomRoute extends AbstractEntity
         $this->name = $name;
     }
 
+    /**
+     * @return string
+     */
+    public function getParams(): ?string
+    {
+        return $this->params;
+    }
+
+    /**
+     * @param string $params
+     */
+    public function setParams(string $params): void
+    {
+        $this->params = $params;
+    }
 }

@@ -36,7 +36,11 @@ class FolderAdminController extends AbstractController
     /**
      * @Route("/create", name="folder.create")
      */
-    public function create(Request $request, FolderRepository $folder_repository, ObjectManager $object_manager)
+    public function create(
+        Request $request,
+        FolderRepository $folder_repository,
+        ObjectManager $object_manager
+    )
     {
         $folder = $request->post("folder");
 
