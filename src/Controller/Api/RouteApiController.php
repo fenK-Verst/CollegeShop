@@ -6,6 +6,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AbstractController;
 use App\Http\Request;
+use App\Repository\CustomRouteRepository;
 use App\Repository\ProductRepository;
 use App\Repository\TemplateRepository;
 use App\Service\CartService;
@@ -21,17 +22,35 @@ class RouteApiController extends AbstractController
     /**
      * @Route("/templates/get")
      */
-    public function getTemplates(TemplateRepository $template_repository)
+    public function getTemplates(Request $request,TemplateRepository $template_repository, CustomRouteRepository $route_repository)
     {
+
+
         $templates = $template_repository->findAll();
-        $data = [];
+        $data = [
+            "templates"=>null,
+            "route"=>null
+        ];
         foreach ($templates as $template){
-            $data[] = [
+            $data["templates"][] = [
                 "name"=>$template->getName(),
                 "id"=>$template->getId(),
                 "vars"=>$template->getVars()
             ];
         }
+        $parent_route_id = (int)$request->get("parent_id") ?? null;
+        if (!is_null($parent_route_id) && $parent_route_id){
+            $route = $route_repository->find($parent_route_id);
+            if ($route){
+                $data["route"] = [
+                    "id"=>$route->getId(),
+                    "name"=>$route->getName(),
+                    "short_url"=>$route->getShortUrl(),
+                    "real_url"=>$route->getRealUrl()
+                ];
+            }
+        }
+
         $response = [
             "error"=>false,
             "status"=>"OK",

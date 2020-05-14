@@ -17,13 +17,16 @@ $addRouteBtn.click(async function () {
 
         let response = await fetch(url + `/get`);
         response = await response.json();
+
         if (!response.error) {
             $preloader.hide();
-            let templates = response.data || [],
+
+            let templates = response.data.templates || [],
                 $wrapper = $(`<div class="templates-wrapper" />`);
+
             $.each(templates, (i, template) => {
-                console.log(template);
                 let $template = $(`<div class="template"><span>${template.name}</span></div>`);
+
                 $template.click(() => {
                     $modalTitle.text(template.name);
                     let $form = $(`<form class="form"></form>`),
@@ -35,8 +38,9 @@ $addRouteBtn.click(async function () {
                         `);
                     $page_name.appendTo($form);
                     let vars = JSON.parse(template.vars);
+
                     $.each(vars, (i, elem) => {
-                        let $varWrapper =  $(`
+                        let $varWrapper = $(`
                                 <div class="form-group">
                                     <label for="route[${i}]">${elem.title} </label>
                                 </div>
@@ -52,11 +56,10 @@ $addRouteBtn.click(async function () {
                         $input.addClass("form-control");
                         $varWrapper.appendTo($form);
                     });
-
-
                     $modalBody.find(" > :not(.preloader)").remove();
                     $form.appendTo($modalBody);
                 });
+
                 $template.appendTo($wrapper);
             });
             $wrapper.appendTo($modalBody);
