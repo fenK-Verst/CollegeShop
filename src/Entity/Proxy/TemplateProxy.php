@@ -36,16 +36,16 @@ class TemplateProxy extends \App\Entity\Template
 //        return $this->parent->getEntityParams();
 //    }
     
-    public function getFormPath()
+    public function getParams() : string
     {
         $this->init();
-        $this->parent->getFormPath();           
+        return $this->parent->getParams();           
     }
 
-    public function setFormPath(string $form_path) : void
+    public function setParams(string $params) : void
     {
         $this->init();
-        $this->parent->setFormPath($form_path);           
+        $this->parent->setParams($params);           
     }
 
     public function getId() : int

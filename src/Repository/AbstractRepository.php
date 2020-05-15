@@ -41,7 +41,12 @@ abstract class AbstractRepository //implements RepositoryInterface
     {
         $where_array = [];
         foreach ($where as $key => $value) {
-            $where_array[] = '`'.$this->escape($key) .'`' . ' = "' . $this->escape($value) . '"';
+            if (is_array($value)){
+                $value = "(".implode(",",$value).")";
+                $where_array[] = '`'.$this->escape($key) .'`' . 'in ' . $this->escape($value);
+            }else{
+                $where_array[] = '`'.$this->escape($key) .'`' . ' = "' . $this->escape($value) . '"';
+            }
         }
         $table_name = $this->entity->getTableName();
         $query = "SELECT * FROM `$table_name`";

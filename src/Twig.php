@@ -28,7 +28,7 @@ class Twig
         });
         $this->twig->addFunction($function);
         $function = new TwigFunction('json_decode', function ($string) {
-            return json_decode($string);
+            return json_decode($string, true);
         });
         $this->twig->addFunction($function);
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());

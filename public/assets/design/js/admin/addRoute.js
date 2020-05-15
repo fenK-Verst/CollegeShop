@@ -1,3 +1,4 @@
+
 const request = async (url, params = [], method = 'GET') => {
     return new Promise(((resolve, reject) => {
         url = new URL(url);
@@ -41,7 +42,77 @@ const $addRouteBtn = $(".addRoute.btn"),
     $modalBody = $modal.find(".modal-body"),
     $preloader = $modal.find(".preloader"),
     $alert = $modal.find(".alert");
-    url = window.location.protocol + `//` + window.location.host + `/api`;
+url = window.location.protocol + `//` + window.location.host + `/api`;
+const updateEvents = ($form) =>{
+    $form.find(`.btn[data-type="image"]`).unbind();
+    $form.find(`.btn[data-action="remove"]`).unbind();
+    $form.find(`.btn[data-type="image"]`).click(async function () {
+        let $this = $(this),
+            action = $this.data("action"),
+            name = $this.data("name"),
+            isMultiply = $this.data("multiply");
+        switch (action) {
+            case "add":
+            case"edit":
+                let $modalClone = $modal.clone(false);
+                $modalClone.find(".modal-body").find("> :not(.preloader)").remove();
+                $modalClone.find(".preloader").show();
+                $modalClone.find(".modal-title").text("Фотографии");
+                $modalClone.modal("show");
+                let response = await request(url + "/image");
+                if (!response.error) {
+                    let $wrapper = $(`<div class="images"/>`);
+                    $.each(response.data, (key, image) => {
+                        let $imageWrapper = $(`<div class="image"/>`),
+                            $image = $(`<img/>`),
+                            $alias = $(`<span />`);
+                        $imageWrapper.click(() => {
+                            if (action == "add") {
+                                let $image_item = $(`
+                                                   <div class="image-item">
+                                                        <img src="${image.path}" width="30px" height="30px"
+                                                             alt=""><span>${image.alias}</span>
+                                                        <input type="hidden" name="${name}" value="${image.id}">
+                                                        <span class="btn btn-sm btn-danger" data-action="remove" ><i class="fa fa-minus"></i></span>
+                                                   </div>`);
+                                if (isMultiply) {
+                                    $image_item.appendTo($this.siblings(".images"));
+                                } else {
+                                    $this.siblings(".image-item").remove();
+                                    $this.after($image_item);
+                                }
+                                updateEvents($form);
+                            }
+                            $modalClone.modal("hide");
+                        });
+                        $image.attr("src", image.path);
+                        $alias.text(image.alias);
+                        $image.appendTo($imageWrapper);
+                        $alias.appendTo($imageWrapper);
+
+                        $imageWrapper.appendTo($wrapper);
+                    });
+                    $modalClone.find(".preloader").hide();
+                    $wrapper.appendTo($modalClone.find(".modal-body"));
+
+                } else {
+                    $alert.addClass("alert-danger");
+                    $alert.text(response.error_msg);
+                    $alert.show();
+                    $preloader.hide();
+                }
+
+                break;
+        }
+
+    })
+    $form.find(`.btn[data-action="remove"]`).click(async function () {
+        let $this = $(this);
+        $this.parent().remove();
+        console.log(123);
+
+    })
+}
 $addRouteBtn.click(async function () {
     $preloader.show();
     $alert.hide();
@@ -67,7 +138,7 @@ $addRouteBtn.click(async function () {
                     $modalTitle.text(template.name);
                     $modalBody.find(" > :not(.preloader)").remove();
                     $preloader.show();
-                    let response = await request(url + `/template/${template.id}/get/form`,{
+                    let response = await request(url + `/template/${template.id}/get/form`, {
                         parent_id: parentId
                     });
                     if (!response.error) {
@@ -75,35 +146,43 @@ $addRouteBtn.click(async function () {
                         $preloader.hide();
                         $alert.hide();
                         $form.appendTo($modalBody);
-                        var quill = new Quill('[data-type="html"]', {
-                            theme: 'snow'
-                        });
-                        $form.submit(async (e)=>{
+                        $form.find('div[data-type="html"]').trumbowyg();
+
+                        updateEvents($form);
+
+                        $form.submit(async (e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            console.log(e);
                             let params = {};
 
-                            $form.find('input, textarea, select').each(function () {
-                                params[this.name] = $(this).val();
-                            });
                             $form.find(`div[data-type="html"]`).each(function () {
                                 params[$(this).attr("name")] = $(this).html()
                             })
                             params[`route[menu_id]`] = menuId;
                             if (parentId) params[`route[parent_id]`] = parentId;
-                            let response = await request(`${url}/route/create`, params, "POST");
+                            let out = [];
+
+                            for (var key in params) {
+                                if (params.hasOwnProperty(key)) {
+                                    out.push(key + '=' + encodeURIComponent(params[key]));
+                                }
+                            }
+                            out.join('&');
+                            let request_url = `${url}/route/create?${$form.serialize()}&${ out.join('&')}`;
+                            let response = await fetch(request_url);
+
+                            response = await response.json();
                             console.log(response);
-                            if(!response.error){
+                            if (!response.error) {
                                 location.reload();
-                            }else{
+                            } else {
                                 $alert.addClass("alert-danger");
                                 $alert.text(response.error_msg);
                                 $alert.show();
                                 $preloader.hide();
                             }
                         });
-                    }else{
+                    } else {
                         $alert.addClass("alert-danger");
                         $alert.text(response.error_msg);
                         $alert.show();
@@ -115,7 +194,7 @@ $addRouteBtn.click(async function () {
                 $template.appendTo($wrapper);
             });
             $wrapper.appendTo($modalBody);
-        }else{
+        } else {
             $alert.addClass("alert-danger");
             $alert.text(response.error_msg);
             $alert.show();
@@ -136,7 +215,7 @@ $(".editRoute").click(async function () {
         $modalTitle.text($this.closest(".btn-group").prev().text());
         $modalBody.find(" > :not(.preloader)").remove();
         $preloader.show();
-        let response = await request(url + `/template/${template_id}/get/form`,{
+        let response = await request(url + `/template/${template_id}/get/form`, {
             route_id: id
         });
         if (!response.error) {
@@ -144,30 +223,39 @@ $(".editRoute").click(async function () {
             $preloader.hide();
             $alert.hide();
             $form.appendTo($modalBody);
-            $('div[data-type="html"]').trumbowyg();
-            $form.submit(async (e)=>{
+            $form.find('div[data-type="html"]').trumbowyg();
+            updateEvents($form);
+
+            $form.submit(async (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+
                 let params = {};
-                $form.find('input, textarea, select').each(function () {
-                    params[this.name] = $(this).val();
-                });
                 $form.find(`div[data-type="html"]`).each(function () {
                     params[$(this).attr("name")] = $(this).html()
-                })
-                console.log(params);
-                let response = await request(`${url}/route/${id}/edit`, params, "POST");
-                console.log(response);
-                if(!response.error){
+                });
+                let out = [];
+
+                for (var key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        out.push(key + '=' + encodeURIComponent(params[key]));
+                    }
+                }
+                out.join('&');
+                let request_url = `${url}/route/${id}/edit?${$form.serialize()}&${ out.join('&')}`;
+                let response = await fetch(request_url);
+
+                response = await response.json();
+                if (!response.error) {
                     location.reload();
-                }else{
+                } else {
                     $alert.addClass("alert-danger");
                     $alert.text(response.error_msg);
                     $alert.show();
                     $preloader.hide();
                 }
             });
-        }else{
+        } else {
             $alert.addClass("alert-danger");
             $alert.text(response.error_msg);
             $alert.show();

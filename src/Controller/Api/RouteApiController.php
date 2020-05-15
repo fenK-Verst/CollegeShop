@@ -10,6 +10,7 @@ use App\Db\ObjectManager;
 use App\Entity\CustomRoute;
 use App\Http\Request;
 use App\Repository\CustomRouteRepository;
+use App\Repository\ImageRepository;
 use App\Repository\MenuRepository;
 use App\Repository\TemplateRepository;
 use App\Twig;
@@ -58,6 +59,8 @@ class RouteApiController extends AbstractController
         Request $request,
         CustomRouteRepository $route_repository,
         TemplateRepository $template_repository,
+        ImageRepository $image_repository,
+        MenuRepository $menu_repository,
         Twig $twig
     ) {
         $template_id = (int)$this->getRoute()->get("id") ?? null;
@@ -79,30 +82,55 @@ class RouteApiController extends AbstractController
         if ($route && !$parent_route) {
             $parent_route = $route_repository->getParent($route);
         }
+        $vars = json_decode($template->getParams(), true);
+        $params = [];
+        if ($route) {
+            $route_params = json_decode($route->getParams(), true);
+             foreach ($route_params as $key => &$route_param) {
+                if (is_null($route_param) || empty($route_param)) {
+                    continue;
+                }
+                $var = $vars[$key];
+                if (!$var["type"]) {
+                    return $this->error('Ошибка типизации. Обратитесь к разработчику');
+                }
+                switch ($var["type"]) {
+                    case "html":
+                    case "text":
+                        $params[$key] = $route_param;
+                        break;
+                    case "image":
+                        $is_multiply = $var["multiply"] ?? false;
+                        if (!$is_multiply) {
+                            $image = $image_repository->find($route_param);
+                            if (!$image) {
+                                $route_param = null;
+                            }
+                            $params[$key] = $image;
+                        } else {
+                            $images = $image_repository->findBy([
+                                "id"=>$route_param]);
+                            $params[$key] = $images;
+                        }
+
+                }
+            }
+        }
         try {
-            $rendered_form = $twig->render($template->getFormPath(), [
+            $rendered_form = $twig->render('custom_templates/base.form.html.twig', [
                 "parent_route" => $parent_route,
                 "route" => $route,
-                "host" => $_SERVER["HTTP_HOST"]
+                "host" => $_SERVER["HTTP_HOST"],
+                "vars" => $vars,
+                "params" => $params,
+                "template"=>$template
             ]);
         } catch (LoaderError $e) {
-            return $this->json([
-                "error" => true,
-                "status" => "KO",
-                "error_msg" => 'Не удалось загрузить шаблон',
-            ]);
+            return $this->error('Не удалось загрузить шаблон');
         } catch (RuntimeError $e) {
-            return $this->json([
-                "error" => true,
-                "status" => "KO",
-                "error_msg" => 'Превышено время ожидания',
-            ]);
+            return $this->error('Превышено время ожидания');
         } catch (SyntaxError $e) {
-            return $this->json([
-                "error" => true,
-                "status" => "KO",
-                "error_msg" => 'Синаксическая ошибка. Обратитесь к разработчику',
-            ]);
+            return $this->error('Синаксическая ошибка. Обратитесь к разработчику');
         }
 
         return $this->json([
@@ -128,7 +156,7 @@ class RouteApiController extends AbstractController
     ) {
         $route_id = $this->getRoute()->get("id");
         $route = $route_repository->find($route_id);
-        $request_route = $request->post("route") ?? null;
+        $request_route = $request->get("route") ?? null;
         if (!($request_route && $request_route["short_url"] && $request_route["name"] && $request_route["params"])) {
             return $this->error("Не указаны все данные");
         }
@@ -188,7 +216,7 @@ class RouteApiController extends AbstractController
         MenuRepository $menu_repository,
         ArrayDataManager $adm
     ) {
-        $route = $request->post("route") ?? null;
+        $route = $request->get("route") ?? null;
         if (!($route && $route["short_url"] && $route["name"] && $route["params"])) {
             return $this->error("Не указаны все данные");
         }

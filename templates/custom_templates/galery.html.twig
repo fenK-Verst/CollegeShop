@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="wrapper" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-gap: 10px">
+    {{ text|raw }}
+    {% for image in images %}
+        <img src="{{ image.path }}" alt="">
+    {% endfor %}
+</div>
+{% endblock %}

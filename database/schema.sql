@@ -124,7 +124,7 @@ CREATE TABLE `template`
     `id`   int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` varchar(255) NOT NULL,
     `path` varchar(255) NOT NULL,
-    `form_path` varchar(255) NOT NULL
+    `params` json NOT NULL
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `route`;

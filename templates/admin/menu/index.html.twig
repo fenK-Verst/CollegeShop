@@ -33,14 +33,12 @@
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
                         {% for menu in menus %}
-
                             <div class="tab-pane  {% if loop.index == 1 %}show active {% endif %}"
                                  id="menu-{{ loop.index }}" role="tabpanel" aria-labelledby="menu-{{ loop.index }}-tab">
                                 <div class="btn btn-xs btn-success float-right addRoute" data-parent-id="null"
                                      data-menu-id="{{ menu.id }}">Добавить страницу
                                 </div>
                                 {{ menu.name }}
-
                                 {% include "/admin/menu/routes.ul.html.twig" with {"routes":menu.routes|sort((a, b) => a.left <=> b.left), "controls":true} %}
                             </div>
                         {% endfor %}
@@ -49,7 +47,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Modal -->
     <div class="modal fade" id="modal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -95,5 +92,33 @@
             border:1px solid black;
             margin: 10px;
         }
+
+        .modal-body .images{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-gap: 10px;
+        }
+        .modal-body .images .image{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .image-name{
+            margin-left: 5px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .modal-body form .images{
+            display: flex;
+            flex-direction: column;
+
+        }
+        .modal-body form .images .image-item{
+            display: flex;
+            justify-content: space-between;
+        }
+
     </style>
 {% endblock %}

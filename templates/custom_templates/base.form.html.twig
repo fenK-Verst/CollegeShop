@@ -3,21 +3,59 @@
         <input type="hidden" name="route[parent_id]" value="{{ parent_route.id }}">
     {% endif %}
     {% if route %}
-        <input type="hidden" name="route[id]" value = "{{ route.id }}">
+        <input type="hidden" name="route[id]" value="{{ route.id }}">
+    {% endif %}
+    {% if template %}
+        <input type="hidden" name="route[template_id]" value="{{ template.id }}">
     {% endif %}
     <div class="form-group">
         <label for="route[name]">Название страницы</label>
-        <input type="text" class="form-control"  name="route[name]" id="route[name]" value="{{ route.name }}">
+        <input type="text" class="form-control" name="route[name]" id="route[name]" value="{{ route.name }}">
     </div>
     <div class="form-group">
-            <label for="route[short_url]">Адрес</label>
+        <label for="route[short_url]">Адрес</label>
         <div class="d-inline-flex align-items-center">
-            <input type="text" class="form-control" name="route[long_url]" id="route[long_url]" value="{{ host }}{{ parent_route.realUrl }}/" disabled>
-            <input type="text" class="form-control" name="route[short_url]" id="route[short_url]" value="{{ route.shortUrl }}">
+            <input type="text" class="form-control" name="route[long_url]" id="route[long_url]"
+                   value="{{ host }}{{ parent_route.realUrl }}/" disabled>
+            <input type="text" class="form-control" name="route[short_url]" id="route[short_url]"
+                   value="{{ route.shortUrl }}">
         </div>
     </div>
-    {% block body %}
+    {% for key,var in vars %}
+        <div class="form-group">
+            <label for="route[params][{{ key }}]">{{ var.title }}</label>
+            {% if var.type == "html" %}
+                <div data-type="{{ var.type }}" name="route[params][{{ key }}]">{{ params[key]|raw }}</div>
+            {% elseif var.type == "image" %}
 
-    {% endblock %}
+                {% if var.multiply %}
+                    <span class="btn btn-sm btn-success" data-action="add" data-multiply="true" data-type="image"
+                          data-name="route[params][{{ key }}][]"><i class="fa fa-plus"></i></span>
+                    <div class="images">
+                        {% for image in params[key] %}
+                            <div class="image-item">
+                                <img src="{{ image.path }}" width="30px" height="30px"
+                                     alt=""><span>{{ image.alias }}</span>
+                                <input type="hidden" name="route[params][{{ key }}][]" value="{{ image.id }}">
+                                <span class="btn btn-sm btn-danger" data-action="remove" ><i class="fa fa-minus"></i></span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {% if params[key] %}
+                        {% set image = params[key] %}
+                        <div class="image-item">
+                            <img src="{{ image.path }}" width="30px" height="30px" alt=""><span>{{ image.alias }}</span>
+                            <input type="hidden" name="route[params][{{ key }}]" value="{{ image.id }}">
+                            <span class="btn btn-sm btn-danger"  data-action="remove" ><i class="fa fa-minus"></i></span>
+                        </div>
+                    {% else %}
+                        <span class="btn btn-sm btn-primary" data-action="add" data-multiply="false" data-type="image"
+                              data-name="route[params][{{ key }}]">Set</span>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
     <button class="btn btn-danger">Добавить</button>
 </form>

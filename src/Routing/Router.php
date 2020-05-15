@@ -8,6 +8,7 @@ use App\Di\Container;
 use App\Entity\CustomRoute;
 use App\Http\Request;
 use App\Repository\CustomRouteRepository;
+use App\Repository\ImageRepository;
 use App\Twig;
 
 class Router
@@ -211,12 +212,45 @@ class Router
              * @var CustomRoute $route
              */
             $route = $routes[0];
+            $route_params = json_decode($route->getParams(), true);
+            $template = $route->getTemplate();
+            $vars = json_decode($template->getParams(),true);
+
+            $params = [];
+            foreach ($route_params as $key => &$route_param) {
+
+                $var = $vars[$key];
+                if (!$var["type"]) {
+                   throw new \Error('Ошибка типизации. Обратитесь к разработчику');
+                }
+                switch ($var["type"]) {
+                    case "html":
+                    case "text":
+                        $params[$key] = $route_param;
+                        break;
+                    case "image":
+                        $is_multiply = $var["multiply"] ?? false;
+                        $image_repository = $this->container->get(ImageRepository::class);
+                        if (!$is_multiply) {
+                            $image = $image_repository->find($route_param);
+                            if (!$image) {
+                                $route_param = null;
+                            }
+                            $params[$key] = $image;
+                        } else {
+                            $images = $image_repository->findBy([
+                                "id"=>$route_param]);
+                            $params[$key] = $images;
+                        }
+
+                }
+            }
             $route_data = [
                 UserRoutesController::class,
                 "index",
                 [
                     "template_name"=>$route->getTemplate()->getPath(),
-                    "params"=>json_decode($route->getParams(), true)
+                    "params"=>$params
                 ]
             ];
         }
