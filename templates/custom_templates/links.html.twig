@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="wrapper">
+    {{ text|raw }}
+    {% set routes = menu.routes %}
+    {% for route in routes %}
+      <div><a href="{{ route.realUrl }}">{{ route.name }}</a></div>
+    {% endfor %}
+</div>
+{% endblock %}

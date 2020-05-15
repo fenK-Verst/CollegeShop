@@ -112,6 +112,14 @@ class RouteApiController extends AbstractController
                                 "id"=>$route_param]);
                             $params[$key] = $images;
                         }
+                        break;
+                    case "menu":
+                        $menu = $menu_repository->find($route_param);
+                        if (!$menu) {
+                            $route_param = null;
+                        }
+                        $params[$key] = $menu;
+                        break;
 
                 }
             }

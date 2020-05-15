@@ -9,6 +9,7 @@ use App\Entity\CustomRoute;
 use App\Http\Request;
 use App\Repository\CustomRouteRepository;
 use App\Repository\ImageRepository;
+use App\Repository\MenuRepository;
 use App\Twig;
 
 class Router
@@ -242,7 +243,16 @@ class Router
                                 "id"=>$route_param]);
                             $params[$key] = $images;
                         }
+                        break;
+                    case "menu":
+                        $menu_repository = $this->container->get(MenuRepository::class);
 
+                        $menu = $menu_repository->find($route_param);
+                        if (!$menu) {
+                            $route_param = null;
+                        }
+                        $params[$key] = $menu;
+                        break;
                 }
             }
             $route_data = [

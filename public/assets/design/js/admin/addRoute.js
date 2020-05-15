@@ -45,7 +45,9 @@ const $addRouteBtn = $(".addRoute.btn"),
 url = window.location.protocol + `//` + window.location.host + `/api`;
 const updateEvents = ($form) =>{
     $form.find(`.btn[data-type="image"]`).unbind();
+    $form.find(`.btn[data-type="menu"]`).unbind();
     $form.find(`.btn[data-action="remove"]`).unbind();
+
     $form.find(`.btn[data-type="image"]`).click(async function () {
         let $this = $(this),
             action = $this.data("action"),
@@ -53,7 +55,6 @@ const updateEvents = ($form) =>{
             isMultiply = $this.data("multiply");
         switch (action) {
             case "add":
-            case"edit":
                 let $modalClone = $modal.clone(false);
                 $modalClone.find(".modal-body").find("> :not(.preloader)").remove();
                 $modalClone.find(".preloader").show();
@@ -103,6 +104,58 @@ const updateEvents = ($form) =>{
                 }
 
                 break;
+        }
+
+    })
+    $form.find(`.btn[data-type="menu"]`).click(async function () {
+        let $this = $(this),
+            action = $this.data("action"),
+            name = $this.data("name"),
+            isMultiply = $this.data("multiply");
+       if (action === "add") {
+                let $modalClone = $modal.clone(false);
+                $modalClone.find(".modal-body").find("> :not(.preloader)").remove();
+                $modalClone.find(".preloader").show();
+                $modalClone.find(".modal-title").text("Меню");
+                $modalClone.modal("show");
+                let response = await request(url + "/menu");
+                if (!response.error) {
+                    let $wrapper = $(`<div class="menus"/>`);
+                    $.each(response.data, (key, menu) => {
+                        let $menuWrapper = $(`<div class="menu"/>`),
+                            $alias = $(`<span />`);
+                        $menuWrapper.click(() => {
+                                let $menu_item = $(`
+                                                   <div class="menu-item">
+                                                        <span>${menu.name}</span>
+                                                        <input type="hidden" name="${name}" value="${menu.id}">
+                                                        <span class="btn btn-sm btn-danger" data-action="remove" ><i class="fa fa-minus"></i></span>
+                                                   </div>`);
+                                if (isMultiply) {
+                                    $menu_item.appendTo($this.siblings(".menus"));
+                                } else {
+                                    $this.siblings(".menu-item").remove();
+                                    $this.after($menu_item);
+                                }
+                                updateEvents($form);
+
+                            $modalClone.modal("hide");
+                        });
+                        $alias.text(menu.name);
+                        $alias.appendTo($menuWrapper);
+
+                        $menuWrapper.appendTo($wrapper);
+                    });
+                    $modalClone.find(".preloader").hide();
+                    $wrapper.appendTo($modalClone.find(".modal-body"));
+
+                } else {
+                    $alert.addClass("alert-danger");
+                    $alert.text(response.error_msg);
+                    $alert.show();
+                    $preloader.hide();
+                }
+
         }
 
     })
@@ -190,7 +243,6 @@ $addRouteBtn.click(async function () {
                     }
 
                 });
-
                 $template.appendTo($wrapper);
             });
             $wrapper.appendTo($modalBody);

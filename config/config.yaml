@@ -8,6 +8,7 @@ controllers:
   - App\Controller\Admin\MenuAdminController
   - App\Controller\Admin\ProductParamAdminController
   - App\Controller\Api\ImageApiController
+  - App\Controller\Api\MenuApiController
   - App\Controller\Api\CartApiController
   - App\Controller\Api\RouteApiController
   - App\Controller\DefaultController
