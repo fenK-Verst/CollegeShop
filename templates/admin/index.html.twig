@@ -2,5 +2,54 @@
 {% block title %}{% endblock %}
 {% block title_small %}{% endblock %}
 {% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Настройки сайта</h3>
+                    <div class="box-tools">
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form action="" id="site_settings" method="post">
+                        {% include "custom_templates/base.form.vars.html.twig" with {"vars":vars, "params":params} %}
+                        <button class="btn btn-danger">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Выбор шаблона</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="alert">
+
+                </div>
+                <div class="modal-body">
+                    <div class="lds-roller preloader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {#    <script src="/assets/plugins/quill/quill.js"></script>#}
+    <script src="/assets/plugins/Trumbowyg/trumbowyg.min.js"></script>
+    <script src="/assets/design/js/admin/addRoute.js"></script>
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="/assets/design/css/preloader.min.css">
+    {#<link rel="stylesheet" href="/assets/plugins/quill/quill.snow.css">#}
+    <link rel="stylesheet" href="/assets/plugins/Trumbowyg/trumbowyg.min.css">
 
 {% endblock %}

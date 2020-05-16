@@ -1,0 +1,67 @@
+{% if vars %}
+    {% for key,var in vars %}
+        <div class="form-group">
+            <label for="route[params][{{ key }}]">{{ var.title }}</label>
+            {% if var.type == "text" %}
+
+                {% if var.multiply %}
+                    <span class="btn btn-sm btn-success" data-action="add" data-multiply="true" data-type="text"
+                          data-name="route[params][{{ key }}][]"><i class="fa fa-plus"></i></span>
+                    <div class="texts">
+                        {% for text in params[key] %}
+                            <div class="text-item item">
+                                <input type="text" class="form-control" name="route[params][{{ key }}][]"
+                                       value="{{ text }}">
+                                <span class="btn btn-sm btn-danger" data-action="remove"><i
+                                            class="fa fa-minus"></i></span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <input type="text" class="form-control" name="route[params][{{ key }}]" value="{{ params[key] }}">
+                {% endif %}
+            {% elseif var.type == "html" %}
+                <div data-type="{{ var.type }}" name="route[params][{{ key }}]">{{ params[key]|raw }}</div>
+            {% elseif var.type == "image" %}
+                {% if var.multiply %}
+                    <span class="btn btn-sm btn-success" data-action="add" data-multiply="true" data-type="image"
+                          data-name="route[params][{{ key }}][]"><i class="fa fa-plus"></i></span>
+                    <div class="images">
+                        {% for image in params[key] %}
+                            <div class="image-item item">
+                                <img src="{{ image.path }}" width="30px" height="30px"
+                                     alt=""><span class="name">{{ image.alias }}</span>
+                                <input type="hidden" name="route[params][{{ key }}][]" value="{{ image.id }}">
+                                <span class="btn btn-sm btn-danger" data-action="remove"><i
+                                            class="fa fa-minus"></i></span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <span class="btn btn-sm btn-primary" data-action="add" data-multiply="false" data-type="image"
+                          data-name="route[params][{{ key }}]">Set</span>
+                    {% set image = params[key] %}
+                    {% if image %}
+                        <div class="item image-item">
+                            <img src="{{ image.path }}" width="30px" height="30px" alt=""><span class="name">{{ image.alias }}</span>
+                            <input type="hidden" name="route[params][{{ key }}]" value="{{ image.id }}">
+                            <span class="btn btn-sm btn-danger" data-action="remove"><i class="fa fa-minus"></i></span>
+                        </div>
+                    {% endif %}
+
+                {% endif %}
+            {% elseif var.type == "menu" %}
+                <span class="btn btn-sm btn-primary" data-action="add" data-multiply="false" data-type="menu"
+                      data-name="route[params][{{ key }}]">Set</span>
+                {% set menu = params[key] %}
+                {% if menu %}
+                    <div class="menu-item item">
+                        <span class="name">{{ menu.name }}</span>
+                        <input type="hidden" name="route[params][{{ key }}]" value="{{ menu.id }}">
+                        <span class="btn btn-sm btn-danger" data-action="remove"><i class="fa fa-minus"></i></span>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}

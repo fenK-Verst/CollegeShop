@@ -13,6 +13,7 @@ use App\Entity\ProductComment;
 use App\Entity\ProductParam;
 use App\Entity\ProductParamValue;
 use App\Entity\CustomRoute;
+use App\Entity\SiteParams;
 use App\Entity\Template;
 use App\Entity\User;
 use App\Entity\Vendor;
@@ -35,7 +36,8 @@ $entities = [
     OrderItem::class,
     Menu::class,
     CustomRoute::class,
-    Template::class
+    Template::class,
+    SiteParams::class
 ];
 $config = new Config();
 $proxy_config = $config->get("proxy") ?? null;
@@ -51,9 +53,9 @@ foreach($files as $file) {
         unlink($file);
 }
 foreach ($entities as $entity){
-    $reflection_class = new \ReflectionClass($entity);
+    $reflection_class = new ReflectionClass($entity);
     $short_name =  $reflection_class->getShortName();
-    $file = fopen(PROJECT_DIR.$dir."".$short_name."Proxy.php", "w") or die('Permission error');;
+    $file = fopen(PROJECT_DIR.$dir."".$short_name."Proxy.php", "w") or die('Permission error');
     /**
      * @var EntityInterface $temp_entity
      */

@@ -35,11 +35,13 @@
                         {% for menu in menus %}
                             <div class="tab-pane  {% if loop.index == 1 %}show active {% endif %}"
                                  id="menu-{{ loop.index }}" role="tabpanel" aria-labelledby="menu-{{ loop.index }}-tab">
-                                <div class="btn btn-xs btn-success float-right addRoute" data-parent-id="null"
-                                     data-menu-id="{{ menu.id }}">Добавить страницу
+                                <div class="d-flex justify-content-between align-items-center m-2">
+                                    <span>{{ menu.name }}</span>
+                                    <div class="btn btn-xs btn-success addRoute" data-parent-id="null"
+                                         data-menu-id="{{ menu.id }}">Добавить страницу
+                                    </div>
                                 </div>
-                                {{ menu.name }}
-                                {% include "/admin/menu/routes.ul.html.twig" with {"routes":menu.routes|sort((a, b) => a.left <=> b.left), "controls":true} %}
+                                {% include "/admin/menu/routes.ul.html.twig" with {"routes":menu.routes|sort((a, b) => a.left <=> b.left), "controls":true, "links":true} %}
                             </div>
                         {% endfor %}
                     </div>
@@ -80,45 +82,5 @@
 <link rel="stylesheet" href="/assets/design/css/preloader.min.css">
 {#<link rel="stylesheet" href="/assets/plugins/quill/quill.snow.css">#}
 <link rel="stylesheet" href="/assets/plugins/Trumbowyg/trumbowyg.min.css">
-    <style>
-        .templates-wrapper{
-            display: flex;
-            flex-wrap: wrap;
 
-        }
-        .templates-wrapper .template{
-            padding: 10px;
-            box-sizing: border-box;
-            border:1px solid black;
-            margin: 10px;
-        }
-
-        .modal-body .images{
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-gap: 10px;
-        }
-        .modal-body .images .image{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .image-name{
-            margin-left: 5px;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .modal-body form .images{
-            display: flex;
-            flex-direction: column;
-
-        }
-        .modal-body form .images .image-item{
-            display: flex;
-            justify-content: space-between;
-        }
-
-    </style>
 {% endblock %}

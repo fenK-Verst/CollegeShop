@@ -1,0 +1,83 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <section class="main_slider">
+        {% for image in slider %}
+             <img src="{{ image.path }}" alt="">
+        {% endfor %}
+    </section>
+    <section class="companies">
+        <div class="wrapper">
+            <ul>
+                {% for brand in brands %}
+                    <li><img src="{{ brand.path }}" alt=""></li>
+                {% endfor %}
+{#                <li><a href="#!"><img src="/assets/design/images/dyn/brand_1.jpg" alt=""></a></li>#}
+{#                <li><a href="#!"><img src="/assets/design/images/dyn/brand_2.jpg" alt=""></a></li>#}
+{#                <li><a href="#!"><img src="/assets/design/images/dyn/brand_3.jpg" alt=""></a></li>#}
+{#                <li><a href="#!"><img src="/assets/design/images/dyn/brand_4.jpg" alt=""></a></li>#}
+{#                <li><a href="#!"><img src="/assets/design/images/dyn/brand_5.jpg" alt=""></a></li>#}
+{#                <li><a href="#!"><img src="/assets/design/images/dyn/brand_6.jpg" alt=""></a></li>#}
+{#                <li><a href="#!"><img src="/assets/design/images/dyn/brand_7.jpg" alt=""></a></li>#}
+{#                <li><a href="#!"><img src="/assets/design/images/dyn/brand_8.jpg" alt=""></a></li>#}
+            </ul>
+        </div>
+    </section>
+    {% if news %}
+        <section class="slider">
+            <div class="title">Новинки</div>
+            <div class="wrapper">
+                <div class="news_slider products">
+                    {% for product in news %}
+                        <div class="product_wrapper">
+                            <div class="product " data-id="{{ product.id }}">
+                                <div class="product_main">
+                                    <div class="product_top">
+                                        <div class="image">
+                                            <div class="flags">
+                                                {% for flag in product.flags %}
+                                                    <div class="flag{% if flag.id == 1 %} sale {% endif %}{% if flag.id == 2 %} new {% endif %}{% if flag.id == 3 %} hit {% endif %}">{{ flag.name }}</div>
+                                                {% endfor %}
+                                            </div>
+                                            <img src="{{ product.image.path }}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="product_middle">
+                                        <div class="product_name">
+                                            <a href="/product/{{ product.id }}">{{ product.name }}</a>
+                                        </div>
+                                        <div class="product_buy">
+                                            <span class="price">{{ product.price }} ТГ</span>
+                                            <span class="buy_button">Купить</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--                        <div class="product_hide">-->
+                                <!--                            <table class="product_params">-->
+                                <!--                                <tr class="param">-->
+                                <!--                                    <td >Материал упаковки</td>-->
+                                <!--                                    <td class="value">Многослойный пакет</td>-->
+                                <!--                                </tr>-->
+                                <!--                                <tr class="param">-->
+                                <!--                                    <td >Обжарка</td>-->
+                                <!--                                    <td class="value">Средняя</td>-->
+                                <!--                                </tr>-->
+                                <!--                                <tr class="param">-->
+                                <!--                                    <td >Особенности вкуса</td>-->
+                                <!--                                    <td class="value">Кислинка</td>-->
+                                <!--                                </tr>-->
+                                <!--                            </table>-->
+                                <!--                        </div>-->
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    <section class="about">
+        <div class="wrapper">
+            {{ about|raw }}
+        </div>
+    </section>
+{% endblock %}

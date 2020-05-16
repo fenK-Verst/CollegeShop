@@ -20,7 +20,7 @@ use App\Repository\ProductRepository;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="default")
+     * @Route("/title", name="default")
      */
     public function index(ProductRepository $product_repository)
     {

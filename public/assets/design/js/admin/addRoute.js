@@ -46,8 +46,8 @@ url = window.location.protocol + `//` + window.location.host + `/api`;
 const updateEvents = ($form) =>{
     $form.find(`.btn[data-type="image"]`).unbind();
     $form.find(`.btn[data-type="menu"]`).unbind();
+    $form.find(`.btn[data-type="text"]`).unbind();
     $form.find(`.btn[data-action="remove"]`).unbind();
-
     $form.find(`.btn[data-type="image"]`).click(async function () {
         let $this = $(this),
             action = $this.data("action"),
@@ -70,9 +70,9 @@ const updateEvents = ($form) =>{
                         $imageWrapper.click(() => {
                             if (action == "add") {
                                 let $image_item = $(`
-                                                   <div class="image-item">
+                                                   <div class="image-item item">
                                                         <img src="${image.path}" width="30px" height="30px"
-                                                             alt=""><span>${image.alias}</span>
+                                                             alt=""><span class="name">${image.alias}</span>
                                                         <input type="hidden" name="${name}" value="${image.id}">
                                                         <span class="btn btn-sm btn-danger" data-action="remove" ><i class="fa fa-minus"></i></span>
                                                    </div>`);
@@ -126,8 +126,8 @@ const updateEvents = ($form) =>{
                             $alias = $(`<span />`);
                         $menuWrapper.click(() => {
                                 let $menu_item = $(`
-                                                   <div class="menu-item">
-                                                        <span>${menu.name}</span>
+                                                   <div class="menu-item item">
+                                                        <span class="name">${menu.name}</span>
                                                         <input type="hidden" name="${name}" value="${menu.id}">
                                                         <span class="btn btn-sm btn-danger" data-action="remove" ><i class="fa fa-minus"></i></span>
                                                    </div>`);
@@ -156,16 +156,30 @@ const updateEvents = ($form) =>{
                     $preloader.hide();
                 }
 
-        }
+       }
 
     })
+    $form.find(`.btn[data-type="text"]`).click(async function () {
+        const $this = $(this),
+            action = $this.data("action") || '',
+            isMultiply = $this.data("multiply") || false,
+            name = $this.data("name") || '';
+        if (action === "add" && isMultiply) {
+            const $text_item = $(`
+                        <div class="text-item item">
+                            <input type="text" class="form-control" name="${name}">
+                            <span class="btn btn-sm btn-danger" data-action="remove"><i class="fa fa-minus"></i></span>
+                        </div>`);
+            $text_item.appendTo($this.siblings(".texts"));
+            updateEvents($form);
+        }
+    });
     $form.find(`.btn[data-action="remove"]`).click(async function () {
         let $this = $(this);
         $this.parent().remove();
-        console.log(123);
-
-    })
+    });
 }
+
 $addRouteBtn.click(async function () {
     $preloader.show();
     $alert.hide();
@@ -175,7 +189,6 @@ $addRouteBtn.click(async function () {
     if (menuId) {
         $modalBody.find(" > :not(.preloader)").remove();
         $modal.modal("show");
-        console.log(menuId, parentId);
         let response = await request(url + `/template/get`);
 
         if (!response.error) {
@@ -254,7 +267,6 @@ $addRouteBtn.click(async function () {
         }
     }
 });
-
 $(".editRoute").click(async function () {
     $preloader.show();
     $alert.hide();
@@ -316,4 +328,5 @@ $(".editRoute").click(async function () {
     }
 })
 
-
+const $settingsForm = $(`#site_settings`);
+if ($settingsForm.length) updateEvents($settingsForm);

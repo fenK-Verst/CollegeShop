@@ -14,6 +14,8 @@ use App\Di\Container;
 use App\Http\Request;
 use App\Http\Response;
 use App\Kernel;
+use App\Routing\CustomRouter;
+use App\Routing\Router;
 use App\Twig;
 
 
@@ -42,6 +44,8 @@ $container->singletone(ObjectDataManager::class);
 $container->singletone(Response::class);
 $container->singletone(Request::class);
 $container->singletone(Twig::class);
+$container->singletone(CustomRouter::class);
+$container->singletone(Router::class);
 $container->singletone(Connection::class, function () {
     $host = getenv("DB_HOST");
     $db_name = getenv("DB_NAME");

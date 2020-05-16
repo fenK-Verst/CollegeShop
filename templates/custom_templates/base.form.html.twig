@@ -21,50 +21,7 @@
                    value="{{ route.shortUrl }}">
         </div>
     </div>
-    {% for key,var in vars %}
-    <div class="form-group">
-        <label for="route[params][{{ key }}]">{{ var.title }}</label>
-        {% if var.type == "text" %}
-            <input type="text" class="form-control" name="route[params][{{ key }}]" value="{{ params[key] }}">
-        {% elseif var.type == "html" %}
-            <div data-type="{{ var.type }}" name="route[params][{{ key }}]">{{ params[key]|raw }}</div>
-        {% elseif var.type == "image" %}
-            {% if var.multiply %}
-                <span class="btn btn-sm btn-success" data-action="add" data-multiply="true" data-type="image"
-                      data-name="route[params][{{ key }}][]"><i class="fa fa-plus"></i></span>
-                <div class="images">
-                    {% for image in params[key] %}
-                        <div class="image-item">
-                            <img src="{{ image.path }}" width="30px" height="30px"
-                                 alt=""><span>{{ image.alias }}</span>
-                            <input type="hidden" name="route[params][{{ key }}][]" value="{{ image.id }}">
-                            <span class="btn btn-sm btn-danger" data-action="remove"><i class="fa fa-minus"></i></span>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <span class="btn btn-sm btn-primary" data-action="add" data-multiply="false" data-type="image"
-                      data-name="route[params][{{ key }}]">Set</span>
-                    {% set image = params[key] %}
-                    <div class="item image-item">
-                        <img src="{{ image.path }}" width="30px" height="30px" alt=""><span>{{ image.alias }}</span>
-                        <input type="hidden" name="route[params][{{ key }}]" value="{{ image.id }}">
-                        <span class="btn btn-sm btn-danger" data-action="remove"><i class="fa fa-minus"></i></span>
-                    </div>
+    {% include "custom_templates/base.form.vars.html.twig" %}
 
-            {% endif %}
-        {% elseif var.type == "menu" %}
-            <span class="btn btn-sm btn-primary" data-action="add" data-multiply="false" data-type="menu"
-                  data-name="route[params][{{ key }}]">Set</span>
-                {% set menu = params[key] %}
-                <div class="menu-item item">
-                    <span>{{ menu.name }}</span>
-                    <input type="hidden" name="route[params][{{ key }}]" value="{{ menu.id }}">
-                    <span class="btn btn-sm btn-danger" data-action="remove"><i class="fa fa-minus"></i></span>
-                </div>
-
-        {% endif %}
-    </div>
-    {% endfor %}
-    <button class="btn btn-danger">Добавить</button>
+    <button class="btn btn-danger">{% if route %}Изменить{% else %}Добавить{% endif %}</button>
 </form>

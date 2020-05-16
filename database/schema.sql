@@ -132,7 +132,7 @@ CREATE TABLE `route`
 (
     `id`          int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `real_url`    varchar(255)     NOT NULL,
-    `name`    varchar(255)     NOT NULL,
+    `name`        varchar(255)     NOT NULL,
     `short_url`   varchar(255)     NOT NULL,
     `_left`       int(30) UNSIGNED NOT NULL,
     `_right`      int(30) UNSIGNED NOT NULL,
@@ -140,6 +140,13 @@ CREATE TABLE `route`
     `menu_id`     int UNSIGNED     NOT NULL,
     `is_hidden`   bool DEFAULT FALSE,
     `template_id` int UNSIGNED     NOT NULL,
-    `params` TEXT NOT NULL
+    `params`      text             NOT NULL
 ) ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `site_params`;
+CREATE TABLE `site_params`
+(
+    `id`     int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `vars`   json,
+    `params` text NOT NULL
+) ENGINE = InnoDB;

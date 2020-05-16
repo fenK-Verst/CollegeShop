@@ -168,7 +168,7 @@ class RouteApiController extends AbstractController
         $route_id = $this->getRoute()->get("id");
         $route = $route_repository->find($route_id);
         $request_route = $request->get("route") ?? null;
-        if (!($request_route && $request_route["short_url"] && $request_route["name"] && $request_route["params"])) {
+        if (!($request_route && $request_route["name"] && $request_route["params"])) {
             return $this->error("Не указаны все данные");
         }
         $template_id = $request_route["template_id"] ?? null;
