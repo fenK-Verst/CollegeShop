@@ -3,26 +3,24 @@
 namespace App\Routing;
 
 use App\Config;
-use App\Controller\UserRoutesController;
 use App\Di\Container;
-use App\Entity\CustomRoute;
 use App\Http\Request;
-use App\Repository\CustomRouteRepository;
-use App\Repository\ImageRepository;
-use App\Repository\MenuRepository;
 use App\Twig;
+use ReflectionClass;
 
 class Router
 {
     private Config $config;
     private Request $request;
     private Container $container;
+      private CustomRouter $custom_router;
 
-    public function __construct(Config $config, Request $request, Container $container)
+    public function __construct(Config $config, Request $request, Container $container, CustomRouter $custom_router)
     {
         $this->config = $config;
         $this->request = $request;
         $this->container = $container;
+        $this->custom_router = $custom_router;
     }
 
     public function dispatch(): Route
@@ -43,7 +41,7 @@ class Router
     {
         $route_data = $this->getRouteData();
         if (!$route_data){
-            $route_data = $this->getUserRouteData();
+            $route_data = $this->custom_router->getRouteData($this->request->getUrl());
         }
         return $route_data;
     }
@@ -100,7 +98,7 @@ class Router
         $routes = [];
         $controllers = $this->config->getControllers();
         foreach ($controllers as $controller) {
-            $reflection_controller = new \ReflectionClass($controller);
+            $reflection_controller = new ReflectionClass($controller);
             $reflection_methods = $reflection_controller->getMethods();
             $controller_route = $this->getControllerRoute($reflection_controller);
             $controller_url = $controller_route["url"] ?? '';
@@ -139,7 +137,7 @@ class Router
         return $routes;
     }
 
-    private function getControllerRoute(\ReflectionClass $controller): ?array
+    private function getControllerRoute(ReflectionClass $controller): ?array
     {
         $doc = $controller->getDocComment();
         preg_match_all('/@Route\((.*)\)/s', $doc, $finded);
@@ -200,71 +198,5 @@ class Router
         ];
     }
 
-    private function getUserRouteData() : ?array
-    {
-        $route_data = null;
-        $route_repository = $this->container->get(CustomRouteRepository::class);
-        $url = $this->request->getUrl();
-        $routes = $route_repository->findBy([
-            "real_url"=>$url
-        ]);
-        if (!empty($routes)){
-            /**
-             * @var CustomRoute $route
-             */
-            $route = $routes[0];
-            $route_params = json_decode($route->getParams(), true);
-            $template = $route->getTemplate();
-            $vars = json_decode($template->getParams(),true);
 
-            $params = [];
-            foreach ($route_params as $key => &$route_param) {
-
-                $var = $vars[$key];
-                if (!$var["type"]) {
-                   throw new \Error('Ошибка типизации. Обратитесь к разработчику');
-                }
-                switch ($var["type"]) {
-                    case "html":
-                    case "text":
-                        $params[$key] = $route_param;
-                        break;
-                    case "image":
-                        $is_multiply = $var["multiply"] ?? false;
-                        $image_repository = $this->container->get(ImageRepository::class);
-                        if (!$is_multiply) {
-                            $image = $image_repository->find($route_param);
-                            if (!$image) {
-                                $route_param = null;
-                            }
-                            $params[$key] = $image;
-                        } else {
-                            $images = $image_repository->findBy([
-                                "id"=>$route_param]);
-                            $params[$key] = $images;
-                        }
-                        break;
-                    case "menu":
-                        $menu_repository = $this->container->get(MenuRepository::class);
-
-                        $menu = $menu_repository->find($route_param);
-                        if (!$menu) {
-                            $route_param = null;
-                        }
-                        $params[$key] = $menu;
-                        break;
-                }
-            }
-            $route_data = [
-                UserRoutesController::class,
-                "index",
-                [
-                    "template_name"=>$route->getTemplate()->getPath(),
-                    "params"=>$params
-                ]
-            ];
-        }
-
-        return $route_data;
-    }
 }

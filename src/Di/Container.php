@@ -4,6 +4,8 @@
 namespace App\Di;
 
 
+use App\Di\Exceptions\ClassNotExistsException;
+
 class Container
 {
     private array $interfaceMapping = [];
@@ -23,7 +25,7 @@ class Container
             $class_name = $this->interfaceMapping[$class_name] ?? $class_name;
         }
         if (!class_exists($class_name)) {
-            throw new \Exception("Class $class_name does not exist");
+            throw new ClassNotExistsException("Class $class_name does not exist");
         }
         return $this->getClass($class_name);
 
@@ -31,7 +33,6 @@ class Container
 
     private function isSingletone(string $class_name)
     {
-
         return isset($this->singletons[$class_name]);
     }
 

@@ -10,10 +10,11 @@ use App\Db\ObjectManager;
 use App\Entity\CustomRoute;
 use App\Http\Request;
 use App\Repository\CustomRouteRepository;
-use App\Repository\ImageRepository;
 use App\Repository\MenuRepository;
 use App\Repository\TemplateRepository;
+use App\Routing\CustomRouter;
 use App\Twig;
+use Exception;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -29,17 +30,17 @@ class RouteApiController extends AbstractController
     /**
      * @Route("/template/get")
      */
-    public function getTemplates(Request $request,TemplateRepository $template_repository, CustomRouteRepository $route_repository)
+    public function getTemplates(TemplateRepository $template_repository)
     {
         $templates = $template_repository->findAll();
         $data = [
-            "templates"=>null,
-            "route"=>null
+            "templates" => null,
+            "route" => null
         ];
-        foreach ($templates as $template){
+        foreach ($templates as $template) {
             $data["templates"][] = [
-                "name"=>$template->getName(),
-                "id"=>$template->getId(),
+                "name" => $template->getName(),
+                "id" => $template->getId(),
             ];
         }
         $response = [
@@ -59,8 +60,7 @@ class RouteApiController extends AbstractController
         Request $request,
         CustomRouteRepository $route_repository,
         TemplateRepository $template_repository,
-        ImageRepository $image_repository,
-        MenuRepository $menu_repository,
+        CustomRouter $custom_router,
         Twig $twig
     ) {
         $template_id = (int)$this->getRoute()->get("id") ?? null;
@@ -86,43 +86,48 @@ class RouteApiController extends AbstractController
         $params = [];
         if ($route) {
             $route_params = json_decode($route->getParams(), true);
-             foreach ($route_params as $key => &$route_param) {
-                if (is_null($route_param) || empty($route_param)) {
-                    continue;
-                }
-                $var = $vars[$key];
-                if (!$var["type"]) {
-                    return $this->error('Ошибка типизации. Обратитесь к разработчику');
-                }
-                switch ($var["type"]) {
-                    case "html":
-                    case "text":
-                        $params[$key] = $route_param;
-                        break;
-                    case "image":
-                        $is_multiply = $var["multiply"] ?? false;
-                        if (!$is_multiply) {
-                            $image = $image_repository->find($route_param);
-                            if (!$image) {
-                                $route_param = null;
-                            }
-                            $params[$key] = $image;
-                        } else {
-                            $images = $image_repository->findBy([
-                                "id"=>$route_param]);
-                            $params[$key] = $images;
-                        }
-                        break;
-                    case "menu":
-                        $menu = $menu_repository->find($route_param);
-                        if (!$menu) {
-                            $route_param = null;
-                        }
-                        $params[$key] = $menu;
-                        break;
-
-                }
+            try {
+                $params = $custom_router->normalizeParams($route_params, $vars);
+            } catch (Exception $e) {
+                return $this->error($e->getMessage());
             }
+//             foreach ($route_params as $key => &$route_param) {
+//                if (is_null($route_param) || empty($route_param)) {
+//                    continue;
+//                }
+//                $var = $vars[$key];
+//                if (!$var["type"]) {
+//                    return $this->error('Ошибка типизации. Обратитесь к разработчику');
+//                }
+//                switch ($var["type"]) {
+//                    case "html":
+//                    case "text":
+//                        $params[$key] = $route_param;
+//                        break;
+//                    case "image":
+//                        $is_multiply = $var["multiply"] ?? false;
+//                        if (!$is_multiply) {
+//                            $image = $image_repository->find($route_param);
+//                            if (!$image) {
+//                                $route_param = null;
+//                            }
+//                            $params[$key] = $image;
+//                        } else {
+//                            $images = $image_repository->findBy([
+//                                "id"=>$route_param]);
+//                            $params[$key] = $images;
+//                        }
+//                        break;
+//                    case "menu":
+//                        $menu = $menu_repository->find($route_param);
+//                        if (!$menu) {
+//                            $route_param = null;
+//                        }
+//                        $params[$key] = $menu;
+//                        break;
+//
+//                }
+//            }
         }
         try {
             $rendered_form = $twig->render('custom_templates/base.form.html.twig', [
@@ -158,9 +163,7 @@ class RouteApiController extends AbstractController
         Request $request,
         TemplateRepository $template_repository,
         ObjectManager $object_manager,
-        CustomRouteRepository $route_repository,
-        MenuRepository $menu_repository,
-        ArrayDataManager $adm
+        CustomRouteRepository $route_repository
     ) {
         $route_id = $this->getRoute()->get("id");
         $route = $route_repository->find($route_id);
