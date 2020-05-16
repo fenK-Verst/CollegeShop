@@ -66,7 +66,7 @@ const updateEvents = ($form) =>{
                     $.each(response.data, (key, image) => {
                         let $imageWrapper = $(`<div class="image"/>`),
                             $image = $(`<img/>`),
-                            $alias = $(`<span />`);
+                            $alias = $(`<span />`)
                         $imageWrapper.click(() => {
                             if (action == "add") {
                                 let $image_item = $(`

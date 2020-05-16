@@ -3,14 +3,14 @@ let $choose = $("#chooseImage"),
     $modalBody = $modal.find(".modal-body"),
     $preloader = $modal.find(".preloader"),
     $alert = $modal.find(".alert"),
-    $input = $(` [name="product[image_id]"]`);
+    $input = $(`[name="product[image_id]"]`);
 let url = window.location.protocol + `//` + window.location.host + `/api/image`;
 $modal.on('show.bs.modal', async function (event) {
     $preloader.show();
     $alert.hide();
     $modalBody.find(" > :not(.preloader)").remove();
     let response = await fetch(url);
-    response = await response.json();
+    response = await response.json()
     if (!response.error) {
         let $wrapper = $(`<div class="images"/>`);
         $.each(response.data, (key, image) => {
