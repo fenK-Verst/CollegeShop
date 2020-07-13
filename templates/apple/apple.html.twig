@@ -5,11 +5,41 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tree</title>
+    <title>Thoughts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1>Apple</h1>
-
+<img src="https://lh3.googleusercontent.com/-y6iiQ2wlR3IGcatdXWqqjyxVH6gqKopDHrkXusnzam7WphJ6WAGbE6lnh-dLke9lZIEYeihP0yGyGtaZJLiC_sktLwDA4svDJyd0sf1UlQk1LLreLz-OfXSIFUjl1x6BtVAZo18nyajcE7kP3EZPL9rHbu26ngj3WhmDk9mV95SOzClECOYaRkp7Pepdh5emkYLTHCOQpWX1uWYc1Utceu486OR0Y8xYLoQrlGlHybdTlcoC1KRSC8Btq98pE0GmBcBmtG-uuwx5mPQGIAo0wuCGIOIjyzPEmYJi3SMTFpTlnMLWWVR8E3fsPsunewkrKv8JhYPStv2eGuS8ycp3EW9jg3k-GCiM26WgGuZ1HQIqnovh8_2d1qy6tIvBiH9cjQgdJl48jMAdmPzkY25_BtK_9h93EsbA-k2c2jNGAOWx_8rk6jGIL4VVK95ZHQylc4iK99P8GgYQR2PUdkGe2MJdjN48obriGvh0Pih_OLqtBcmtAg6pq-JqMUblYCR0Ph1IYi4KT5DHIfC2_JACpq5pO5MVs7x5ZVAXBWbpLqz5vNGdyzm__pgMewN9G3OIZWMMTe59GAPLhaJ6nTURyuIz_BSXjUeN3zOFhcBD-XvoeE09xH2n3jf1ItWOV535fun46PZWCRrdM01MTGfxsbM7YwfSxhgtHkUcRg-7qclcND-r3OJK-5BXs-0dg=w1152-h532-no?authuser=0" alt="">
+<div id="text"></div>
+<style>
+    body{
+        font-family: 'Open Sans', sans-serif;
+        letter-spacing: -0.4px;
+        margin: 0;
+        padding: 0;
+    }
+    img{
+        min-height: 100vh;
+        z-index: -1;
+        position: absolute;
+        opacity: 0.2;
+        width: 100%;
+    }
+    span{
+        font-size: 20px;
+    }
+    #text{
+        /*color:#fff;*/
+        padding: 20px;
+        text-shadow: 0px 3px 2px rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        line-height: 1.2;
+    }
+</style>
 <script>
   var Base64 = {
 
@@ -162,9 +192,10 @@
     } // End Function _utf8_decode
 
   }
+  const Text = document.getElementById(`text`);
   fetch('/assets/design/text.txt').then(res => {
     res.text().then(r => {
-      const arr = r.split(/[.!?]/).filter(r =>
+      const arr = r.split(/[.!?:;]/).filter(r =>
           r.replace(/[()«»"—…]/gm, ``),
       ).map(r => r.trim());
       // console.log(arr);
@@ -198,8 +229,12 @@
         const randomNumber = randomInteger(1, count-1);
         let sentence = sorted[char] ? sorted[char][randomNumber] : char;
 
-        sentence = sentence[0].toUpperCase()+sentence.slice(1)+". ";
-        document.body.append(sentence);
+        const span = document.createElement("span");
+        span.textContent = sentence[0].toUpperCase();
+        Text.append(span);
+
+        sentence = sentence.slice(1)+". ";
+        Text.append(sentence);
         if (sorted[char]) sorted[char].splice(randomNumber, 1);
       }
     });
