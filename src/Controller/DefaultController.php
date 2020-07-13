@@ -4,13 +4,8 @@
 namespace App\Controller;
 
 
-use App\Db\ArrayDataManager;
-use App\Db\ObjectManager;
-use App\Entity\Folder;
-use App\Entity\Product;
-use App\Entity\Vendor;
-use App\Repository\FolderRepository;
 use App\Repository\ProductRepository;
+use App\Routing\Route;
 
 /**
  * Class DefaultController
@@ -207,6 +202,14 @@ class DefaultController extends AbstractController
             "count" => 1
         );
         return $this->redirect("/cart");
+    }
+
+    /**
+     * @Route("/appletree")
+     */
+    public function apple()
+    {
+        return $this->render("apple/apple.html.twig");
     }
 
 }
