@@ -1,28 +1,19 @@
--- MySQL dump 10.13  Distrib 8.0.19-10, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.17  Distrib 10.3.22-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: college_shop
 -- ------------------------------------------------------
--- Server version	8.0.19-10
+-- Server version       10.3.22-MariaDB-1:10.3.22+maria~bionic-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-/*!50717 SELECT COUNT(*) INTO @rocksdb_has_p_s_session_variables FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'performance_schema' AND TABLE_NAME = 'session_variables' */;
-/*!50717 SET @rocksdb_get_is_supported = IF (@rocksdb_has_p_s_session_variables, 'SELECT COUNT(*) INTO @rocksdb_is_supported FROM performance_schema.session_variables WHERE VARIABLE_NAME=\'rocksdb_bulk_load\'', 'SELECT 0') */;
-/*!50717 PREPARE s FROM @rocksdb_get_is_supported */;
-/*!50717 EXECUTE s */;
-/*!50717 DEALLOCATE PREPARE s */;
-/*!50717 SET @rocksdb_enable_bulk_load = IF (@rocksdb_is_supported, 'SET SESSION rocksdb_bulk_load = 1', 'SET @rocksdb_dummy_bulk_load = 0') */;
-/*!50717 PREPARE s FROM @rocksdb_enable_bulk_load */;
-/*!50717 EXECUTE s */;
-/*!50717 DEALLOCATE PREPARE s */;
 
 --
 -- Table structure for table `flag`
@@ -30,12 +21,12 @@
 
 DROP TABLE IF EXISTS `flag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `flag` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +35,7 @@ CREATE TABLE `flag` (
 
 LOCK TABLES `flag` WRITE;
 /*!40000 ALTER TABLE `flag` DISABLE KEYS */;
+INSERT INTO `flag` VALUES (1,'Распродажа'),(2,'Хит'),(3,'Новинка');
 /*!40000 ALTER TABLE `flag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,13 +45,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `folder`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `folder` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `_left` int unsigned NOT NULL,
-  `_right` int unsigned NOT NULL,
-  `_lvl` int unsigned NOT NULL,
+  `_left` int(10) unsigned NOT NULL,
+  `_right` int(10) unsigned NOT NULL,
+  `_lvl` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -80,10 +72,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `folder_has_product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `folder_has_product` (
-  `folder_id` int unsigned NOT NULL,
-  `product_id` int unsigned NOT NULL,
+  `folder_id` int(10) unsigned NOT NULL,
+  `product_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`folder_id`,`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -94,6 +86,7 @@ CREATE TABLE `folder_has_product` (
 
 LOCK TABLES `folder_has_product` WRITE;
 /*!40000 ALTER TABLE `folder_has_product` DISABLE KEYS */;
+INSERT INTO `folder_has_product` VALUES (1,1);
 /*!40000 ALTER TABLE `folder_has_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,9 +96,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `image`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `image` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `alias` varchar(255) NOT NULL,
   `type` set('avatar','product') NOT NULL,
   `path` text NOT NULL,
@@ -129,9 +122,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `menu` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -153,12 +146,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `order` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
   `status` set('waiting','paid','done','archived') NOT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -178,12 +171,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `order_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `order_item` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `order_id` int unsigned NOT NULL,
-  `product_id` int unsigned NOT NULL,
-  `count` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` int(10) unsigned NOT NULL,
+  `product_id` int(10) unsigned NOT NULL,
+  `count` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -203,18 +196,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `article` varchar(255) NOT NULL,
-  `image_id` int unsigned DEFAULT NULL,
-  `description` text,
+  `image_id` int(10) unsigned DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `price` decimal(12,2) NOT NULL,
-  `count` int NOT NULL DEFAULT '0',
-  `vendor_id` int unsigned DEFAULT NULL,
+  `count` int(11) NOT NULL DEFAULT 0,
+  `vendor_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,6 +216,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (1,'Товар','18su5',1,'Some description for this tovar',5000.00,25,1);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,15 +226,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `product_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_comment` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int unsigned NOT NULL,
-  `user_id` int unsigned NOT NULL,
-  `rating` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
-  `value` text,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `rating` decimal(5,2) unsigned NOT NULL DEFAULT 0.00,
+  `value` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,6 +243,7 @@ CREATE TABLE `product_comment` (
 
 LOCK TABLES `product_comment` WRITE;
 /*!40000 ALTER TABLE `product_comment` DISABLE KEYS */;
+INSERT INTO `product_comment` VALUES (1,1,1,4.00,'Хороший товар и конкурсы интересные');
 /*!40000 ALTER TABLE `product_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,10 +253,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `product_has_flag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_has_flag` (
-  `product_id` int unsigned NOT NULL,
-  `flag_id` int unsigned NOT NULL,
+  `product_id` int(10) unsigned NOT NULL,
+  `flag_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`product_id`,`flag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -272,6 +267,7 @@ CREATE TABLE `product_has_flag` (
 
 LOCK TABLES `product_has_flag` WRITE;
 /*!40000 ALTER TABLE `product_has_flag` DISABLE KEYS */;
+INSERT INTO `product_has_flag` VALUES (1,1),(1,2),(1,3);
 /*!40000 ALTER TABLE `product_has_flag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,12 +277,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `product_param`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_param` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,6 +291,7 @@ CREATE TABLE `product_param` (
 
 LOCK TABLES `product_param` WRITE;
 /*!40000 ALTER TABLE `product_param` DISABLE KEYS */;
+INSERT INTO `product_param` VALUES (1,'Доска');
 /*!40000 ALTER TABLE `product_param` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,14 +301,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `product_param_value`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_param_value` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int unsigned NOT NULL,
-  `param_id` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(10) unsigned NOT NULL,
+  `param_id` int(10) unsigned NOT NULL,
   `value` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,6 +317,7 @@ CREATE TABLE `product_param_value` (
 
 LOCK TABLES `product_param_value` WRITE;
 /*!40000 ALTER TABLE `product_param_value` DISABLE KEYS */;
+INSERT INTO `product_param_value` VALUES (1,1,1,'Есть');
 /*!40000 ALTER TABLE `product_param_value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,21 +327,21 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `route`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `route` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `real_url` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `short_url` varchar(255) NOT NULL,
-  `_left` int unsigned NOT NULL,
-  `_right` int unsigned NOT NULL,
-  `_lvl` int unsigned NOT NULL,
-  `menu_id` int unsigned NOT NULL,
-  `is_hidden` tinyint(1) DEFAULT '0',
-  `template_id` int unsigned NOT NULL,
+  `_left` int(10) unsigned NOT NULL,
+  `_right` int(10) unsigned NOT NULL,
+  `_lvl` int(10) unsigned NOT NULL,
+  `menu_id` int(10) unsigned NOT NULL,
+  `is_hidden` tinyint(1) DEFAULT 0,
+  `template_id` int(10) unsigned NOT NULL,
   `params` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -352,7 +350,7 @@ CREATE TABLE `route` (
 
 LOCK TABLES `route` WRITE;
 /*!40000 ALTER TABLE `route` DISABLE KEYS */;
-INSERT INTO `route` VALUES (1,'/as','Страница с текстом','as',0,5,1,1,0,1,'{\"text\":\"<p>123<\\/p>\"}'),(5,'/as/a','Страница с текстом','a',1,4,2,1,0,1,'{\"text\":\"<h1>Why not?<\\/h1><p>Hey<\\/p><p>I will kill u<\\/p><ol><li>u pidor<\\/li><li>u too<\\/li><\\/ol><p>asd<\\/p>\"}'),(6,'/as/a/dfadg','afdg','dfadg',2,3,3,1,0,1,'{\"text\":\"asdasd\"}'),(11,'/asd','Фотоальбом','asd',6,7,1,1,0,2,'{\"images\":[\"1\",\"2\",\"3\"],\"text\":\"<p><strong>asdasdasdf<\\/strong><\\/p>\"}'),(12,'/asdd','dsa','asdd',8,9,1,1,0,2,'{\"images\":[\"1\",\"3\"],\"text\":\"<p><sup>asd<\\/sup><\\/p>\"}'),(13,'/menu','asd','menu',10,11,1,1,0,3,'{\"menu\":\"1\",\"text\":\"Some textd\"}'),(14,'/text','Multiply text','text',12,13,1,1,0,4,'{\"text\":[\"some\",\"text\",\"not\",\"found\",\"this\",\"d\"]}'),(15,'/ddd','dddd','ddd',14,17,1,2,0,1,'{\"text\":\"<p>ddd<\\/p>\"}'),(16,'/ddd/asdasdasd','asdasdasd','asdasdasd',15,16,2,2,0,1,'{\"text\":\"<p>asdasdasd<\\/p>\"}'),(17,'/','Титульная','',18,19,1,3,0,5,'{\"brands\":[\"7\",\"8\",\"9\",\"10\"],\"slider\":[\"5\",\"6\"],\"about\":\"<p class=\\\"title\\\" style=\\\"font-size: 20px; line-height: 24px; padding-bottom: 18px; font-weight: bold; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif; text-align: center; background-color: rgb(238, 238, 238);\\\">\\u041e \\u043c\\u0430\\u0433\\u0430\\u0437\\u0438\\u043d\\u0435<\\/p><p class=\\\"text\\\" style=\\\"font-size: 14px; line-height: 22px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif; text-align: center; background-color: rgb(238, 238, 238);\\\">\\u0418\\u043d\\u0442\\u0435\\u0440\\u043d\\u0435\\u0442-\\u043c\\u0430\\u0433\\u0430\\u0437\\u0438\\u043d \\u00abCoffee Time\\u00bb \\u043f\\u0440\\u0435\\u0434\\u043b\\u0430\\u0433\\u0430\\u0435\\u0442 \\u0448\\u0438\\u0440\\u043e\\u043a\\u0438\\u0439 \\u0430\\u0441\\u0441\\u043e\\u0440\\u0442\\u0438\\u043c\\u0435\\u043d\\u0442 \\u043a\\u043e\\u0444\\u0435 \\u043e\\u0442 \\u0438\\u0437\\u0432\\u0435\\u0441\\u0442\\u043d\\u044b\\u0445 \\u043f\\u0440\\u043e\\u0438\\u0437\\u0432\\u043e\\u0434\\u0438\\u0442\\u0435\\u043b\\u0435\\u0439. \\u0412 \\u043d\\u0430\\u0448\\u0435\\u043c \\u043a\\u0430\\u0442\\u0430\\u043b\\u043e\\u0433\\u0435 \\u2013 \\u0442\\u043e\\u043b\\u044c\\u043a\\u043e \\u043a\\u0430\\u0447\\u0435\\u0441\\u0442\\u0432\\u0435\\u043d\\u043d\\u0430\\u044f \\u043d\\u0430\\u0442\\u0443\\u0440\\u0430\\u043b\\u044c\\u043d\\u0430\\u044f \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0446\\u0438\\u044f \\u0434\\u043b\\u044f \\u043f\\u0440\\u0438\\u0433\\u043e\\u0442\\u043e\\u0432\\u043b\\u0435\\u043d\\u0438\\u044f \\u043b\\u0430\\u0442\\u0442\\u0435, \\u044d\\u0441\\u043f\\u0440\\u0435\\u0441\\u0441\\u043e, \\u043a\\u0430\\u043f\\u0443\\u0447\\u0438\\u043d\\u043e, \\u043c\\u0430\\u043a\\u0438\\u0430\\u0442\\u043e \\u0432 \\u043a\\u043e\\u0444\\u0435\\u0432\\u0430\\u0440\\u043a\\u0435, \\u043a\\u043e\\u0444\\u0435\\u043c\\u0430\\u0448\\u0438\\u043d\\u0435, \\u0444\\u0440\\u0435\\u043d\\u0447-\\u043f\\u0440\\u0435\\u0441\\u0441\\u0435 \\u0438\\u043b\\u0438 \\u0442\\u0443\\u0440\\u043a\\u0435. \\u0423 \\u043d\\u0430\\u0441 \\u043c\\u043e\\u0436\\u043d\\u043e \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u043a\\u043e\\u0444\\u0435 \\u0432 \\u0437\\u0435\\u0440\\u043d\\u0430\\u0445, \\u043a\\u0430\\u043f\\u0441\\u0443\\u043b\\u0430\\u0445, \\u0447\\u0430\\u043b\\u0434\\u0430\\u0445, \\u0430 \\u0442\\u0430\\u043a\\u0436\\u0435 \\u043c\\u043e\\u043b\\u043e\\u0442\\u044b\\u0439 \\u0438 \\u0440\\u0430\\u0441\\u0442\\u0432\\u043e\\u0440\\u0438\\u043c\\u044b\\u0439. \\u0421\\u043b\\u0435\\u0434\\u0438\\u0442\\u0435 \\u0437\\u0430 \\u0430\\u043a\\u0446\\u0438\\u044f\\u043c\\u0438 \\u0438 \\u0441\\u043f\\u0435\\u0446\\u0438\\u0430\\u043b\\u044c\\u043d\\u044b\\u043c\\u0438 \\u043f\\u0440\\u0435\\u0434\\u043b\\u043e\\u0436\\u0435\\u043d\\u0438\\u044f\\u043c\\u0438 \\u2013 \\u043d\\u0435 \\u0443\\u043f\\u0443\\u0441\\u0442\\u0438\\u0442\\u0435 \\u0432\\u043e\\u0437\\u043c\\u043e\\u0436\\u043d\\u043e\\u0441\\u0442\\u044c \\u0437\\u0430\\u043a\\u0430\\u0437\\u0430\\u0442\\u044c \\u043a\\u043e\\u0444\\u0435 \\u0438 \\u0434\\u0440\\u0443\\u0433\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u044b \\u043f\\u043e \\u0435\\u0449\\u0435 \\u0431\\u043e\\u043b\\u0435\\u0435 \\u0432\\u044b\\u0433\\u043e\\u0434\\u043d\\u044b\\u043c \\u0446\\u0435\\u043d\\u0430\\u043c. \\u0412\\u044b\\u0431\\u0435\\u0440\\u0438\\u0442\\u0435 \\u043f\\u043e\\u043d\\u0440\\u0430\\u0432\\u0438\\u0432\\u0448\\u0438\\u0439\\u0441\\u044f \\u0441\\u043e\\u0440\\u0442 \\u0438 \\u043e\\u0444\\u043e\\u0440\\u043c\\u0438\\u0442\\u0435 \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u0443. \\u0412\\u0430\\u0448 \\u0437\\u0430\\u043a\\u0430\\u0437 \\u0431\\u0443\\u0434\\u0435\\u0442 \\u043e\\u043f\\u0435\\u0440\\u0430\\u0442\\u0438\\u0432\\u043d\\u043e \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043b\\u0435\\u043d \\u0432 \\u043b\\u044e\\u0431\\u043e\\u0439 \\u0440\\u0435\\u0433\\u0438\\u043e\\u043d \\u0423\\u043a\\u0440\\u0430\\u0438\\u043d\\u044b.<\\/p>\"}');
+INSERT INTO `route` VALUES (1,'/as','Страница с текстом','as',0,5,1,1,0,1,'{\"text\":\"<p>123<\\/p>\"}'),(5,'/as/a','Страница с текстом','a',1,4,2,1,0,1,'{\"text\":\"<h1>Why not?<\\/h1><p>Hey<\\/p><p>I will kill u<\\/p><ol><li>u&nbsp;<\\/li><li>u too<\\/li><\\/ol><p>asd<\\/p>\"}'),(6,'/as/a/dfadg','afdg','dfadg',2,3,3,1,0,1,'{\"text\":\"asdasd\"}'),(11,'/asd','Фотоальбом','asd',6,7,1,1,0,2,'{\"images\":[\"1\",\"2\",\"3\"],\"text\":\"<p><strong>asdasdasdf<\\/strong><\\/p>\"}'),(12,'/asdd','dsa','asdd',8,9,1,1,0,2,'{\"images\":[\"1\",\"3\"],\"text\":\"<p><sup>asd<\\/sup><\\/p>\"}'),(13,'/menu','asd','menu',10,11,1,1,0,3,'{\"menu\":\"1\",\"text\":\"Some textd\"}'),(14,'/text','Multiply text','text',12,13,1,1,0,4,'{\"text\":[\"some\",\"text\",\"not\",\"found\",\"this\",\"d\"]}'),(15,'/ddd','dddd','ddd',14,17,1,2,0,1,'{\"text\":\"<p>ddd<\\/p>\"}'),(16,'/ddd/asdasdasd','asdasdasd','asdasdasd',15,16,2,2,0,1,'{\"text\":\"<p>asdasdasd<\\/p>\"}'),(17,'/','Титульная','',18,19,1,3,0,5,'{\"brands\":[\"7\",\"8\",\"9\",\"10\"],\"slider\":[\"5\",\"6\"],\"about\":\"<p class=\\\"title\\\" style=\\\"font-size: 20px; line-height: 24px; padding-bottom: 18px; font-weight: bold; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif; text-align: center; background-color: rgb(238, 238, 238);\\\">\\u041e \\u043c\\u0430\\u0433\\u0430\\u0437\\u0438\\u043d\\u0435<\\/p><p class=\\\"text\\\" style=\\\"font-size: 14px; line-height: 22px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif; text-align: center; background-color: rgb(238, 238, 238);\\\">\\u0418\\u043d\\u0442\\u0435\\u0440\\u043d\\u0435\\u0442-\\u043c\\u0430\\u0433\\u0430\\u0437\\u0438\\u043d \\u00abCoffee Time\\u00bb \\u043f\\u0440\\u0435\\u0434\\u043b\\u0430\\u0433\\u0430\\u0435\\u0442 \\u0448\\u0438\\u0440\\u043e\\u043a\\u0438\\u0439 \\u0430\\u0441\\u0441\\u043e\\u0440\\u0442\\u0438\\u043c\\u0435\\u043d\\u0442 \\u043a\\u043e\\u0444\\u0435 \\u043e\\u0442 \\u0438\\u0437\\u0432\\u0435\\u0441\\u0442\\u043d\\u044b\\u0445 \\u043f\\u0440\\u043e\\u0438\\u0437\\u0432\\u043e\\u0434\\u0438\\u0442\\u0435\\u043b\\u0435\\u0439. \\u0412 \\u043d\\u0430\\u0448\\u0435\\u043c \\u043a\\u0430\\u0442\\u0430\\u043b\\u043e\\u0433\\u0435 \\u2013 \\u0442\\u043e\\u043b\\u044c\\u043a\\u043e \\u043a\\u0430\\u0447\\u0435\\u0441\\u0442\\u0432\\u0435\\u043d\\u043d\\u0430\\u044f \\u043d\\u0430\\u0442\\u0443\\u0440\\u0430\\u043b\\u044c\\u043d\\u0430\\u044f \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0446\\u0438\\u044f \\u0434\\u043b\\u044f \\u043f\\u0440\\u0438\\u0433\\u043e\\u0442\\u043e\\u0432\\u043b\\u0435\\u043d\\u0438\\u044f \\u043b\\u0430\\u0442\\u0442\\u0435, \\u044d\\u0441\\u043f\\u0440\\u0435\\u0441\\u0441\\u043e, \\u043a\\u0430\\u043f\\u0443\\u0447\\u0438\\u043d\\u043e, \\u043c\\u0430\\u043a\\u0438\\u0430\\u0442\\u043e \\u0432 \\u043a\\u043e\\u0444\\u0435\\u0432\\u0430\\u0440\\u043a\\u0435, \\u043a\\u043e\\u0444\\u0435\\u043c\\u0430\\u0448\\u0438\\u043d\\u0435, \\u0444\\u0440\\u0435\\u043d\\u0447-\\u043f\\u0440\\u0435\\u0441\\u0441\\u0435 \\u0438\\u043b\\u0438 \\u0442\\u0443\\u0440\\u043a\\u0435. \\u0423 \\u043d\\u0430\\u0441 \\u043c\\u043e\\u0436\\u043d\\u043e \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u043a\\u043e\\u0444\\u0435 \\u0432 \\u0437\\u0435\\u0440\\u043d\\u0430\\u0445, \\u043a\\u0430\\u043f\\u0441\\u0443\\u043b\\u0430\\u0445, \\u0447\\u0430\\u043b\\u0434\\u0430\\u0445, \\u0430 \\u0442\\u0430\\u043a\\u0436\\u0435 \\u043c\\u043e\\u043b\\u043e\\u0442\\u044b\\u0439 \\u0438 \\u0440\\u0430\\u0441\\u0442\\u0432\\u043e\\u0440\\u0438\\u043c\\u044b\\u0439. \\u0421\\u043b\\u0435\\u0434\\u0438\\u0442\\u0435 \\u0437\\u0430 \\u0430\\u043a\\u0446\\u0438\\u044f\\u043c\\u0438 \\u0438 \\u0441\\u043f\\u0435\\u0446\\u0438\\u0430\\u043b\\u044c\\u043d\\u044b\\u043c\\u0438 \\u043f\\u0440\\u0435\\u0434\\u043b\\u043e\\u0436\\u0435\\u043d\\u0438\\u044f\\u043c\\u0438 \\u2013 \\u043d\\u0435 \\u0443\\u043f\\u0443\\u0441\\u0442\\u0438\\u0442\\u0435 \\u0432\\u043e\\u0437\\u043c\\u043e\\u0436\\u043d\\u043e\\u0441\\u0442\\u044c \\u0437\\u0430\\u043a\\u0430\\u0437\\u0430\\u0442\\u044c \\u043a\\u043e\\u0444\\u0435 \\u0438 \\u0434\\u0440\\u0443\\u0433\\u0438\\u0435 \\u0442\\u043e\\u0432\\u0430\\u0440\\u044b \\u043f\\u043e \\u0435\\u0449\\u0435 \\u0431\\u043e\\u043b\\u0435\\u0435 \\u0432\\u044b\\u0433\\u043e\\u0434\\u043d\\u044b\\u043c \\u0446\\u0435\\u043d\\u0430\\u043c. \\u0412\\u044b\\u0431\\u0435\\u0440\\u0438\\u0442\\u0435 \\u043f\\u043e\\u043d\\u0440\\u0430\\u0432\\u0438\\u0432\\u0448\\u0438\\u0439\\u0441\\u044f \\u0441\\u043e\\u0440\\u0442 \\u0438 \\u043e\\u0444\\u043e\\u0440\\u043c\\u0438\\u0442\\u0435 \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u0443. \\u0412\\u0430\\u0448 \\u0437\\u0430\\u043a\\u0430\\u0437 \\u0431\\u0443\\u0434\\u0435\\u0442 \\u043e\\u043f\\u0435\\u0440\\u0430\\u0442\\u0438\\u0432\\u043d\\u043e \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043b\\u0435\\u043d \\u0432 \\u043b\\u044e\\u0431\\u043e\\u0439 \\u0440\\u0435\\u0433\\u0438\\u043e\\u043d \\u0423\\u043a\\u0440\\u0430\\u0438\\u043d\\u044b.<\\/p>\"}'),(18,'/123','Титульная','123',20,21,1,3,0,5,'{\"about\":\"<p>\\u041c\\u0430\\u0433\\u0430\\u0437\\u0438\\u043d \\u0445\\u043e\\u0440\\u043e\\u0448\\u0438\\u0439<\\/p>\"}');
 /*!40000 ALTER TABLE `route` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,10 +360,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `site_params`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `site_params` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `vars` json DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `vars` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `params` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -387,12 +385,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `template`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `template` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `path` varchar(255) NOT NULL,
-  `params` json NOT NULL,
+  `params` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -413,10 +411,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `image_id` int unsigned DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `image_id` int(10) unsigned DEFAULT NULL,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -425,7 +423,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `phone` (`phone`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -434,6 +432,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,NULL,'Михаил','Сюрсин','mihha1818@ya.ru','+77714392646','bf88d7030997b401b1776ca0c98e0106');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -443,12 +442,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vendor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `vendor` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -457,12 +456,9 @@ CREATE TABLE `vendor` (
 
 LOCK TABLES `vendor` WRITE;
 /*!40000 ALTER TABLE `vendor` DISABLE KEYS */;
+INSERT INTO `vendor` VALUES (1,'eBosh');
 /*!40000 ALTER TABLE `vendor` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50112 SET @disable_bulk_load = IF (@is_rocksdb_supported, 'SET SESSION rocksdb_bulk_load = @old_rocksdb_bulk_load', 'SET @dummy_rocksdb_bulk_load = 0') */;
-/*!50112 PREPARE s FROM @disable_bulk_load */;
-/*!50112 EXECUTE s */;
-/*!50112 DEALLOCATE PREPARE s */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -473,4 +469,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-16 17:36:45
+-- Dump completed on 2020-07-13 10:33:24

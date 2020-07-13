@@ -1,0 +1,15 @@
+version: '3'
+
+volumes:
+  database:
+services:
+  database:
+    image: percona
+    volumes:
+      - database:/var/lib/mysql
+    environment:
+      MYSQL_USER: shop
+      MYSQL_PASSWORD: 1
+      MYSQL_DATABASE: shop
+      MYSQL_ROOT_PASSWORD: 1
+    ports: [3306]

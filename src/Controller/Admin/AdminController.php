@@ -29,12 +29,18 @@ class AdminController extends AbstractController
             $object_manager->save($site_params);
             $site_params = $site_params_service->getSiteParams();
         }
-        $vars = $site_params->getVars();
-        $params = $site_params->getParams();
-        $vars = json_decode($vars, true);
-        $params = json_decode($params, true);
+        if ($site_params){
+            $vars = $site_params->getVars();
+            $params = $site_params->getParams();
+            $vars = json_decode($vars, true);
+            $params = json_decode($params, true);
 
-        $params = $custom_router->normalizeParams($params, $vars);
+            $params = $custom_router->normalizeParams($params, $vars);
+        }else{
+            $vars = [];
+            $params = [];
+        }
+
         return $this->render("/admin/index.html.twig", [
             "vars"=>$vars,
             "params"=>$params

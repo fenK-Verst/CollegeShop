@@ -30,11 +30,16 @@ class SiteParamsMiddleware implements MiddlewareInterface
     {
         $controller = $route->getController();
         $site_params = $this->service->getSiteParams();
-        $vars = $site_params->getVars();
-        $params = $site_params->getParams();
-        $vars = json_decode($vars, true);
-        $params = json_decode($params, true);
-        $params = $this->custom_router->normalizeParams($params, $vars);
+        if ($site_params){
+            $vars = $site_params->getVars();
+            $params = $site_params->getParams();
+            $vars = json_decode($vars, true);
+            $params = json_decode($params, true);
+            $params = $this->custom_router->normalizeParams($params, $vars);
+        }else{
+            $params = [];
+        }
+
         $controller->addSharedData("site", $params);
     }
 }
