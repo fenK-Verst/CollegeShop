@@ -4,7 +4,7 @@
 namespace App\Repository;
 
 
-use App\Db\ObjectManager;
+use App\Db\Interfaces\ObjectManagerInterface;
 use App\Entity\Template;
 
 /**
@@ -18,7 +18,7 @@ use App\Entity\Template;
  */
 class TemplateRepository extends AbstractRepository
 {
-    public function __construct(ObjectManager $object_manager)
+    public function __construct(ObjectManagerInterface $object_manager, string $entity_class = Template::class)
     {
         parent::__construct($object_manager, Template::class);
     }

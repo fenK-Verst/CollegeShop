@@ -84,8 +84,9 @@
                     </div>
 
                     <nav>
+                        {% if  app.site.menu1.routes%}
                         {% include "/admin/menu/routes.ul.html.twig" with {"routes":app.site.menu1.routes|sort((a, b) => a.left <=> b.left)} %}
-
+                        {% endif %}
                     </nav>
                 </div>
                 <div class="header_bot_right">
@@ -130,8 +131,10 @@
                     <li><a href="/folder/{{ folder.id }}">{{ folder.name }}</a></li>
                 {% endfor %}
             </ul>
+            {% if app.site.menu2.routes %}
             {% include "/admin/menu/routes.ul.html.twig" with {"routes":app.site.menu2.routes|sort((a, b) => a.left <=> b.left), "menu":app.site.menu2, "maxLvl":1} %}
-{#            <ul>#}
+            {% endif %}
+            {#            <ul>#}
 {#                #}
 {#                <li class="title"><a href="">Клиентам</a></li>#}
 {#                <li><a href="">Вход в личный кабинет</a></li>#}

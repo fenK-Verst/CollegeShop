@@ -4,7 +4,7 @@
 namespace App\Repository;
 
 
-use App\Db\ObjectManager;
+use App\Db\Interfaces\ObjectManagerInterface;
 use App\Entity\Menu;
 
 /**
@@ -18,7 +18,7 @@ use App\Entity\Menu;
  */
 class MenuRepository extends AbstractRepository
 {
-    public function __construct(ObjectManager $object_manager)
+    public function __construct(ObjectManagerInterface $object_manager, string $entity_class = Menu::class)
     {
         parent::__construct($object_manager, Menu::class);
     }

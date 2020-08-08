@@ -4,6 +4,7 @@
 namespace App\Repository;
 
 
+use App\Db\Interfaces\ObjectManagerInterface;
 use App\Db\ObjectManager;
 use App\Entity\CustomRoute;
 
@@ -18,7 +19,7 @@ use App\Entity\CustomRoute;
  */
 class CustomRouteRepository extends AbstractRepository
 {
-    public function __construct(ObjectManager $object_manager)
+    public function __construct(ObjectManagerInterface $object_manager, string $entity_class = CustomRoute::class)
     {
         parent::__construct($object_manager, CustomRoute::class);
     }

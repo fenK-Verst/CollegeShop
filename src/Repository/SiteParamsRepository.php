@@ -4,7 +4,7 @@
 namespace App\Repository;
 
 
-use App\Db\ObjectManager;
+use App\Db\Interfaces\ObjectManagerInterface;
 use App\Entity\SiteParams;
 
 /**
@@ -18,7 +18,7 @@ use App\Entity\SiteParams;
  */
 class SiteParamsRepository extends AbstractRepository
 {
-    public function __construct(ObjectManager $object_manager)
+    public function __construct(ObjectManagerInterface $object_manager, string $entity_class = SiteParams::class)
     {
         parent::__construct($object_manager, SiteParams::class);
     }

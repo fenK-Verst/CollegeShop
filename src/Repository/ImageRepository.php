@@ -4,7 +4,7 @@
 namespace App\Repository;
 
 
-use App\Db\ObjectManager;
+use App\Db\Interfaces\ObjectManagerInterface;
 use App\Entity\Image;
 
 /**
@@ -18,7 +18,7 @@ use App\Entity\Image;
  */
 class ImageRepository extends AbstractRepository
 {
-    public function __construct(ObjectManager $object_manager)
+    public function __construct(ObjectManagerInterface $object_manager, string $entity_class = Image::class)
     {
         parent::__construct($object_manager, Image::class);
     }
