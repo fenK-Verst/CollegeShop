@@ -203,13 +203,4 @@ class DefaultController extends AbstractController
         );
         return $this->redirect("/cart");
     }
-
-    /**
-     * @Route("/appletree")
-     */
-    public function apple()
-    {
-        return $this->render("apple/apple.html.twig");
-    }
-
 }
