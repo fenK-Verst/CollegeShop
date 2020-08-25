@@ -54,7 +54,7 @@ $productRepository = $container->get(ProductRepository::class);
 $object_manager = $container->get(ObjectManager::class);
 
 
-for($i=1;$i<11;$i++){
+for ($i = 1; $i < 11; $i++) {
 
     $vendor = new Vendor();
     $vendor->setName($faker->unique()->company);
@@ -62,30 +62,32 @@ for($i=1;$i<11;$i++){
     $folder = new Folder();
     $folder->setName($faker->unique()->word);
     $folder->setLvl(1);
-    $folder->setLeft($i*2-1);
-    $folder->setRight($i*2);
+    $folder->setLeft($i * 2 - 1);
+    $folder->setRight($i * 2);
 
     $object_manager->save($folder);
     $object_manager->save($vendor);
 
 }
 
-for($i=0; $i<100;$i++){
+for ($i = 0; $i < 100; $i++) {
     $product = new Product();
 
     $product->setName($faker->unique()->word);
-    $product->setCount(rand(5,100));
-    $product->setPrice(rand(5000,20000));
+    $product->setCount(rand(5, 100));
+    $product->setPrice(rand(5000, 20000));
     $product->setDescription($faker->text(350));
     $product->setArticle($faker->text(5));
 
-    $vendor = $vendorRepository->find(rand(0,9));
+    $vendor = $vendorRepository->find(rand(0, 9));
     $product->setVendor($vendor);
 
-    $folder_count = rand(1,3);
-    for($j=0;$j<$folder_count;$j++){
-        $folder = $folderRepository->find(rand(0,9));
-        if ($folder) $product->addFolder($folder);
+    $folder_count = rand(1, 3);
+    for ($j = 0; $j < $folder_count; $j++) {
+        $folder = $folderRepository->find(rand(0, 9));
+        if ($folder) {
+            $product->addFolder($folder);
+        }
     }
     $object_manager->save($product);
 }

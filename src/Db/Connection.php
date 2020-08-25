@@ -43,6 +43,7 @@ class Connection implements ConnectionInterface
         return $this->connection;
     }
 
+
     private function connect()
     {
         $connection = new \mysqli($this->host, $this->user, $this->password, $this->db_name, $this->port);

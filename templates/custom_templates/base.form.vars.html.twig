@@ -43,7 +43,8 @@
                     {% set image = params[key] %}
                     {% if image %}
                         <div class="item image-item">
-                            <img src="{{ image.path }}" width="30px" height="30px" alt=""><span class="name">{{ image.alias }}</span>
+                            <img src="{{ image.path }}" width="30px" height="30px" alt=""><span
+                                    class="name">{{ image.alias }}</span>
                             <input type="hidden" name="route[params][{{ key }}]" value="{{ image.id }}">
                             <span class="btn btn-sm btn-danger" data-action="remove"><i class="fa fa-minus"></i></span>
                         </div>

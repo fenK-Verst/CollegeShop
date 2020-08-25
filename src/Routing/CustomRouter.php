@@ -61,10 +61,11 @@ class CustomRouter
         $params = [];
         foreach ($route_params as $key => &$route_param) {
             $var = $vars[$key];
-            if (!$var["type"]) {
-                throw new Exception('Ошибка типизации. Обратитесь к разработчику');
-            }
-            switch ($var["type"]) {
+            $type = $var["type"];
+//            if (!$var["type"]) {
+//                throw new Exception('Ошибка типизации. Обратитесь к разработчику');
+//            }
+            switch ($type) {
                 case "html":
                 case "text":
                     $params[$key] = $route_param;

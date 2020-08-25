@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\SiteParams;
 use App\Repository\SiteParamsRepository;
 
 class SiteParamsService
@@ -18,9 +19,9 @@ class SiteParamsService
         $this->repository = $site_params_repository;
     }
 
-    public function getSiteParams()
+    public function getSiteParams(): ?SiteParams
     {
-        return $this->repository->find(1) ?? null;
+        return $this->repository->findBy([],[],[1])[0] ?? null;
     }
 
 }

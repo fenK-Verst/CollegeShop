@@ -39,8 +39,10 @@ class ImageAdminController extends AbstractController
 
         $error = '';
         $save_dir = $config->get("config")["images_directory"];
-        if (!$save_dir || !is_dir($_SERVER["DOCUMENT_ROOT"] . $save_dir)) {
+        if (!$save_dir) {
             $error .= "Не найдена директория для сохранения. Обратитесь к разработчику";
+        }elseif (!is_dir($_SERVER["DOCUMENT_ROOT"] . $save_dir)){
+            mkdir($_SERVER["DOCUMENT_ROOT"] . $save_dir);
         }
         $request_image = $request->post("image");
         $file = $_FILES["image"] ?? null;
