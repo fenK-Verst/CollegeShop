@@ -4,7 +4,7 @@
 namespace App\Repository;
 
 
-use App\Db\ObjectManager;
+use App\Db\Interfaces\ObjectManagerInterface;
 use App\Entity\Vendor;
 
 /**
@@ -18,7 +18,7 @@ use App\Entity\Vendor;
  */
 class VendorRepository extends AbstractRepository
 {
-    public function __construct(ObjectManager $object_manager)
+    public function __construct(ObjectManagerInterface $object_manager, string $entity_class = Vendor::class)
     {
         parent::__construct($object_manager, Vendor::class);
     }

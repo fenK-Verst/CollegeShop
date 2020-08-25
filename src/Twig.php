@@ -34,7 +34,7 @@ class Twig
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
 
     }
-    public function render(string $template_name, array $params = [])
+    public function render(string $template_name, array $params = []): string
     {
         try {
             return $this->twig->render($template_name, $params);

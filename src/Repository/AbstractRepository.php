@@ -10,7 +10,7 @@ use App\Entity\AbstractEntity;
 use App\Entity\EntityInterface;
 use App\Repository\Exceptions\GivenEntityNotAbstractEntityException;
 
-abstract class AbstractRepository //implements RepositoryInterface
+abstract class AbstractRepository implements RepositoryInterface
 {
     private ObjectDataManagerInterface $objectDataManager;
     private AbstractEntity $entity;
@@ -86,7 +86,7 @@ abstract class AbstractRepository //implements RepositoryInterface
         return $this->findBy([]);
     }
 
-    public function findOrCreate(string $primary_key_value)
+    public function findOrCreate(string $primary_key_value): EntityInterface
     {
         $result = $this->find($primary_key_value);
         if (!empty($result)) {

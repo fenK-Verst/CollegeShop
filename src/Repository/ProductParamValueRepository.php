@@ -4,6 +4,7 @@
 namespace App\Repository;
 
 
+use App\Db\Interfaces\ObjectManagerInterface;
 use App\Db\ObjectManager;
 use App\Entity\ProductParam;
 use App\Entity\ProductParamValue;
@@ -20,7 +21,7 @@ use App\Entity\Vendor;
  */
 class ProductParamValueRepository extends AbstractRepository
 {
-    public function __construct(ObjectManager $object_manager)
+    public function __construct(ObjectManagerInterface $object_manager, string $entity_class=ProductParamValue::class)
     {
         parent::__construct($object_manager, ProductParamValue::class);
     }

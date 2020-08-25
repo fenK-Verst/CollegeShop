@@ -4,7 +4,7 @@
 namespace App\Repository;
 
 
-use App\Db\ObjectManager;
+use App\Db\Interfaces\ObjectManagerInterface;
 use App\Entity\User;
 
 /**
@@ -18,10 +18,11 @@ use App\Entity\User;
  */
 class UserRepository extends AbstractRepository
 {
-    public function __construct(ObjectManager $object_manager)
+    public function __construct(ObjectManagerInterface $object_manager, string $entity_class = User::class)
     {
         parent::__construct($object_manager, User::class);
     }
+
     public function getNonUnique(User $user)
     {
         $email = $user->getEmail();

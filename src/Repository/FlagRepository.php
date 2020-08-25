@@ -4,7 +4,7 @@
 namespace App\Repository;
 
 
-use App\Db\ObjectManager;
+use App\Db\Interfaces\ObjectManagerInterface;
 use App\Entity\Flag;
 
 /**
@@ -18,7 +18,7 @@ use App\Entity\Flag;
  */
 class FlagRepository extends AbstractRepository
 {
-    public function __construct(ObjectManager $object_manager)
+    public function __construct(ObjectManagerInterface $object_manager, string $entity_class = Flag::class)
     {
         parent::__construct($object_manager, Flag::class);
     }
