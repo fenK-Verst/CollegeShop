@@ -29,7 +29,7 @@ class Request
     }
     public function getUrl()
     {
-        return $this->url;
+        return strtolower($this->url);
     }
 
 }

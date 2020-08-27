@@ -17,9 +17,37 @@ use App\Repository\StonkRepository;
 class StonkApiController extends AbstractController
 {
     /**
-     * @Route("/", methods=["post, get"])
+     * @Route("/", methods=["post"])
      */
     public function index(StonkRepository $stonkRepository)
+    {
+        $stonks = $stonkRepository->findBy([
+            'user_id' => 1
+        ], [], [100]);
+        $data = [];
+        foreach ($stonks as $stonk) {
+
+            /** @var Stonk $stonk */
+            $id = $stonk->getId();
+            $title = $stonk->getTitle();
+            $description = $stonk->getDescription();
+            $summ = $stonk->getSumm();
+            $created_at = $stonk->getCreatedAt();
+            $data[$id] = [
+                'id' => $id,
+                'title' => $title,
+                'description' => $description,
+                'summ' => $summ,
+                'created_at' => $created_at,
+            ];
+        }
+        return $this->error('a');
+    }
+
+    /**
+     * @Route("/", methods=["get"])
+     */
+    public function a(StonkRepository $stonkRepository)
     {
         $stonks = $stonkRepository->findBy([
             'user_id' => 1
