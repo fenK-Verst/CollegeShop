@@ -53,7 +53,7 @@ abstract class AbstractController
         $json = json_encode($json);
         $this->response->setBody($json);
         $this->response->setHeaders([
-            "Content-Type"=>"application/json;charset=utf-8"
+            "Content-Type" => "application/json;charset=utf-8"
         ]);
         return $this->response;
     }

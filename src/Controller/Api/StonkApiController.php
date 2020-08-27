@@ -17,13 +17,16 @@ use App\Repository\StonkRepository;
 class StonkApiController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/", methods=["post, get"])
      */
-    public function get(StonkRepository $stonkRepository)
+    public function index(StonkRepository $stonkRepository)
     {
-        $stonks = $stonkRepository->findBy([], [], [100]);
+        $stonks = $stonkRepository->findBy([
+            'user_id' => 1
+        ], [], [100]);
         $data = [];
         foreach ($stonks as $stonk) {
+
             /** @var Stonk $stonk */
             $id = $stonk->getId();
             $title = $stonk->getTitle();

@@ -27,13 +27,22 @@ class Router
     {
         $route_data = $this->findRouteData();
         if (!$route_data) {
-           $this->notFound();
-
+            $this->notFound();
         }
         $controller = $route_data[0];
         $method = $route_data[1];
         $params = $route_data[2];
 
+        $methods = json_decode($params['methods']);
+        if ($methods) {
+            $methods = array_map(function ($m) {
+                return strtolower($m);
+            }, $methods);
+            $request_method = strtolower($_SERVER['REQUEST_METHOD']);
+            if (!in_array($request_method, $methods)) {
+                $this->nowAllowed();
+            }
+        }
         $controller = $this->container->get($controller);
         return new Route($controller, $method, $params);
     }
@@ -45,15 +54,24 @@ class Router
         }
         return $route_data;
     }
+
     private function getRouteData(): array
     {
-
         $routes = $this->getRoutes();
+
         $url = $this->request->getUrl();
         $route = $routes[$url] ?? $routes[$url . "/"] ?? [];
         if (!empty($route)) {
             return $route;
         }
+        $route = $this->findComplicatedRoute($routes, $url);
+
+        return $route;
+    }
+
+    private function findComplicatedRoute(array $routes, string $url)
+    {
+        $route = [];
         foreach ($routes as $key => $route_data) {
             $route_params = [];
 
@@ -91,16 +109,17 @@ class Router
         }
         return $route;
     }
-
     private function getRoutes()
     {
         $routes = [];
         $controllers = $this->config->getControllers();
+
         foreach ($controllers as $controller) {
             $reflection_controller = new ReflectionClass($controller);
             $reflection_methods = $reflection_controller->getMethods();
             $controller_route = $this->getControllerRoute($reflection_controller);
             $controller_url = $controller_route["url"] ?? '';
+
             foreach ($reflection_methods as $method) {
                 $method_name = $method->getName();
                 $doc = $method->getDocComment();
@@ -126,6 +145,7 @@ class Router
                 $route_url = trim($route_url, '"');
                 $url = trim($controller_url . $route_url, '"');
                 if ($url{0} != '/') $url='/'.$url;
+
                 $routes[$url] = [
                     $controller,
                     $method_name,
@@ -196,6 +216,20 @@ class Router
         return [
             $route_chunk => $url_chunk,
         ];
+    }
+
+    private function nowAllowed()
+    {
+        header('HTTP/1.0 405 Method Not Allowed', true, 405);
+        /**
+         * @var Twig $twig
+         */
+        $twig = $this->container->get(Twig::class);
+        $html = $twig->render("HttpErrors/error.html.twig", [
+            "code"=>405,
+            "name"=>'Method is not allowed'
+        ]);
+        die($html);
     }
 
 
