@@ -100,7 +100,7 @@ class Stonk extends AbstractEntity
     /**
      * @return mixed
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?string
     {
         return $this->created_at;
     }

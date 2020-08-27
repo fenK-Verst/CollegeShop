@@ -13,7 +13,7 @@ class Router
     private Config $config;
     private Request $request;
     private Container $container;
-      private CustomRouter $custom_router;
+    private CustomRouter $custom_router;
 
     public function __construct(Config $config, Request $request, Container $container, CustomRouter $custom_router)
     {
@@ -59,21 +59,8 @@ class Router
             if (!($routeUrl == $url || $routeUrl == $url . "/")) {
                 continue;
             }
-
-            $methods = @json_decode($route['params']['methods']);
-            if (!$methods) {
+            if ($this->testRouteOnRequestMethod($route)){
                 $findedRoute = $route;
-                break;
-            }
-            $methods = array_map(function ($m) {
-                return strtolower($m);
-            }, $methods);
-
-            $request_method = strtolower($_SERVER['REQUEST_METHOD']);
-
-            if (in_array($request_method, $methods)) {
-                $findedRoute = $route;
-                break;
             }
 
         }
@@ -85,13 +72,31 @@ class Router
         return $findedRoute;
     }
 
+    private function testRouteOnRequestMethod(array $route){
+        $methods = @json_decode($route['params']['methods']);
+
+        if (!$methods) {
+            return true;
+        }
+        $methods = array_map(function ($m) {
+            return strtolower($m);
+        }, $methods);
+
+        $request_method = strtolower($_SERVER['REQUEST_METHOD']);
+
+        if (in_array($request_method, $methods)) {
+
+            return true;
+        }
+        return false;
+    }
+
     private function findComplicatedRoute(array $routes)
     {
         $route = [];
         $url = $this->request->getUrl();
         foreach ($routes as $route_data) {
             $route_params = [];
-
             $routeUrl = $route_data['url'];
 
             if (!$this->isComplicatedUrl($routeUrl)){
@@ -122,10 +127,12 @@ class Router
 
                 $route_params = array_replace($route_params, $param);
             }
+            if (!$this->testRouteOnRequestMethod($route_data)){
+                continue;
+            }
             $route = $route_data;
             $route['params'] = $route_params;
         }
-
         return $route;
     }
 
@@ -172,7 +179,6 @@ class Router
         for ($i = 1; $i < count($route_params); $i++) {
             $param = $route_params[$i];
             $param = explode("=", $param);
-
             $key = trim($param[0]);
             $value = trim($param[1], "\"");
             $params[$key] = $value;
