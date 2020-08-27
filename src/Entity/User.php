@@ -46,6 +46,10 @@ class User extends AbstractEntity
      */
     protected $password;
 
+    /**
+     * @Entity\OneToMany(entity="App\Entity\Stonk", primary_key="user_id")
+     */
+    protected $stonks = [];
     
     public function getId(): ?int
     {
@@ -126,5 +130,44 @@ class User extends AbstractEntity
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    /**
+     **
+     * @return array
+     */
+    public function getComments(): ?array
+    {
+        return $this->stonks;
+    }
+
+    /**
+     * @param Stonk $stonk
+     */
+    public function addComment(Stonk $stonk): void
+    {
+        $finded = false;
+        foreach ($this->stonks as $this_stonk) {
+            if ($stonk->getId() == $this_stonk->getId()) {
+                $finded = true;
+                break;
+            }
+        }
+        if (!$finded) {
+            $this->stonks[] = $stonk;
+        }
+    }
+
+    /**
+     * @param Stonk $stonk
+     */
+    public function deleteComment(Stonk $stonk)
+    {
+        foreach ($this->stonks as $key => $this_stonk) {
+            if ($stonk->getId() == $this_stonk->getId()) {
+                unset($this->stonks[$key]);
+            }
+        }
+
     }
 }

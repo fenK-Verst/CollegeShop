@@ -52,9 +52,13 @@ class UserController extends AbstractController
         $request_user = $request->post("user");
         $error = '';
         $save_dir = $config->get("config")["avatar_directory"];
-        if (!$save_dir || !is_dir($_SERVER["DOCUMENT_ROOT"] . $save_dir)) {
+        if (!$save_dir) {
             $error .= "Не найдена директория для сохранения. Обратитесь к разработчику";
+        } elseif (!is_dir($_SERVER["DOCUMENT_ROOT"] . $save_dir)) {
+            mkdir($_SERVER["DOCUMENT_ROOT"] . $save_dir);
         }
+
+
         if (!empty($request_user)) {
             $user = new User();
             $email = $request_user["email"];

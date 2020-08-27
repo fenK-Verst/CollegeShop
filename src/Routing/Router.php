@@ -54,7 +54,6 @@ class Router
         if (!empty($route)) {
             return $route;
         }
-
         foreach ($routes as $key => $route_data) {
             $route_params = [];
 
@@ -126,6 +125,7 @@ class Router
                 $controller_url = trim($controller_url, '"');
                 $route_url = trim($route_url, '"');
                 $url = trim($controller_url . $route_url, '"');
+                if ($url{0} != '/') $url='/'.$url;
                 $routes[$url] = [
                     $controller,
                     $method_name,

@@ -90,7 +90,7 @@ class CustomRouter
                     $menu_repository = $this->container->get(MenuRepository::class);
                     $menu = $menu_repository->find($route_param);
                     if (!$menu) {
-                        $route_param = null;
+                        $route_params[$key] = null;
                     }
                     $params[$key] = $menu;
                     break;

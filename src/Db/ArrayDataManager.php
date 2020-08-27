@@ -61,6 +61,8 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
 
     public function update(string $table_name, array $values, array $where): int
     {
+        $set_array = [];
+        $where_array = [];
         foreach ($values as $key => $value) {
             if (!is_null($value)) {
                 $val = '"' . $this->escape($value) . '"';
@@ -85,7 +87,7 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
 
     public function delete(string $table_name, array $where): int
     {
-
+        $where_array = [];
         foreach ($where as $key => $value) {
             $where_array[] = '`' . $key . '`' . ' = "' . $this->escape($value) . '"';
         }
@@ -99,7 +101,7 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
         return $this->connection->affected_rows;
     }
 
-    private function fetch(string $table_name, array $select = [], array $where = []): \mysqli_result
+    public function fetch(string $table_name, array $select = [], array $where = []): \mysqli_result
     {
         $array_select = $select;
         $array_select = array_map(function ($value) {

@@ -3,20 +3,20 @@
 
 namespace App\Entity\Proxy;
 
-class UserProxy extends \App\Entity\User
+class StonkProxy extends \App\Entity\Stonk
 {
     private bool $__inited = false;
-    private \App\Repository\UserRepository $repository;
+    private \App\Repository\StonkRepository $repository;
     private $primaryKeyValue;
-    private \App\Entity\User $parent;
+    private \App\Entity\Stonk $parent;
 
     /**
-     * UserProxy constructor.
+     * StonkProxy constructor.
      *
-     * @param \App\Repository\UserRepository $repository
+     * @param \App\Repository\StonkRepository $repository
      * @param $primaryKeyValue
      */
-    public function __construct(\App\Repository\UserRepository $repository, $primaryKeyValue)
+    public function __construct(\App\Repository\StonkRepository $repository, $primaryKeyValue)
     {
         $this->repository = $repository;
         $this->primaryKeyValue = $primaryKeyValue;
@@ -42,94 +42,64 @@ class UserProxy extends \App\Entity\User
         return $this->parent->getId();           
     }
 
-    public function getLastname() : string
+    public function getTitle() : string
     {
         $this->init();
-        return $this->parent->getLastname();           
+        return $this->parent->getTitle();           
     }
 
-    public function setLastname( $lastname) : void
+    public function setTitle(string $title) : void
     {
         $this->init();
-        $this->parent->setLastname($lastname);           
+        $this->parent->setTitle($title);           
     }
 
-    public function getFirstname() : string
+    public function getDescription() : string
     {
         $this->init();
-        return $this->parent->getFirstname();           
+        return $this->parent->getDescription();           
     }
 
-    public function setFirstname( $firstname) : void
+    public function setDescription(string $description) : void
     {
         $this->init();
-        $this->parent->setFirstname($firstname);           
+        $this->parent->setDescription($description);           
     }
 
-    public function getEmail() : string
+    public function getSumm() : float
     {
         $this->init();
-        return $this->parent->getEmail();           
+        return $this->parent->getSumm();           
     }
 
-    public function setEmail( $email) : void
+    public function setSumm(float $summ) : void
     {
         $this->init();
-        $this->parent->setEmail($email);           
+        $this->parent->setSumm($summ);           
     }
 
-    public function getPhone() : string
+    public function getCreatedAt() : string
     {
         $this->init();
-        return $this->parent->getPhone();           
+        return $this->parent->getCreatedAt();           
     }
 
-    public function setPhone( $phone) : void
+    public function setCreatedAt(string $created_at) : void
     {
         $this->init();
-        $this->parent->setPhone($phone);           
+        $this->parent->setCreatedAt($created_at);           
     }
 
-    public function getImage() : ?\App\Entity\Image
+    public function getUser() : ?\App\Entity\User
     {
         $this->init();
-        return $this->parent->getImage();           
+        return $this->parent->getUser();           
     }
 
-    public function setImage(?\App\Entity\Image $image) : void
+    public function setUser(?\App\Entity\User $user) : void
     {
         $this->init();
-        $this->parent->setImage($image);           
-    }
-
-    public function setPassword(string $password)
-    {
-        $this->init();
-        $this->parent->setPassword($password);           
-    }
-
-    public function getPassword() : string
-    {
-        $this->init();
-        return $this->parent->getPassword();           
-    }
-
-    public function getComments() : array
-    {
-        $this->init();
-        return $this->parent->getComments();           
-    }
-
-    public function addComment(?\App\Entity\Stonk $stonk) : void
-    {
-        $this->init();
-        $this->parent->addComment($stonk);           
-    }
-
-    public function deleteComment(?\App\Entity\Stonk $stonk)
-    {
-        $this->init();
-        $this->parent->deleteComment($stonk);           
+        $this->parent->setUser($user);           
     }
 
     public function getTableName() : string

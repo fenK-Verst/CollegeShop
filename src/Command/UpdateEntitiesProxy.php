@@ -14,6 +14,7 @@ use App\Entity\ProductParam;
 use App\Entity\ProductParamValue;
 use App\Entity\CustomRoute;
 use App\Entity\SiteParams;
+use App\Entity\Stonk;
 use App\Entity\Template;
 use App\Entity\User;
 use App\Entity\Vendor;
@@ -37,7 +38,8 @@ $entities = [
     Menu::class,
     CustomRoute::class,
     Template::class,
-    SiteParams::class
+    SiteParams::class,
+    Stonk::class
 ];
 $config = new Config();
 $proxy_config = $config->get("proxy") ?? null;
