@@ -136,7 +136,7 @@ class User extends AbstractEntity
      **
      * @return array
      */
-    public function getComments(): ?array
+    public function getStonks(): ?array
     {
         return $this->stonks;
     }
@@ -144,7 +144,7 @@ class User extends AbstractEntity
     /**
      * @param Stonk $stonk
      */
-    public function addComment(Stonk $stonk): void
+    public function addStonk(Stonk $stonk): void
     {
         $finded = false;
         foreach ($this->stonks as $this_stonk) {
@@ -161,7 +161,7 @@ class User extends AbstractEntity
     /**
      * @param Stonk $stonk
      */
-    public function deleteComment(Stonk $stonk)
+    public function deleteStonk(Stonk $stonk)
     {
         foreach ($this->stonks as $key => $this_stonk) {
             if ($stonk->getId() == $this_stonk->getId()) {
