@@ -113,9 +113,12 @@ class $p extends \\$entity
             $params = [];
             $vars = [];
             foreach ( $reflection_params as $param){
-                if ($param->getClass() || ($param->getType() && $param->getType()->allowsNull())) {
+                if ($param->getClass()) {
                     $type = "?\\" . $param->getType();
+                } elseif ($param->getType() && $param->getType()->allowsNull()) {
+                    $type = "?" . $param->getType();
                 } else {
+
                     $type = $param->getType();
                 }
                 $params[] =  $type. " $". $param->getName();

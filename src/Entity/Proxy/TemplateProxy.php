@@ -42,7 +42,7 @@ class TemplateProxy extends \App\Entity\Template
         return $this->parent->getParams();           
     }
 
-    public function setParams(?\string $params) : void
+    public function setParams(?string $params) : void
     {
         $this->init();
         $this->parent->setParams($params);           
