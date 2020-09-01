@@ -27,8 +27,11 @@ class UserService
     }
     public function getCurrentUser()
     {
-
-        $user_id = $_SESSION['user_id'] ?? base64_decode($_COOKIE[self::AUTH_COOKIE]) ?? null;
+        $user_id = $_SESSION['user_id'] ?? null;
+        if (!$user_id){
+            $raw = $_COOKIE[self::AUTH_COOKIE] ?? null;
+            $user_id = $raw ? base64_decode($raw) : null;
+        }
         if ($user_id) {
             $user = $this->userRepository->find($user_id);
             if (is_null($user)) {
