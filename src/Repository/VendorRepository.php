@@ -14,6 +14,7 @@ use App\Entity\Vendor;
  * @method Vendor find(string $primary_key_value)
  * @method Vendor findOrCreate(string $primary_key_value)
  * @method Vendor findBy(array $where, array $order = [], array $limit = []) : array
+ * @method Vendor findOneBy(array $where, array $order = []) : array
  * @method Vendor[] findAll()
  */
 class VendorRepository extends AbstractRepository

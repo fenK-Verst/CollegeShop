@@ -14,6 +14,7 @@ use App\Entity\Flag;
  * @method Flag find(string $primary_key_value)
  * @method Flag findOrCreate(string $primary_key_value)
  * @method Flag findBy(array $where, array $order = [], array $limit = []) : array
+ * @method Flag findOneBy(array $where, array $order = []) : array
  * @method Flag[] findAll()
  */
 class FlagRepository extends AbstractRepository

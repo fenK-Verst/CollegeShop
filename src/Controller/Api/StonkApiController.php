@@ -25,8 +25,12 @@ class StonkApiController extends AbstractController
      */
     public function index(StonkRepository $stonkRepository)
     {
+        $user = $this->getUserService()->getCurrentUser();
+        if (!$user) {
+            return $this->userError();
+        }
         $stonks = $stonkRepository->findBy([
-            'user_id' => 1
+            'user_id' => $user->getId()
         ], [], [100]);
         $data = [];
         foreach ($stonks as $stonk) {
@@ -53,6 +57,10 @@ class StonkApiController extends AbstractController
      */
     public function add(ObjectManager $objectManager, Request $request, UserRepository $userRepository)
     {
+        $user = $this->getUserService()->getCurrentUser();
+        if (!$user) {
+            return $this->userError();
+        }
         $data = $request->post('stonk');
 
         $title = $data['title'];
@@ -66,11 +74,12 @@ class StonkApiController extends AbstractController
             return $this->error('Не указана сумма');
         }
 
+
         $stonk = new Stonk();
         $stonk->setTitle($title);
         $stonk->setDescription($description);
         $stonk->setSumm($summ);
-        $stonk->setUser($userRepository->find(1));
+        $stonk->setUser($user);
         $now = new \DateTime();
         $stonk->setCreatedAt($now->format('Y-m-d H:i:s'));
         $objectManager->save($stonk);
@@ -83,6 +92,10 @@ class StonkApiController extends AbstractController
      */
     public function edit(ObjectManager $objectManager, Request $request, StonkRepository $stonkRepository)
     {
+        $user = $this->getUserService()->getCurrentUser();
+        if (!$user) {
+            return $this->userError();
+        }
         $putfp = fopen('php://input', 'r');
         $putdata = '';
         while ($data = fread($putfp, 1024)) {
@@ -97,6 +110,10 @@ class StonkApiController extends AbstractController
         if (!$stonk) {
             return $this->error('Stonk не найден =(');
         }
+        if ($user->getId() != $stonk->getUser()->getId()){
+            return $this->error('Вы не можете изменить stonk данного пользователя');
+        }
+
         $title = $stonkData['title'];
         $description = $stonkData['description'];
         $summ = (float)$stonkData['summ'];
@@ -121,11 +138,17 @@ class StonkApiController extends AbstractController
      */
     public function delete(ObjectManager $objectManager, StonkRepository $stonkRepository)
     {
-
+        $user = $this->getUserService()->getCurrentUser();
+        if (!$user) {
+            return $this->userError();
+        }
         $id = $this->getRoute()->get('id');
         $stonk = $stonkRepository->find($id);
         if (!$stonk) {
             return $this->error('Stonk не найден =(');
+        }
+        if ($user->getId() != $stonk->getUser()->getId()){
+            return $this->error('Вы не можете удалить stonk данного пользователя');
         }
 
         $objectManager->remove($stonk);
@@ -149,5 +172,10 @@ class StonkApiController extends AbstractController
             'error_msg' => '',
             'data' => $data
         ]);
+    }
+
+    private function userError()
+    {
+        return $this->error('user error');
     }
 }

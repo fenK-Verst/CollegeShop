@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Http\Response;
 use App\Routing\Route;
+use App\Service\UserService;
 use App\Twig;
 
 abstract class AbstractController
@@ -14,11 +15,13 @@ abstract class AbstractController
     private array $sharedData = [];
     private Response $response;
     private Route $route;
+    private UserService $userService;
 
-    public function __construct(Twig $twig)
+    public function __construct(Twig $twig, UserService $userService)
     {
         $this->twig = $twig;
         $this->response = new Response();
+        $this->userService = $userService;
     }
     public function setRoute(Route $route)
     {
@@ -57,4 +60,9 @@ abstract class AbstractController
         ]);
         return $this->response;
     }
+    public function getUserService()
+    {
+        return $this->userService;
+    }
+
 }

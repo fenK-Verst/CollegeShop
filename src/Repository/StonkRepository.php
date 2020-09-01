@@ -14,6 +14,7 @@ use App\Entity\Stonk;
  * @method Stonk find(string $primary_key_value)
  * @method Stonk findOrCreate(string $primary_key_value)
  * @method Stonk findBy(array $where, array $order = [], array $limit = []) : array
+ * @method Stonk findOneBy(array $where, array $order = []) : array
  * @method Stonk[] findAll()
  */
 class StonkRepository extends AbstractRepository

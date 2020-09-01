@@ -7,6 +7,10 @@ namespace App\Repository;
 use App\Db\Interfaces\ObjectManagerInterface;
 use App\Entity\EntityInterface;
 
+/**
+ * Interface RepositoryInterface
+ * @package App\Repository
+ */
 interface RepositoryInterface
 {
     /**
@@ -29,9 +33,24 @@ interface RepositoryInterface
      */
     public function findBy(array $where, array $order, array $limit): array;
 
-    public function findOrCreate(string $primary_key):EntityInterface;
+    /**
+     * @param array $where
+     * @param array $order
+     * @return EntityInterface|null
+     */
+    public function findOneBy(array $where, array $order): ?EntityInterface;
 
-    public function find(string $primary_key):?EntityInterface;
+    /**
+     * @param string $primary_key
+     * @return EntityInterface
+     */
+    public function findOrCreate(string $primary_key): EntityInterface;
+
+    /**
+     * @param string $primary_key
+     * @return EntityInterface|null
+     */
+    public function find(string $primary_key): ?EntityInterface;
 
 
 }

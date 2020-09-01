@@ -81,6 +81,11 @@ abstract class AbstractRepository implements RepositoryInterface
         return $objects;
     }
 
+    public function findOneBy(array $where, array $order = []): ?EntityInterface
+    {
+        return $this->findBy($where, $order, [1])[0] ?? null;
+    }
+
     public function findAll(): array
     {
         return $this->findBy([]);

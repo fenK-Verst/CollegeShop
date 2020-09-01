@@ -12,6 +12,7 @@ controllers:
   - App\Controller\Api\CartApiController
   - App\Controller\Api\RouteApiController
   - App\Controller\Api\StonkApiController
+  - App\Controller\Api\AuthApiController
   - App\Controller\DefaultController
   - App\Controller\UserController
   - App\Controller\SearchController

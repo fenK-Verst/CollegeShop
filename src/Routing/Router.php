@@ -85,7 +85,6 @@ class Router
         $request_method = strtolower($_SERVER['REQUEST_METHOD']);
 
         if (in_array($request_method, $methods)) {
-
             return true;
         }
         return false;

@@ -14,6 +14,7 @@ use App\Entity\ProductParam;
  * @method ProductParam find(string $primary_key_value)
  * @method ProductParam findOrCreate(string $primary_key_value)
  * @method ProductParam findBy(array $where, array $order = [], array $limit = []) : array
+ * @method ProductParam findOneBy(array $where, array $order = []) : array
  * @method ProductParam[] findAll()
  */
 class ProductParamRepository extends AbstractRepository

@@ -14,6 +14,7 @@ use App\Entity\User;
  * @method User find(string $primary_key_value)
  * @method User findOrCreate(string $primary_key_value)
  * @method User findBy(array $where, array $order = [], array $limit = []) : array
+ * @method User findOneBy(array $where, array $order = []) : array
  * @method User[] findAll()
  */
 class UserRepository extends AbstractRepository

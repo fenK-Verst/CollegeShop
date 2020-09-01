@@ -14,6 +14,7 @@ use App\Entity\OrderItem;
  * @method OrderItem find(string $primary_key_value)
  * @method OrderItem findOrCreate(string $primary_key_value)
  * @method OrderItem findBy(array $where, array $OrderItem = [], array $limit = []) : array
+ * @method OrderItem findOneBy(array $where, array $order = []) : array
  * @method OrderItem[] findAll()
  */
 class OrderItemRepository extends AbstractRepository

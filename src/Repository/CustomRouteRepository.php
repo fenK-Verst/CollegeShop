@@ -15,6 +15,7 @@ use App\Entity\CustomRoute;
  * @method CustomRoute find(string $primary_key_value)
  * @method CustomRoute findOrCreate(string $primary_key_value)
  * @method CustomRoute findBy(array $where, array $order = [], array $limit = []) : array
+ * @method CustomRoute findOneBy(array $where, array $order = []) : array
  * @method CustomRoute[] findAll()
  */
 class CustomRouteRepository extends AbstractRepository

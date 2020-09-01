@@ -14,6 +14,7 @@ use App\Entity\ProductComment;
  * @method ProductComment find(string $primary_key_value)
  * @method ProductComment findOrCreate(string $primary_key_value)
  * @method ProductComment findBy(array $where, array $order = [], array $limit = []) : array
+ * @method ProductComment findOneBy(array $where, array $order = []) : array
  * @method ProductComment[] findAll()
  */
 class ProductCommentRepository extends AbstractRepository

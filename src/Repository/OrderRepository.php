@@ -14,6 +14,7 @@ use App\Entity\Order;
  * @method Order find(string $primary_key_value)
  * @method Order findOrCreate(string $primary_key_value)
  * @method Order findBy(array $where, array $order = [], array $limit = []) : array
+ * @method Order findOneBy(array $where, array $order = []) : array
  * @method Order[] findAll()
  */
 class OrderRepository extends AbstractRepository

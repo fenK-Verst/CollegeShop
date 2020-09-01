@@ -14,6 +14,7 @@ use App\Entity\SiteParams;
  * @method SiteParams find(string $primary_key_value)
  * @method SiteParams findOrCreate(string $primary_key_value)
  * @method SiteParams findBy(array $where, array $order = [], array $limit = []) : array
+ * @method SiteParams findOneBy(array $where, array $order = []) : array
  * @method SiteParams[] findAll()
  */
 class SiteParamsRepository extends AbstractRepository

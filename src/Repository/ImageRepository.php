@@ -14,6 +14,7 @@ use App\Entity\Image;
  * @method Image find(string $primary_key_value)
  * @method Image findOrCreate(string $primary_key_value)
  * @method Image findBy(array $where, array $order = [], array $limit = []) : array
+ * @method Image findOneBy(array $where, array $order = []) : array
  * @method Image[] findAll()
  */
 class ImageRepository extends AbstractRepository

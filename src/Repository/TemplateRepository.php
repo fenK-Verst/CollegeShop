@@ -14,6 +14,7 @@ use App\Entity\Template;
  * @method Template find(string $primary_key_value)
  * @method Template findOrCreate(string $primary_key_value)
  * @method Template findBy(array $where, array $order = [], array $limit = []) : array
+ * @method Template findOneBy(array $where, array $order = []) : array
  * @method Template[] findAll()
  */
 class TemplateRepository extends AbstractRepository

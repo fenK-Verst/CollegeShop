@@ -14,6 +14,7 @@ use App\Entity\Menu;
  * @method Menu find(string $primary_key_value)
  * @method Menu findOrCreate(string $primary_key_value)
  * @method Menu findBy(array $where, array $order = [], array $limit = []) : array
+ * @method Menu findOneBy(array $where, array $order = []) : array
  * @method Menu[] findAll()
  */
 class MenuRepository extends AbstractRepository
