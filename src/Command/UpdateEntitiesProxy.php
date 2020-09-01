@@ -1,6 +1,7 @@
 <?php
 
 use App\Config;
+use App\Entity\CustomRoute;
 use App\Entity\EntityInterface;
 use App\Entity\Flag;
 use App\Entity\Folder;
@@ -12,7 +13,6 @@ use App\Entity\Product;
 use App\Entity\ProductComment;
 use App\Entity\ProductParam;
 use App\Entity\ProductParamValue;
-use App\Entity\CustomRoute;
 use App\Entity\SiteParams;
 use App\Entity\Stonk;
 use App\Entity\Template;
@@ -113,9 +113,9 @@ class $p extends \\$entity
             $params = [];
             $vars = [];
             foreach ( $reflection_params as $param){
-                if ($param->getClass()){
-                    $type="?\\".$param->getType();
-                }else{
+                if ($param->getClass() || ($param->getType() && $param->getType()->allowsNull())) {
+                    $type = "?\\" . $param->getType();
+                } else {
                     $type = $param->getType();
                 }
                 $params[] =  $type. " $". $param->getName();

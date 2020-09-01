@@ -114,22 +114,22 @@ class UserProxy extends \App\Entity\User
         return $this->parent->getPassword();           
     }
 
-    public function getComments() : array
+    public function getStonks() : array
     {
         $this->init();
-        return $this->parent->getComments();           
+        return $this->parent->getStonks();           
     }
 
-    public function addComment(?\App\Entity\Stonk $stonk) : void
+    public function addStonk(?\App\Entity\Stonk $stonk) : void
     {
         $this->init();
-        $this->parent->addComment($stonk);           
+        $this->parent->addStonk($stonk);           
     }
 
-    public function deleteComment(?\App\Entity\Stonk $stonk)
+    public function deleteStonk(?\App\Entity\Stonk $stonk)
     {
         $this->init();
-        $this->parent->deleteComment($stonk);           
+        $this->parent->deleteStonk($stonk);           
     }
 
     public function getTableName() : string
