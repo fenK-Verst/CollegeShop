@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Db\ObjectManager;
 use App\Entity\User;
 use App\Repository\UserRepository;
 
@@ -12,26 +13,34 @@ class UserService
     private const SALT = "heretoPreservedbe";
     private const AUTH_COOKIE = 'X-AUTH-COOKIE';
     private UserRepository $userRepository;
+    /**
+     * @var ObjectManager
+     */
+    private ObjectManager $objectManager;
 
-    public function __construct(UserRepository $user_repository)
+    public function __construct(UserRepository $user_repository, ObjectManager $objectManager)
     {
         $this->userRepository = $user_repository;
+        $this->objectManager = $objectManager;
     }
 
-    public function generatePassword(string $password):string
+    public function generatePassword(string $password): string
     {
         $password = md5($password);
         $password = md5($password . self::SALT);
 
         return $password;
     }
+
     public function getCurrentUser()
     {
         $user_id = $_SESSION['user_id'] ?? null;
+
         if (!$user_id){
             $raw = $_COOKIE[self::AUTH_COOKIE] ?? null;
-            $user_id = $raw ? base64_decode($raw) : null;
+            $user_id = $raw ? $this->decodeToken($raw) : null;
         }
+
         if ($user_id) {
             $user = $this->userRepository->find($user_id);
             if (is_null($user)) {
@@ -39,8 +48,19 @@ class UserService
             }
             return $user;
         }
+        $headers = getallheaders();
+        $token = $headers['x-auth-token'] ?? null;
 
+        if ($token){
+            $token = $this->decodeToken($token);
+            $user = $this->userRepository->findOneBy([
+                'token'=>$token
+            ]);
+            return $user;
+        }
         return null;
+
+
 
     }
 
@@ -51,13 +71,42 @@ class UserService
 
     public function loginByCookie(User $user)
     {
-        setcookie (self::AUTH_COOKIE, base64_encode($user->getId()), time() + (10 * 365 * 24 * 60 * 60));
+        $token = $this->encodeToken($user->getId());
+        setcookie(self::AUTH_COOKIE, $token, time() + (10 * 365 * 24 * 60 * 60));
     }
+
+    public function loginByToken(User $user): string
+    {
+        $token = $this->generateRandomString(12);
+        $user->setToken($token);
+        $this->objectManager->save($user);
+        return $this->encodeToken($token);
+    }
+
+    private function decodeToken(string $token): string
+    {
+        return base64_decode($token);
+    }
+
+    private function encodeToken(string $token): string
+    {
+        return base64_encode($token);
+    }
+
 
     public function logout()
     {
-        if (isset($_SESSION["user_id"])) unset($_SESSION["user_id"]);
-        if (isset($_COOKIE[self::AUTH_COOKIE])) setcookie(self::AUTH_COOKIE, null, -1);
+        if (isset($_SESSION["user_id"])) {
+            unset($_SESSION["user_id"]);
+        }
+        if (isset($_COOKIE[self::AUTH_COOKIE])) {
+            setcookie(self::AUTH_COOKIE, null, -1);
+        }
+        $user = $this->getCurrentUser();
+        if ($user) {
+            $user->setToken(null);
+            $this->objectManager->save($user);
+        }
     }
 
     private function generateRandomString(int $length = 10): string {

@@ -132,6 +132,18 @@ class UserProxy extends \App\Entity\User
         $this->parent->deleteStonk($stonk);           
     }
 
+    public function getToken() : string
+    {
+        $this->init();
+        return $this->parent->getToken();           
+    }
+
+    public function setToken(?string $token) : void
+    {
+        $this->init();
+        $this->parent->setToken($token);           
+    }
+
     public function getTableName() : string
     {
         $this->init();

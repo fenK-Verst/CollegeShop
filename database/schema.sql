@@ -22,7 +22,8 @@ CREATE TABLE `user`
     `lastname`  varchar(255) NOT NULL,
     `email`     varchar(255) NOT NULL UNIQUE,
     `phone`     varchar(20)  NOT NULL UNIQUE,
-    `password`  varchar(255) NOT NULL
+    `password`  varchar(255) NOT NULL,
+    `token` varchar(255) DEFAULT NULL
 ) ENGINE = InnoDB;
 DROP TABLE IF EXISTS `image`;
 CREATE TABLE `image`

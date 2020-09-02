@@ -54,8 +54,10 @@ class AuthApiController extends AbstractApiController
         if (!$user) {
             return $this->error("Неверная почта/пароль");
         }
-        $service->login($user);
-        return $this->success([]);
+        $token = $service->loginByToken($user);
+        return $this->success([
+            "token"=>$token
+        ]);
 
 
     }

@@ -50,7 +50,13 @@ class User extends AbstractEntity
      * @Entity\OneToMany(entity="App\Entity\Stonk", primary_key="user_id")
      */
     protected $stonks = [];
-    
+
+    /**
+     * @Entity\Column()
+     */
+    protected ?string $token;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -169,5 +175,21 @@ class User extends AbstractEntity
             }
         }
 
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string|null $token
+     */
+    public function setToken(?string $token): void
+    {
+        $this->token = $token;
     }
 }
