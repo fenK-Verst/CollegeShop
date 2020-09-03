@@ -85,7 +85,7 @@ class UserService
 
     private function decodeToken(string $token): string
     {
-        return base64_decode($token);
+        return mb_convert_encoding(base64_decode($token),'UTF-8');
     }
 
     private function encodeToken(string $token): string
