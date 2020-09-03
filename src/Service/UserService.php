@@ -49,7 +49,7 @@ class UserService
             return $user;
         }
         $headers = getallheaders();
-        $token = $headers['x-auth-token'] ?? null;
+        $token = $headers['x-auth-token'] ?? $headers['X-Auth-Token'] ?? null;
 
         if ($token){
             $token = $this->decodeToken($token);
