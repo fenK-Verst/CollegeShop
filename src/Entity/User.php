@@ -54,7 +54,7 @@ class User extends AbstractEntity
     /**
      * @Entity\Column()
      */
-    protected ?string $token;
+    protected $token;
 
 
     public function getId(): ?int

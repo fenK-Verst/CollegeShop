@@ -13,9 +13,6 @@ class UserService
     private const SALT = "heretoPreservedbe";
     private const AUTH_COOKIE = 'X-AUTH-COOKIE';
     private UserRepository $userRepository;
-    /**
-     * @var ObjectManager
-     */
     private ObjectManager $objectManager;
 
     public function __construct(UserRepository $user_repository, ObjectManager $objectManager)
@@ -32,15 +29,26 @@ class UserService
         return $password;
     }
 
-    public function getCurrentUser()
+    private function getUserByToken(): ?User
     {
-        $user_id = $_SESSION['user_id'] ?? null;
+        $headers = getallheaders();
+        $token = $headers['x-auth-token'] ?? $headers['X-Auth-Token'] ?? null;
 
-        if (!$user_id){
-            $raw = $_COOKIE[self::AUTH_COOKIE] ?? null;
-            $user_id = $raw ? $this->decodeToken($raw) : null;
+        if ($token){
+            $token = $this->decodeToken($token);
+            $user =  $this->userRepository->findOneBy([
+                'token'=>$token
+            ]);
+            if (is_null($user)) {
+                $this->logout();
+            }
+            return $user;
         }
+        return null;
+    }
 
+    private function getUserBySession(): ?User{
+        $user_id = $_SESSION['user_id'] ?? null;
         if ($user_id) {
             $user = $this->userRepository->find($user_id);
             if (is_null($user)) {
@@ -48,20 +56,24 @@ class UserService
             }
             return $user;
         }
-        $headers = getallheaders();
-        $token = $headers['x-auth-token'] ?? $headers['X-Auth-Token'] ?? null;
-
-        if ($token){
-            $token = $this->decodeToken($token);
-            $user = $this->userRepository->findOneBy([
-                'token'=>$token
-            ]);
+        return null;
+    }
+    private function getUserByCookie(): ?User{
+        $raw = $_COOKIE[self::AUTH_COOKIE] ?? null;
+        $user_id = $raw ? $this->decodeToken($raw) : null;
+        if ($user_id) {
+            $user = $this->userRepository->find($user_id);
+            if (is_null($user)) {
+                $this->logout();
+            }
             return $user;
         }
         return null;
+    }
 
-
-
+    public function getCurrentUser(): ?User
+    {
+        return $this->getUserBySession() ?? $this->getUserByCookie() ?? $this->getUserByToken();
     }
 
     public function login(User $user)
@@ -92,7 +104,6 @@ class UserService
     {
         return mb_convert_encoding(base64_encode($token),'UTF-8');
     }
-
 
     public function logout()
     {
