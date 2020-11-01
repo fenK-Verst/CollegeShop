@@ -44,9 +44,9 @@ class CustomRouter
             $params = $this->normalizeParams($route_params, $vars);
 
             $route_data = [
-                UserRoutesController::class,
-                "index",
-                [
+                "controller"=>UserRoutesController::class,
+                "method"=>"index",
+                "params"=>[
                     "template_name" => $route->getTemplate()->getPath(),
                     "params" => $params
                 ]

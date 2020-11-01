@@ -35,7 +35,6 @@ class ArrayDataManager implements Interfaces\ArrayDataManagerInterface
 
     public function insert(string $table_name, array $values): int
     {
-
         $query_keys = array_keys($values);
         $query_values = array_values($values);
 

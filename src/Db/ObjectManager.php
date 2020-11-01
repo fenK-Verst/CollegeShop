@@ -13,7 +13,7 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
 {
     private ObjectDataManagerInterface $objectDataManager;
 
-    private static  $proxy_namespace = "App\\Entity\\Proxy\\";
+    private static string $proxy_namespace;
 
     public function __construct(ObjectDataManagerInterface $object_data_manager, Config $config)
     {

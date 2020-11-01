@@ -1,4 +1,4 @@
-public/assets/dynamic/*
+/public/assets/dynamic
 
 .idea
 /vendor/

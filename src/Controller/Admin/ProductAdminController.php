@@ -231,7 +231,7 @@ class ProductAdminController extends AbstractController
                         $new_value->setProductParam($param_type);
                         $new_value->setValue($param_value);
                         $new_value->setProduct($product);
-                        $new_value = $object_manager->save($new_value);
+                        $object_manager->save($new_value);
                     }
                 }
 

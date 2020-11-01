@@ -42,7 +42,10 @@ class ImageAdminController extends AbstractController
         if (!$save_dir) {
             $error .= "Не найдена директория для сохранения. Обратитесь к разработчику";
         }elseif (!is_dir($_SERVER["DOCUMENT_ROOT"] . $save_dir)){
-            mkdir($_SERVER["DOCUMENT_ROOT"] . $save_dir);
+            $is_dir_make = mkdir($_SERVER["DOCUMENT_ROOT"] . $save_dir, 755, true);
+            if (!$is_dir_make){
+                $error .= "Не найдена директория для сохранения. Обратитесь к разработчику";
+            }
         }
         $request_image = $request->post("image");
         $file = $_FILES["image"] ?? null;
@@ -71,7 +74,7 @@ class ImageAdminController extends AbstractController
                 $object_manager->save($image);
                 return $this->redirect("/admin/image");
             } elseif (!is_writable($_SERVER["DOCUMENT_ROOT"] . $uploadfile)) {
-                $error .= "Не могу записать файл\n";
+                $error .= "Не могу записать файл\n".$_SERVER["DOCUMENT_ROOT"] . $uploadfile;
             } else {
                 $error .= "Что то пошло не так\n";
             }

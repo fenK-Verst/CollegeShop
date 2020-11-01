@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: college_shop
 -- ------------------------------------------------------
--- Server version       10.3.22-MariaDB-1:10.3.22+maria~bionic-log
+-- Server version	10.3.22-MariaDB-1:10.3.22+maria~bionic-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -112,7 +112,6 @@ CREATE TABLE `image` (
 
 LOCK TABLES `image` WRITE;
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
-INSERT INTO `image` VALUES (1,'Image1','product','/assets/dynamic/images/product/img_lights.jpg'),(2,'Image2','product','/assets/dynamic/images/product/one-tree-hill-1360813.jpg'),(3,'Image3','product','/assets/dynamic/images/product/tree-736885__340.jpg'),(4,'Logo','product','/assets/dynamic/images/product/logo.jpg'),(5,'Slider1','product','/assets/dynamic/images/product/main_slider_1.jpg'),(6,'Slider2','product','/assets/dynamic/images/product/main_slider_2.jpg'),(7,'Brand1','product','/assets/dynamic/images/product/brand_1.jpg'),(8,'Brand2','product','/assets/dynamic/images/product/brand_2.jpg'),(9,'Brand3','product','/assets/dynamic/images/product/brand_3.jpg'),(10,'Brand4','product','/assets/dynamic/images/product/brand_4.jpg');
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,7 +215,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Товар','18su5',1,'Some description for this tovar',5000.00,25,1);
+INSERT INTO `product` VALUES (1,'Товар','18su5',NULL,'Some description for this tovar',5000.00,25,1);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -375,8 +374,36 @@ CREATE TABLE `site_params` (
 
 LOCK TABLES `site_params` WRITE;
 /*!40000 ALTER TABLE `site_params` DISABLE KEYS */;
-INSERT INTO `site_params` VALUES (1,'{\"logo\": {\"type\": \"image\", \"title\": \"Логотип\"}, \"menu1\": {\"type\": \"menu\", \"title\": \"Верхнее Меню\"}, \"menu2\": {\"type\": \"menu\", \"title\": \"Нижнее Меню\"}, \"phones\": {\"type\": \"text\", \"title\": \"Телефоны\", \"multiply\": true}}','{\"logo\":\"4\",\"menu1\":\"1\",\"menu2\":\"2\",\"phones\":[\"8 800 555 35 35\",\"8 777 777 77 77\"]}');
+INSERT INTO `site_params` VALUES (1,'{\"logo\": {\"type\": \"image\", \"title\": \"Логотип\"}, \"menu1\": {\"type\": \"menu\", \"title\": \"Верхнее Меню\"}, \"menu2\": {\"type\": \"menu\", \"title\": \"Нижнее Меню\"}, \"phones\": {\"type\": \"text\", \"title\": \"Телефоны\", \"multiply\": true}}','{\"menu1\":\"2\",\"menu2\":\"2\",\"phones\":[\"8 800 555 35 35\",\"8 777 777 77 77\"]}');
 /*!40000 ALTER TABLE `site_params` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stonk`
+--
+
+DROP TABLE IF EXISTS `stonk`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stonk` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `summ` int(11) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stonk`
+--
+
+LOCK TABLES `stonk` WRITE;
+/*!40000 ALTER TABLE `stonk` DISABLE KEYS */;
+INSERT INTO `stonk` VALUES (4,'Долг Михаилу ','Так получилось ',-20000,'2020-08-31 00:53:33',1),(14,'Квартира','',-70000,'2020-09-19 06:49:53',2),(15,'Зп','',135000,'2020-09-19 06:50:11',2),(16,'Билет','До белки',-500,'2020-09-21 11:23:47',2),(17,'Водичка','С лимончиком, вкусная',-200,'2020-09-22 06:12:07',2),(19,'Сушилка','',-7000,'2020-09-26 09:31:52',2),(20,'Пивас','',-1000,'2020-09-26 09:32:11',2),(21,'Интернет','',-2500,'2020-09-27 12:59:53',2),(22,'Такси ','',-3000,'2020-09-27 13:00:11',2),(23,'Вода','',-390,'2020-09-27 13:03:29',2),(24,'Домой','',-500,'2020-09-30 14:52:01',2),(25,'Маник','',-10000,'2020-10-02 03:55:34',2),(26,'Романтический вечер','Заебок',-3140,'2020-10-02 14:08:22',2),(27,'Зарплата','',150000,'2020-10-03 11:26:44',3),(28,'Тату','',-30000,'2020-10-03 11:26:57',3),(29,'Долг ','',-20000,'2020-10-03 11:27:06',3),(30,'Прочие расходы ','Интернет, вк,',-6000,'2020-10-03 11:29:43',3),(31,'Шмотки ','',-50000,'2020-10-03 11:31:24',3),(32,'Кольцо ','',-8000,'2020-10-03 11:32:04',3),(33,'На чудо','',-5000,'2020-10-05 07:00:31',2),(34,'Волосы','',-10000,'2020-10-06 07:08:11',2),(35,'Стипендия','',24000,'2020-10-06 07:08:29',2),(36,'Зарплата','',150000,'2020-10-08 10:02:48',2),(37,'Домой','',-500,'2020-10-08 10:05:25',2),(39,'На подарок','Коле норм будет',-1800,'2020-10-08 14:11:40',2),(40,'Толстовка','',-25000,'2020-10-09 07:45:32',2),(56,'Дорога','.',-15000,'2020-10-09 09:37:01',3),(57,'Досуг','',-10000,'2020-10-09 09:40:49',3),(58,'Зубы ','',-7000,'2020-10-09 09:41:26',3),(59,'Лемон','',-1500,'2020-10-10 06:48:21',2),(60,'Хуета','',-18000,'2020-10-14 15:05:35',2),(61,'Квартира','',-70500,'2020-10-14 15:06:00',2),(62,'Лекарства','',-2732,'2020-10-17 07:05:54',2),(63,'Всякое','',-18000,'2020-10-18 22:45:13',2),(64,'Айкос','',-15000,'2020-10-19 08:13:09',2),(65,'Коммуналка','',-6500,'2020-10-22 10:44:11',2),(66,'Продукты','',-2000,'2020-10-22 10:44:31',2);
+/*!40000 ALTER TABLE `stonk` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -420,10 +447,11 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `token` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `phone` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -432,7 +460,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,NULL,'Михаил','Сюрсин','mihha1818@ya.ru','+77714392646','bf88d7030997b401b1776ca0c98e0106');
+INSERT INTO `user` VALUES (1,NULL,'Михаил','Сюрсин','mihha1818@ya.ru','+77778552329','bf88d7030997b401b1776ca0c98e0106',NULL),(2,NULL,'Михаил','Сюрсин','mixail.syursin@ya.ru','+77714392646','c446f8305a9871c9eb17b3dd9d8f42d4','hUaiHoLQSnkR'),(3,NULL,'Никита ','Сухов','antivel_ever@mail.ru','+77473808807','8d6b86665df7105477bf8aab0ff7f3d6','MiULBf7AluNH'),(4,NULL,'123','123','test@test.test','+77778965423','8b39185d35f2fa570253e742faeec9ed',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -469,4 +497,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-13 10:33:24
+-- Dump completed on 2020-10-22 16:51:17
