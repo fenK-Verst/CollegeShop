@@ -45,7 +45,7 @@ class Container
         return $instance;
     }
 
-    public function singletone(string $class_name, callable $callback = null)
+    public function singleton(string $class_name, callable $callback = null)
     {
         if (is_callable($callback)) {
             $this->factories[$class_name] = $callback;

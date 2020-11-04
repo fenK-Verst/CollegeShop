@@ -29,16 +29,16 @@ $container = new Container([
     ObjectDataManagerInterface::class => ObjectDataManager::class,
     ObjectManagerInterface::class => ObjectManager::class,
 ]);
-$container->singletone(Container::class, function () use ($container) {
+$container->singleton(Container::class, function () use ($container) {
     return $container;
 });
 $dotenv = \Dotenv\Dotenv::createImmutable(PROJECT_DIR, '.env.local');
 $dotenv->load();
-$container->singletone(Config::class);
-$container->singletone(ObjectManager::class);
-$container->singletone(ArrayDataManager::class);
-$container->singletone(ObjectDataManager::class);
-$container->singletone(Connection::class, function () {
+$container->singleton(Config::class);
+$container->singleton(ObjectManager::class);
+$container->singleton(ArrayDataManager::class);
+$container->singleton(ObjectDataManager::class);
+$container->singleton(Connection::class, function () {
     $host = getenv("DB_HOST");
     $db_name = getenv("DB_NAME");
     $password = getenv("DB_PASSWORD");

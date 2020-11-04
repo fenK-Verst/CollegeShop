@@ -19,7 +19,6 @@ class Response
     {
         $this->headers = $headers;
     }
-
     public function setBody(string $body)
     {
         $this->body = $body;

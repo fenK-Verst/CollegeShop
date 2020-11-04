@@ -26,7 +26,6 @@ class Kernel
 
     public function run()
     {
-
         $route = $this->router->dispatch();
 
         $this->runMiddlewares($route);
@@ -35,18 +34,21 @@ class Kernel
 
         $response->send();
     }
+
     private function dispatch(Route $route): Response
     {
-        return $this->container->getInjector()->callMethod(
-            $route->getController(),
-            $route->getMethod()
-        );
+        return $this->container->getInjector()
+            ->callMethod(
+                $route->getController(),
+                $route->getMethod()
+            );
     }
+
     private function runMiddlewares(Route $route)
     {
         $middlewares = $this->config->getMiddlewares();
-        foreach ($middlewares as $value){
-            $middleware = $this->container->get($value);
+        foreach ($middlewares as $middlewareClass) {
+            $middleware = $this->container->get($middlewareClass);
             $middleware->run($route);
         }
     }

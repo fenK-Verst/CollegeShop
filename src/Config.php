@@ -6,8 +6,8 @@ namespace App;
 
 class Config
 {
-    private array $config = [];
-    private static string $dir = PROJECT_DIR . "config";
+    private array         $config   = [];
+    private static string $dir      = PROJECT_DIR . "config";
     private static string $env_file = '.env.local';
 
     public function __construct()
@@ -19,7 +19,7 @@ class Config
 
     public function getControllers()
     {
-        return $this->config["config"]["controllers"] ?? [];
+        return $this->config["controllers"] ?? [];
 
     }
 
@@ -30,17 +30,19 @@ class Config
 
     public function getMiddlewares()
     {
-        return $this->config["config"]["middlewares"] ?? [];
+        return $this->config["middlewares"] ?? [];
     }
 
     public function getConfig()
     {
         return $this->config;
     }
+
     public function get(string $needed)
     {
         return $this->config[$needed] ?? null;
     }
+
     private function parseDir(string $dir)
     {
         $files = glob($dir . "/*");
@@ -69,7 +71,9 @@ class Config
 
     private function parseFile(string $file)
     {
-        if (is_dir($file)) return false;
+        if (is_dir($file)) {
+            return false;
+        }
 
         $info = pathinfo($file);
         switch ($info["extension"]) {
@@ -78,6 +82,8 @@ class Config
             case "json":
                 $file = file_get_contents($file);
                 return json_decode($file, true);
+            case 'php':
+                return include $file;
         }
     }
 

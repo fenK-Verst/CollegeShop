@@ -23,7 +23,7 @@ class Router
         $this->custom_router = $custom_router;
     }
 
-    public function dispatch(): Route
+    public function dispatch(): ?Route
     {
         $route_data = $this->findRouteData();
         if (!$route_data) {
