@@ -20,8 +20,9 @@ use App\Twig;
 
 define("PROJECT_DIR", __DIR__ . "/../");
 require_once(PROJECT_DIR . "/vendor/autoload.php");
+
 session_set_cookie_params(0);
-if (!session_id()){
+if (!session_id()) {
     session_start();
 }
 
@@ -34,8 +35,10 @@ $container = new Container($interfaceMapping);
 $container->singleton(Container::class, function () use ($container) {
     return $container;
 });
-foreach ($singletons as $class=>$callable){
+
+foreach ($singletons as $class => $callable) {
     $container->singleton($class, $callable);
 }
+
 $kernel = $container->get(Kernel::class);
 

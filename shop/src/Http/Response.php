@@ -24,22 +24,20 @@ class Response
         $this->body = $body;
     }
 
-    /**
-     * @throws \Exception
-     */
+
     public function send()
     {
         foreach ($this->headers as $header => $value) {
-            header("$header:$value");
-        }
-        if (is_null($this->body)) {
-            throw new \Exception("invalid body");
+            if ($value){
+                $value = ":".$value;
+            }
+            header($header.$value);
         }
         echo $this->body;
     }
 
     public function redirect(string $url)
     {
-        header("Location: $url");
+        $this->headers['location'] = $url;//"Location: $url");
     }
 }

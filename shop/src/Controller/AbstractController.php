@@ -8,6 +8,9 @@ use App\Http\Response;
 use App\Routing\Route;
 use App\Service\UserService;
 use App\Twig;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 abstract class AbstractController
 {
@@ -31,6 +34,15 @@ abstract class AbstractController
     {
         return $this->route;
     }
+
+    /**
+     * @param string $template_name
+     * @param array $params
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function render(string $template_name, $params = [])
     {
         $body = $this->twig->render($template_name, array_merge_recursive($params, $this->getSharedData()));

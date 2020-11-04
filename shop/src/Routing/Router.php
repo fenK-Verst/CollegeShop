@@ -5,6 +5,7 @@ namespace App\Routing;
 use App\Config;
 use App\Di\Container;
 use App\Http\Request;
+use App\Http\Response;
 use App\Twig;
 use ReflectionClass;
 
@@ -27,7 +28,7 @@ class Router
     {
         $route_data = $this->findRouteData();
         if (!$route_data) {
-            $this->notFound();
+            return null;
         }
         $controller = $route_data['controller'];
         $method = $route_data['method'];
@@ -251,7 +252,21 @@ class Router
 
     private function notFound()
     {
-        header('HTTP/1.0 404 Not Found', true, 404);
+//        header('HTTP/1.0 404 Not Found', true, 404);
+//        /**
+//         * @var Twig $twig
+//         */
+//        $twig = $this->container->get(Twig::class);
+//        $html = $twig->render("HttpErrors/error.html.twig", [
+//            "code" => 404,
+//            "name" => 'Page not found'
+//        ]);
+//        die($html);
+    }
+
+    public function getNotFoundResponse():Response
+    {
+        $response = new Response();
         /**
          * @var Twig $twig
          */
@@ -260,7 +275,12 @@ class Router
             "code" => 404,
             "name" => 'Page not found'
         ]);
-        die($html);
+        $response->setBody($html);
+        $response->setHeaders([
+            'HTTP/1.0 404 Not Found'=>''
+        ]);
+
+        return $response;
     }
 
     private function nowAllowed()

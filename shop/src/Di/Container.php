@@ -31,12 +31,12 @@ class Container
 
     }
 
-    private function isSingletone(string $class_name)
+    private function isSingleton(string $class_name)
     {
         return isset($this->singletons[$class_name]);
     }
 
-    private function getSingletone(string $class_name)
+    private function getSingleton(string $class_name)
     {
         $instance = $this->singletons[$class_name];
         if (false === $instance) {
@@ -55,8 +55,8 @@ class Container
 
     private function getClass(string $class_name)
     {
-        if ($this->isSingletone($class_name)) {
-            return $this->getSingletone($class_name);
+        if ($this->isSingleton($class_name)) {
+            return $this->getSingleton($class_name);
         };
         return $this->getInstance($class_name);
     }
