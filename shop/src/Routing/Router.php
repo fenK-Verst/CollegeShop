@@ -4,10 +4,16 @@ namespace App\Routing;
 
 use App\Config;
 use App\Di\Container;
+use App\Di\Exceptions\ClassNotExistsException;
 use App\Http\Request;
 use App\Http\Response;
 use App\Twig;
 use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class Router
 {
@@ -24,6 +30,11 @@ class Router
         $this->custom_router = $custom_router;
     }
 
+    /**
+     * @return Route|null
+     * @throws ClassNotExistsException
+     * @throws ReflectionException
+     */
     public function dispatch(): ?Route
     {
         $route_data = $this->findRouteData();
@@ -37,6 +48,11 @@ class Router
         $controller = $this->container->get($controller);
         return new Route($controller, $method, $params);
     }
+
+    /**
+     * @return array
+     * @throws ReflectionException
+     */
     private function findRouteData()
     {
         $route_data = $this->getRouteData();
@@ -47,13 +63,17 @@ class Router
         return $route_data;
     }
 
+    /**
+     * @return array
+     * @throws ReflectionException
+     */
     private function getRouteData(): array
     {
         $routes = $this->getRoutes();
 
         $url = $this->request->getUrl();
 
-        $findedRoute = null;
+        $foundRoute = null;
         foreach ($routes as $route) {
             $routeUrl = strtolower($route['url']);
 
@@ -61,16 +81,16 @@ class Router
                 continue;
             }
             if ($this->testRouteOnRequestMethod($route)){
-                $findedRoute = $route;
+                $foundRoute = $route;
             }
 
         }
-        if (!empty($findedRoute)) {
-            return $findedRoute;
+        if (!empty($foundRoute)) {
+            return $foundRoute;
         }
-        $findedRoute = $this->findComplicatedRoute($routes);
+        $foundRoute = $this->findComplicatedRoute($routes);
 
-        return $findedRoute;
+        return $foundRoute;
     }
 
     private function testRouteOnRequestMethod(array $route){
@@ -136,6 +156,10 @@ class Router
         return $route;
     }
 
+    /**
+     * @return array
+     * @throws ReflectionException
+     */
     private function getRoutes()
     {
         $routes = [];
@@ -159,34 +183,28 @@ class Router
                 }
             }
         }
+
         return $routes;
     }
 
-    private function getRouteFromReflectionMethod(\ReflectionMethod $method, string $controller_url = '')
+    private function getRouteFromReflectionMethod(ReflectionMethod $method, string $controller_url = '')
     {
         $method_name = $method->getName();
         $doc = $method->getDocComment();
-        preg_match_all('/@Route\((.*)\)/s', $doc, $finded);
+        preg_match_all('/@Route\((.*)\)/s', $doc, $found);
 
-        if (!$finded[1]) {
+        if (!$found[1]) {
             return null;
         }
 
-        $route_params = explode(',', $finded[1][0]);
+        $route_params = explode(',', $found[1][0]);
         $route_url = $route_params[0];
 
-        $params = [];
-        for ($i = 1; $i < count($route_params); $i++) {
-            $param = $route_params[$i];
-            $param = explode("=", $param);
-            $key = trim($param[0]);
-            $value = trim($param[1], "\"");
-            $params[$key] = $value;
-        }
+        $params = $this->assetParams($route_params);
         $controller_url = trim($controller_url, '"');
         $route_url = trim($route_url, '"');
         $url = trim($controller_url . $route_url, '"');
-        if ($url{0} != '/') {
+        if ($url[0] != '/') {
             $url = '/' . $url;
         }
 
@@ -197,29 +215,34 @@ class Router
         ];
     }
 
+    private function assetParams($route_params){
+        $params = [];
+        for ($i = 1; $i < count($route_params); $i++) {
+            $param = $route_params[$i];
+            $param = explode("=", $param);
+            $key = trim($param[0]);
+            $value = trim($param[1], "\"");
+            $params[$key] = $value;
+        }
+        return $params;
+    }
+
     private function getControllerRoute(ReflectionClass $controller): ?array
     {
         $doc = $controller->getDocComment();
-        preg_match_all('/@Route\((.*)\)/s', $doc, $finded);
 
-        if (!$finded[1]) {
+        preg_match_all('/@Route\((.*)\)/s', $doc, $found);
+
+        if (!$found[1]) {
             return [];
         }
 
-        $params = explode(',', $finded[1][0]);
+        $params = explode(',', $found[1][0]);
         $url = $params[0];
-        $result = [
-            "url" => trim($url, "\"")
-        ];
-        for ($i = 1; $i < count($params); $i++) {
-            $param = $params[$i];
-            $param = explode("=", $param);
 
-            $key = trim($param[0]);
-            $value = trim($param[1], "\"");
-            $result[$key] = $value;
+        $result = $this->assetParams($params);
 
-        }
+        $result["url"] = trim($url, '"\""');
         return $result;
     }
 
@@ -250,20 +273,13 @@ class Router
         ];
     }
 
-    private function notFound()
-    {
-//        header('HTTP/1.0 404 Not Found', true, 404);
-//        /**
-//         * @var Twig $twig
-//         */
-//        $twig = $this->container->get(Twig::class);
-//        $html = $twig->render("HttpErrors/error.html.twig", [
-//            "code" => 404,
-//            "name" => 'Page not found'
-//        ]);
-//        die($html);
-    }
-
+    /**
+     * @return Response
+     * @throws ClassNotExistsException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function getNotFoundResponse():Response
     {
         $response = new Response();
@@ -283,9 +299,15 @@ class Router
         return $response;
     }
 
-    private function nowAllowed()
+    /**
+     * @throws ClassNotExistsException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    private function getNotAllowedResponse()
     {
-        header('HTTP/1.0 405 Method Not Allowed', true, 405);
+        $response = new Response();
         /**
          * @var Twig $twig
          */
@@ -294,7 +316,12 @@ class Router
             "code" => 405,
             "name" => 'Method is not allowed'
         ]);
-        die($html);
+        $response->setBody($html);
+        $response->setHeaders([
+            'HTTP/1.0 405 Method Not Allowed'=>''
+        ]);
+
+        return $response;
     }
 
 

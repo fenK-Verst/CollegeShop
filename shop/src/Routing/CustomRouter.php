@@ -12,6 +12,7 @@ use Exception;
 
 /**
  * Class CustomRouter
+ *
  * @package App\Routing
  */
 class CustomRouter
@@ -44,9 +45,9 @@ class CustomRouter
             $params = $this->normalizeParams($route_params, $vars);
 
             $route_data = [
-                "controller"=>UserRoutesController::class,
-                "method"=>"index",
-                "params"=>[
+                "controller" => UserRoutesController::class,
+                "method" => "index",
+                "params" => [
                     "template_name" => $route->getTemplate()->getPath(),
                     "params" => $params
                 ]
@@ -62,41 +63,55 @@ class CustomRouter
         foreach ($route_params as $key => &$route_param) {
             $var = $vars[$key];
             $type = $var["type"];
-//            if (!$var["type"]) {
-//                throw new Exception('Ошибка типизации. Обратитесь к разработчику');
-//            }
             switch ($type) {
                 case "html":
                 case "text":
                     $params[$key] = $route_param;
                     break;
                 case "image":
-                    $is_multiply = $var["multiply"] ?? false;
-                    $image_repository = $this->container->get(ImageRepository::class);
-                    if (!$is_multiply) {
-                        $image = $image_repository->find($route_param);
-                        if (!$image) {
-                            $route_params[$key] = null;
-                        }
-                        $params[$key] = $image;
-                    } else {
-                        $images = $image_repository->findBy([
-                            "id" => $route_param
-                        ]);
-                        $params[$key] = $images;
-                    }
+                    $params[$key] = $this->normalizeImage($route_params, $vars, $key);
                     break;
                 case "menu":
-                    $menu_repository = $this->container->get(MenuRepository::class);
-                    $menu = $menu_repository->find($route_param);
-                    if (!$menu) {
-                        $route_params[$key] = null;
-                    }
-                    $params[$key] = $menu;
+                    $params[$key] = $this->normalizeMenu($route_params, $vars, $key);
                     break;
+                default:
+                    $params[$key] = null;
             }
         }
         return $params;
+    }
+
+    private function normalizeImage(&$route_params, $vars, $key)
+    {
+        $var = $vars[$key];
+        $route_param = $route_params[$key];
+
+        $is_multiply = $var["multiply"] ?? false;
+        $image_repository = $this->container->get(ImageRepository::class);
+
+        if (!$is_multiply) {
+            $image = $image_repository->find($route_param);
+            if (!$image) {
+                $route_params[$key] = null;
+            }
+            return $image;
+        } else {
+            $images = $image_repository->findBy([
+                "id" => $route_param
+            ]);
+            return $images;
+        }
+    }
+
+    private function normalizeMenu(&$route_params, $vars, $key)
+    {
+        $route_param = $route_params[$key];
+        $menu_repository = $this->container->get(MenuRepository::class);
+        $menu = $menu_repository->find($route_param);
+        if (!$menu) {
+            $route_params[$key] = null;
+        }
+        return $menu;
     }
 
 }

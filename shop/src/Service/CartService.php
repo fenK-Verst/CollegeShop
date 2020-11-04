@@ -44,16 +44,17 @@ class CartService
     public function getCount()
     {
         $count = 0;
-        foreach ($this->cart as $product){
-            $count+=$product["count"];
+        foreach ($this->cart as $product) {
+            $count += $product["count"];
         }
         return $count;
     }
+
     public function getPrice()
     {
         $price = 0;
-        foreach ($this->cart as $product){
-            $price+=$product["price"];
+        foreach ($this->cart as $product) {
+            $price += $product["price"];
         }
         return $price;
     }

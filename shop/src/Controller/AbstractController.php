@@ -14,10 +14,10 @@ use Twig\Error\SyntaxError;
 
 abstract class AbstractController
 {
-    private Twig $twig;
-    private array $sharedData = [];
-    private Response $response;
-    private Route $route;
+    private Twig        $twig;
+    private array       $sharedData = [];
+    private Response    $response;
+    private Route       $route;
     private UserService $userService;
 
     public function __construct(Twig $twig, UserService $userService)
@@ -26,10 +26,12 @@ abstract class AbstractController
         $this->response = new Response();
         $this->userService = $userService;
     }
+
     public function setRoute(Route $route)
     {
         $this->route = $route;
     }
+
     public function getRoute()
     {
         return $this->route;
@@ -37,7 +39,8 @@ abstract class AbstractController
 
     /**
      * @param string $template_name
-     * @param array $params
+     * @param array  $params
+     *
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError
@@ -49,11 +52,13 @@ abstract class AbstractController
         $this->response->setBody($body);
         return $this->response;
     }
+
     public function redirect(string $url)
     {
         $this->response->redirect($url);
         return $this->response;
     }
+
     public function addSharedData(string $key, $value)
     {
         $this->sharedData["app"][$key] = $value;
@@ -63,6 +68,7 @@ abstract class AbstractController
     {
         return $this->sharedData;
     }
+
     public function json($json)
     {
         $json = json_encode($json);
@@ -72,6 +78,7 @@ abstract class AbstractController
         ]);
         return $this->response;
     }
+
     public function getUserService()
     {
         return $this->userService;

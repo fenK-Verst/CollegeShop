@@ -4,8 +4,12 @@
 namespace App\Controller;
 
 
+use App\Http\Response;
 use App\Repository\ProductRepository;
 use App\Routing\Route;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class DefaultController
@@ -16,17 +20,25 @@ class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="default")
+     *
+     * @param ProductRepository $product_repository
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function index(ProductRepository $product_repository)
     {
         $news = $product_repository->getWithFlags([2], [8]);
-        return $this->render("title.html.twig",[
-            "news"=>$news
+
+        return $this->render("title.html.twig", [
+            "news" => $news
         ]);
     }
+
     /**
      * @Route("/sessions")
-     *
      */
     public function f()
     {

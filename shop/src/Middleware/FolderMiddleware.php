@@ -10,6 +10,7 @@ use App\Service\FolderService;
 class FolderMiddleware implements MiddlewareInterface
 {
     private  FolderService $folderService;
+
     public function __construct(FolderService $folder_service)
     {
         $this->folderService = $folder_service;

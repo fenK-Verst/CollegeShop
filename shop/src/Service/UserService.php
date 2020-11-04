@@ -8,12 +8,17 @@ use App\Db\ObjectManager;
 use App\Entity\User;
 use App\Repository\UserRepository;
 
+/**
+ * Class UserService
+ *
+ * @package App\Service
+ */
 class UserService
 {
     private const SALT = "heretoPreservedbe";
     private const AUTH_COOKIE = 'X-AUTH-COOKIE';
     private UserRepository $userRepository;
-    private ObjectManager $objectManager;
+    private ObjectManager  $objectManager;
 
     public function __construct(UserRepository $user_repository, ObjectManager $objectManager)
     {
@@ -34,10 +39,10 @@ class UserService
         $headers = getallheaders();
         $token = $headers['x-auth-token'] ?? $headers['X-Auth-Token'] ?? null;
 
-        if ($token){
+        if ($token) {
             $token = $this->decodeToken($token);
-            $user =  $this->userRepository->findOneBy([
-                'token'=>$token
+            $user = $this->userRepository->findOneBy([
+                'token' => $token
             ]);
             if (is_null($user)) {
                 $this->logout();
@@ -47,7 +52,8 @@ class UserService
         return null;
     }
 
-    private function getUserBySession(): ?User{
+    private function getUserBySession(): ?User
+    {
         $user_id = $_SESSION['user_id'] ?? null;
         if ($user_id) {
             $user = $this->userRepository->find($user_id);
@@ -58,7 +64,9 @@ class UserService
         }
         return null;
     }
-    private function getUserByCookie(): ?User{
+
+    private function getUserByCookie(): ?User
+    {
         $raw = $_COOKIE[self::AUTH_COOKIE] ?? null;
         $user_id = $raw ? $this->decodeToken($raw) : null;
         if ($user_id) {
@@ -97,12 +105,12 @@ class UserService
 
     private function decodeToken(string $token): string
     {
-        return mb_convert_encoding(base64_decode($token),'UTF-8');
+        return mb_convert_encoding(base64_decode($token), 'UTF-8');
     }
 
     private function encodeToken(string $token): string
     {
-        return mb_convert_encoding(base64_encode($token),'UTF-8');
+        return mb_convert_encoding(base64_encode($token), 'UTF-8');
     }
 
     public function logout()
@@ -120,7 +128,8 @@ class UserService
         }
     }
 
-    private function generateRandomString(int $length = 10): string {
+    private function generateRandomString(int $length = 10): string
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';

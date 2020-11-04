@@ -7,7 +7,7 @@ namespace App\Http;
 class Response
 {
     private string $body;
-    private array $headers;
+    private array  $headers;
 
     public function __construct(string $body = '', array $headers = [])
     {
@@ -19,19 +19,19 @@ class Response
     {
         $this->headers = $headers;
     }
+
     public function setBody(string $body)
     {
         $this->body = $body;
     }
 
-
     public function send()
     {
         foreach ($this->headers as $header => $value) {
-            if ($value){
-                $value = ":".$value;
+            if ($value) {
+                $value = ":" . $value;
             }
-            header($header.$value);
+            header($header . $value);
         }
         echo $this->body;
     }

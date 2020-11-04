@@ -9,10 +9,10 @@ use App\Controller\AbstractController;
 class Route
 {
     private AbstractController $controller;
-    private string $method;
-    private array $params = [];
+    private string             $method;
+    private array              $params;
 
-    public function __construct(AbstractController $controller, string $method, array $params)
+    public function __construct(AbstractController $controller, string $method, array $params = [])
     {
         $this->controller = $controller;
         $this->method = $method;
@@ -35,6 +35,7 @@ class Route
     {
         return $this->params;
     }
+
     public function get(string $param)
     {
         return $this->params[$param] ?? null;

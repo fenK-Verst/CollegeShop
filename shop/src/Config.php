@@ -4,6 +4,8 @@
 namespace App;
 
 
+use Dotenv\Dotenv;
+
 class Config
 {
     private array         $config   = [];
@@ -12,28 +14,27 @@ class Config
 
     public function __construct()
     {
-        $dotenv = \Dotenv\Dotenv::createImmutable(PROJECT_DIR, $this::$env_file);
+        $dotenv = Dotenv::createImmutable(PROJECT_DIR, $this::$env_file);
         $dotenv->load();
         $this->parseDir($this::$dir);
     }
 
-    public function getControllers()
+    public function getControllers(): array
     {
         return $this->config["controllers"] ?? [];
-
     }
 
-    public function getTwigConfig()
+    public function getTwigConfig(): array
     {
         return $this->config["twig"] ?? [];
     }
 
-    public function getMiddlewares()
+    public function getMiddlewares(): array
     {
         return $this->config["middlewares"] ?? [];
     }
 
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config;
     }
@@ -68,14 +69,13 @@ class Config
         }
     }
 
-
     private function parseFile(string $file)
     {
         if (is_dir($file)) {
-            return false;
+            return null;
         }
-
         $info = pathinfo($file);
+
         switch ($info["extension"]) {
             case "yaml":
                 return yaml_parse_file($file);
@@ -84,6 +84,8 @@ class Config
                 return json_decode($file, true);
             case 'php':
                 return include $file;
+            default:
+                return null;
         }
     }
 

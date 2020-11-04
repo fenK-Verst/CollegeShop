@@ -21,7 +21,7 @@ class SiteParamsService
 
     public function getSiteParams(): ?SiteParams
     {
-        return $this->repository->findBy([],[],[1])[0] ?? null;
+        return $this->repository->findBy([], [], [1])[0] ?? null;
     }
 
 }

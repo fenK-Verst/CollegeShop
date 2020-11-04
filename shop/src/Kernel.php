@@ -8,6 +8,7 @@ use App\Di\Container;
 use App\Http\Response;
 use App\Routing\Route;
 use App\Routing\Router;
+use Exception;
 
 class Kernel
 {
@@ -19,9 +20,10 @@ class Kernel
 
     /**
      * Kernel constructor.
-     * @param Router $router
+     *
+     * @param Router    $router
      * @param Container $container
-     * @param Config $config
+     * @param Config    $config
      */
     public function __construct(Router $router, Container $container, Config $config)
     {
@@ -31,15 +33,15 @@ class Kernel
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function run()
     {
         $route = $this->router->dispatch();
-        if ($route){
+        if ($route) {
             $this->runMiddlewares($route);
             $response = $this->dispatch($route);
-        }else{
+        } else {
             $response = $this->router->getNotFoundResponse();
         }
 
@@ -49,8 +51,9 @@ class Kernel
 
     /**
      * @param Route $route
+     *
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     private function dispatch(Route $route): Response
     {

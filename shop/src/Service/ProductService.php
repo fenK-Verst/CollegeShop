@@ -10,9 +10,10 @@ use App\Routing\Route;
 class ProductService
 {
     private FolderRepository $folderRepository;
+
     public function __construct(FolderRepository $repository)
     {
-       $this->folderRepository = $repository;
+        $this->folderRepository = $repository;
     }
 
 
