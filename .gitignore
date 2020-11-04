@@ -1,9 +1,10 @@
-/public/assets/dynamic
+/shop/public/assets/dynamic
 
 .idea
 /vendor/
 /var/
-/.env.local
-/.env.local.php
-/.env.*.local
+/shop/var/
+/shop/.env.local
+/shop/.env.local.php
+/shop/.env.*.local
 ./node_modules

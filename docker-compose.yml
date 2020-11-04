@@ -14,3 +14,26 @@ services:
       MYSQL_ROOT_PASSWORD: 1
     ports:
       - 3306:3306
+    networks:
+      - nginxphp
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./shop:/var/www/shop
+      - ./config/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./var/logs:/var/log/nginx
+      - /etc/localtime:/etc/localtime
+    networks:
+      - nginxphp
+  php:
+    build: ./containers/php-fpm/
+    volumes:
+      - ./shop:/var/www/shop
+    expose:
+      - 9000
+    networks:
+      - nginxphp
+networks:
+  nginxphp:
