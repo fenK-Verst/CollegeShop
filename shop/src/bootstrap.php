@@ -2,21 +2,9 @@
 
 
 use App\Config;
-use App\Db\ArrayDataManager;
-use App\Db\Connection;
-use App\Db\Interfaces\ArrayDataManagerInterface;
-use App\Db\Interfaces\ConnectionInterface;
-use App\Db\Interfaces\ObjectDataManagerInterface;
-use App\Db\Interfaces\ObjectManagerInterface;
-use App\Db\ObjectDataManager;
-use App\Db\ObjectManager;
 use App\Di\Container;
-use App\Http\Request;
-use App\Http\Response;
 use App\Kernel;
-use App\Routing\CustomRouter;
-use App\Routing\Router;
-use App\Twig;
+
 
 define("PROJECT_DIR", __DIR__ . "/../");
 require_once(PROJECT_DIR . "/vendor/autoload.php");

@@ -34,13 +34,10 @@ class Injector
         $params = [];
         foreach ($reflection_params as $reflection_param) {
             $param_class = $reflection_param->getClass();
-            if (!$param_class) {
-                //throw new \Exception("Invalid class in var ".$reflection_param->getName());
-                //TODO обдумать
-                break;
+            if ($param_class) {
+                $class_name = $param_class->getName();
+                $params[] = $this->container->get($class_name);
             }
-            $class_name = $param_class->getName();
-            $params[] = $this->container->get($class_name);
         }
         return $params;
     }
@@ -48,7 +45,7 @@ class Injector
     public function callMethod(Object $object, string $method)
     {
         $reflection_class = new \ReflectionClass($object);
-        $reflection_method = $reflection_class->getMethod($method);
+        $reflection_method = @$reflection_class->getMethod($method);
         if (!$reflection_method) {
             throw new \Exception("Method $method does not exists");
         }

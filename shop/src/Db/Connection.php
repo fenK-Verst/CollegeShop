@@ -35,6 +35,10 @@ class Connection implements ConnectionInterface
         $this->port = $port;
     }
 
+    /**
+     * @return \mysqli|null
+     * @throws ConnectionException
+     */
     public function getConnection()
     {
         if (is_null($this->connection)){
@@ -43,10 +47,12 @@ class Connection implements ConnectionInterface
         return $this->connection;
     }
 
-
+    /**
+     * @throws ConnectionException
+     */
     private function connect()
     {
-        $connection = new \mysqli($this->host, $this->user, $this->password, $this->db_name, $this->port);
+        $connection = @new \mysqli($this->host, $this->user, $this->password, $this->db_name, $this->port);
         if (!$connection || $connection->connect_errno) {
             $error = $connection->connect_error;
             $errno = $connection->connect_errno;

@@ -31,6 +31,7 @@ services:
     build: ./containers/php-fpm/
     volumes:
       - ./shop:/var/www/shop
+#      - ./var/logs/fpm-php.www.log:/var/log/fpm-php.www.log
     expose:
       - 9000
     networks:

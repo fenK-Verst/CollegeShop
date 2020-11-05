@@ -61,3 +61,17 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php -- --inst
 RUN pecl install memcached
 
 RUN echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini
+
+COPY php.ini /usr/local/etc/php/conf.d/php.ini
+
+RUN echo "\
+;php_flag[display_errors] = on\
+catch_workers_output = yes\
+log_level = error" >> /usr/local/etc/php-fpm.d/www.conf
+
+RUN touch /var/log/fpm-php.www.log
+RUN chmod 644 /var/log/fpm-php.www.log
+RUN chgrp www-data /var/log/fpm-php.www.log
+RUN chown www-data /var/log/fpm-php.www.log
+
+#COPY www.conf /usr/local/etc/php-fpm.d/www.conf

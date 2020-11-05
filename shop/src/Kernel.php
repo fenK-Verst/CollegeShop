@@ -37,14 +37,17 @@ class Kernel
      */
     public function run()
     {
-        $route = $this->router->dispatch();
-        if ($route) {
-            $this->runMiddlewares($route);
-            $response = $this->dispatch($route);
-        } else {
-            $response = $this->router->getNotFoundResponse();
+        try {
+            $route = $this->router->dispatch();
+            if ($route) {
+                $this->runMiddlewares($route);
+                $response = $this->dispatch($route);
+            } else {
+                $response = $this->router->getNotFoundResponse();
+            }
+        }catch (Exception $e){
+            $response = $this->router->getInternalErrorResponse();
         }
-
 
         $response->send();
     }

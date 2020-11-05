@@ -292,9 +292,24 @@ class Router
             "name" => 'Page not found'
         ]);
         $response->setBody($html);
-        $response->setHeaders([
-            'HTTP/1.0 404 Not Found'=>''
+        $response->setStatusCode(404);
+
+        return $response;
+    }
+
+    public function getInternalErrorResponse()
+    {
+        $response = new Response();
+        /**
+         * @var Twig $twig
+         */
+        $twig = $this->container->get(Twig::class);
+        $html = $twig->render("HttpErrors/error.html.twig", [
+            "code" => 500,
+            "name" => 'Internal error'
         ]);
+        $response->setBody($html);
+        $response->setStatusCode(500);
 
         return $response;
     }
