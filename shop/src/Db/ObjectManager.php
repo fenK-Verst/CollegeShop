@@ -265,7 +265,7 @@ class ObjectManager implements Interfaces\ObjectManagerInterface
         if (is_null($finded[0][0] ?? null)) return false;
         $params = explode(',', $finded[1][0]);
         $result = [];
-        if (is_null($params{1} ?? null)) return [];
+        if (is_null($params[1] ?? null)) return [];
         foreach ($params as $param) {
             $param = explode("=", $param);
             $result[trim($param[0])] = trim($param[1], '"');

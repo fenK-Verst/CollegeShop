@@ -37,6 +37,7 @@ class Kernel
      */
     public function run()
     {
+        $error = null;
         try {
             $route = $this->router->dispatch();
             if ($route) {
@@ -46,10 +47,15 @@ class Kernel
                 $response = $this->router->getNotFoundResponse();
             }
         }catch (Exception $e){
+//            $error = PHP_EOL.$e->getMessage().PHP_EOL.$e->getTraceAsString();
+            $error = $e;
             $response = $this->router->getInternalErrorResponse();
         }
 
         $response->send();
+        if ($error) {
+            error_log($error);
+        }
     }
 
     /**

@@ -8,7 +8,6 @@ use App\Kernel;
 
 define("PROJECT_DIR", __DIR__ . "/../");
 require_once(PROJECT_DIR . "/vendor/autoload.php");
-
 session_set_cookie_params(0);
 if (!session_id()) {
     session_start();
