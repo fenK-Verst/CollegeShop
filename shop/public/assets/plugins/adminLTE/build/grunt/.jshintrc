@@ -2,6 +2,5 @@
   "extends" : "../js/.jshintrc",
   "asi"     : false,
   "browser" : true,
-  "es3"     : true,
   "node"    : false
 }

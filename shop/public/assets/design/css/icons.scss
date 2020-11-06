@@ -1,0 +1,9 @@
+i.pp{
+  width: 15px;
+  height: 15px;
+  display: block;
+  background: none no-repeat center/cover;
+  &.pp-user{
+    background-image: url("/assets/design/images/icons/svg/user.svg");
+  }
+}
