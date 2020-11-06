@@ -29,7 +29,7 @@ class FolderController extends AbstractController
      */
     public function index(FolderRepository $folder_repository)
     {
-        $folder_id = $this->getRoute()->get("id");
+        $folder_id = $this->getParam("id");
         $folder = $folder_repository->find($folder_id);
         $products = $folder->getProducts();
         $folders = $folder_repository->getSubFolders($folder);

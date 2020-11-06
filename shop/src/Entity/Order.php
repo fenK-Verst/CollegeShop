@@ -133,7 +133,7 @@ class Order extends AbstractEntity
         return $this->user;
     }
 
-    public static function getStatuses()
+    public static function getStatuses(): array
     {
         return [
             self::STATUS_WAITING => "Ожидание оплаты",

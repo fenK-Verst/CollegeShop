@@ -8,8 +8,11 @@ use App\Controller\AbstractController;
 use App\Db\ObjectManager;
 use App\Entity\Stonk;
 use App\Http\Request;
+use App\Http\Response;
 use App\Repository\StonkRepository;
 use App\Repository\UserRepository;
+use DateTime;
+use Exception;
 
 /**
  * @Route("api/stonk")
@@ -22,6 +25,9 @@ class StonkApiController extends AbstractController
 
     /**
      * @Route("/", methods=["get"])
+     * @param StonkRepository $stonkRepository
+     *
+     * @return Response
      */
     public function index(StonkRepository $stonkRepository)
     {
@@ -32,29 +38,17 @@ class StonkApiController extends AbstractController
         $stonks = $stonkRepository->findBy([
             'user_id' => $user->getId()
         ], [], [100]);
-        $data = [];
-        foreach ($stonks as $stonk) {
-
-            /** @var Stonk $stonk */
-            $id = $stonk->getId();
-            $title = $stonk->getTitle();
-            $description = $stonk->getDescription();
-            $summ = $stonk->getSumm();
-            $created_at = $stonk->getCreatedAt();
-            $data[$id] = [
-                'id' => $id,
-                'title' => $title,
-                'description' => $description,
-                'summ' => $summ,
-                'created_at' => $created_at,
-            ];
-        }
+        $data = $this->getStonksAsArray($stonks);
         return $this->success($data);
     }
 
     /**
      * @Route("/date", methods=["get"])
-     * @throws \Exception
+     * @param StonkRepository $stonkRepository
+     * @param Request         $request
+     *
+     * @return Response
+     * @throws Exception
      */
     public function date(StonkRepository $stonkRepository, Request  $request)
     {
@@ -65,29 +59,18 @@ class StonkApiController extends AbstractController
         $start = $request->get('start');
         $end = $request->get('end');
 
-        $stonks = $stonkRepository->getWithDate($user,new \DateTime($start), new \DateTime($end));
-        $data = [];
-        foreach ($stonks as $stonk) {
-
-            /** @var Stonk $stonk */
-            $id = $stonk->getId();
-            $title = $stonk->getTitle();
-            $description = $stonk->getDescription();
-            $summ = $stonk->getSumm();
-            $created_at = $stonk->getCreatedAt();
-            $data[$id] = [
-                'id' => $id,
-                'title' => $title,
-                'description' => $description,
-                'summ' => $summ,
-                'created_at' => $created_at,
-            ];
-        }
+        $stonks = $stonkRepository->getWithDate($user,new DateTime($start), new DateTime($end));
+        $data = $this->getStonksAsArray($stonks);
         return $this->success($data);
     }
 
     /**
      * @Route("/", methods=["post"])
+     * @param ObjectManager  $objectManager
+     * @param Request        $request
+     * @param UserRepository $userRepository
+     *
+     * @return Response
      */
     public function add(ObjectManager $objectManager, Request $request, UserRepository $userRepository)
     {
@@ -114,7 +97,7 @@ class StonkApiController extends AbstractController
         $stonk->setDescription($description);
         $stonk->setSumm($summ);
         $stonk->setUser($user);
-        $now = new \DateTime();
+        $now = new DateTime();
         $stonk->setCreatedAt($now->format('Y-m-d H:i:s'));
         $objectManager->save($stonk);
 
@@ -123,8 +106,12 @@ class StonkApiController extends AbstractController
 
     /**
      * @Route("/{id}", methods=["put"])
+     * @param ObjectManager   $objectManager
+     * @param StonkRepository $stonkRepository
+     *
+     * @return Response
      */
-    public function edit(ObjectManager $objectManager, Request $request, StonkRepository $stonkRepository)
+    public function edit(ObjectManager $objectManager, StonkRepository $stonkRepository)
     {
         $user = $this->getUserService()->getCurrentUser();
         if (!$user) {
@@ -139,7 +126,7 @@ class StonkApiController extends AbstractController
         parse_str($putdata, $putdata);
 
         $stonkData = $putdata['stonk'] ?? [];
-        $id = $this->getRoute()->get('id');
+        $id = $this->getParam('id');
         $stonk = $stonkRepository->find($id);
         if (!$stonk) {
             return $this->error('Stonk не найден =(');
@@ -176,7 +163,7 @@ class StonkApiController extends AbstractController
         if (!$user) {
             return $this->userError();
         }
-        $id = $this->getRoute()->get('id');
+        $id = $this->getParam('id');
         $stonk = $stonkRepository->find($id);
         if (!$stonk) {
             return $this->error('Stonk не найден =(');
@@ -211,5 +198,27 @@ class StonkApiController extends AbstractController
     private function userError()
     {
         return $this->error('user error');
+    }
+
+    private function getStonksAsArray(array $stonks): array
+    {
+        $data = [];
+        foreach ($stonks as $stonk) {
+
+            /** @var Stonk $stonk */
+            $id = $stonk->getId();
+            $title = $stonk->getTitle();
+            $description = $stonk->getDescription();
+            $summ = $stonk->getSumm();
+            $created_at = $stonk->getCreatedAt();
+            $data[$id] = [
+                'id' => $id,
+                'title' => $title,
+                'description' => $description,
+                'summ' => $summ,
+                'created_at' => $created_at,
+            ];
+        }
+        return $data;
     }
 }

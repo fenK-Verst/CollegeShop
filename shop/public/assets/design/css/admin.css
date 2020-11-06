@@ -114,8 +114,7 @@ ul.nested .route-link {
   font-size: 12px;
 }
 ul.nested ul {
-  padding: 0;
-  padding-left: 10px;
+  padding: 0 0 0 10px;
 }
 ul.nested li {
   list-style: none;

@@ -6,6 +6,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AbstractController;
 use App\Entity\Menu;
+use App\Http\Response;
 use App\Repository\MenuRepository;
 
 /**
@@ -18,6 +19,9 @@ class MenuApiController extends AbstractController
 {
     /**
      * @Route("/")
+     * @param MenuRepository $menu_repository
+     *
+     * @return Response
      */
     public function getAll(MenuRepository $menu_repository)
     {

@@ -18,8 +18,7 @@ class FolderMiddleware implements MiddlewareInterface
 
     public function run(Route $route)
     {
-        $controller = $route->getController();
         $folders = $this->folderService->getFoldersFirstLevel();
-        $controller->addSharedData("folders",$folders);
+        $route->addSharedData("folders",$folders);
     }
 }

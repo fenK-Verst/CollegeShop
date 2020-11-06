@@ -7,10 +7,14 @@ namespace App\Controller;
 use App\Db\ObjectManager;
 use App\Entity\ProductComment;
 use App\Http\Request;
+use App\Http\Response;
 use App\Repository\FolderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use App\Repository\VendorRepository;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class ProductController
@@ -24,6 +28,16 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="index")
+     * @param ProductRepository $product_repository
+     * @param FolderRepository  $folder_repository
+     * @param Request           $request
+     * @param UserRepository    $user_repository
+     * @param ObjectManager     $object_manager
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function index(
         ProductRepository $product_repository,
@@ -32,14 +46,17 @@ class ProductController extends AbstractController
         UserRepository $user_repository,
         ObjectManager $object_manager
     ) {
-        $product_id = $this->getRoute()->get("id");
+
+        $product_id = $this->getParam("id");
         $product = $product_repository->find($product_id);
         $request_comment = $request->post("comment");
         $error = '';
 
         if ($product) {
             $folder = $product->getFolders()[0] ?? null;
-            if ($folder)  $pagination_folders = $folder_repository->getParents($folder, true);
+            if ($folder) {
+                $pagination_folders = $folder_repository->getParents($folder, true);
+            }
 
 
             if ($request_comment) {
@@ -72,12 +89,20 @@ class ProductController extends AbstractController
         return $this->render("product/item.html.twig", [
             "product" => $product,
             "product_path" => $pagination_folders ?? null,
-            "error"=>$error
+            "error" => $error
         ]);
     }
 
     /**
      * @Route("/", name="index")
+     * @param Request           $request
+     * @param ProductRepository $product_repository
+     * @param VendorRepository  $vendor_repository
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function list(Request $request, ProductRepository $product_repository, VendorRepository $vendor_repository)
     {

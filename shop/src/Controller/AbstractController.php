@@ -5,7 +5,6 @@ namespace App\Controller;
 
 
 use App\Http\Response;
-use App\Routing\Route;
 use App\Service\UserService;
 use App\Twig;
 use Twig\Error\LoaderError;
@@ -17,8 +16,8 @@ abstract class AbstractController
     private Twig        $twig;
     private array       $sharedData = [];
     private Response    $response;
-    private Route       $route;
     private UserService $userService;
+    private array       $params = [];
 
     public function __construct(Twig $twig, UserService $userService)
     {
@@ -27,48 +26,73 @@ abstract class AbstractController
         $this->userService = $userService;
     }
 
-    public function setRoute(Route $route)
+    /**
+     * @param array $params
+     */
+    public function setParams(array $params)
     {
-        $this->route = $route;
+        $this->params = $params;
     }
 
-    public function getRoute()
+    /**
+     * @return array
+     */
+    public function getParams(): array
     {
-        return $this->route;
+        return $this->params;
     }
 
     /**
      * @param string $template_name
      * @param array  $params
+     * @param int    $status_code
      *
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function render(string $template_name, $params = [])
+    public function render(string $template_name, $params = [], int $status_code = 200)
     {
         $body = $this->twig->render($template_name, array_merge_recursive($params, $this->getSharedData()));
         $this->response->setBody($body);
+        $this->response->setStatusCode($status_code);
         return $this->response;
     }
 
-    public function redirect(string $url)
+    /**
+     * @param string $url
+     *
+     * @return Response
+     */
+    public function redirect(string $url): Response
     {
         $this->response->redirect($url);
         return $this->response;
     }
 
+    /**
+     * @param string $key
+     * @param        $value
+     */
     public function addSharedData(string $key, $value)
     {
         $this->sharedData["app"][$key] = $value;
     }
 
-    public function getSharedData()
+    /**
+     * @return array
+     */
+    public function getSharedData(): array
     {
         return $this->sharedData;
     }
 
+    /**
+     * @param $json
+     *
+     * @return Response
+     */
     public function json($json)
     {
         $json = json_encode($json);
@@ -79,9 +103,23 @@ abstract class AbstractController
         return $this->response;
     }
 
-    public function getUserService()
+    /**
+     * @return UserService
+     */
+    public function getUserService(): UserService
     {
         return $this->userService;
     }
+
+    public function setSharedData(array $shared_data)
+    {
+        $this->sharedData = $shared_data;
+    }
+
+    public function getParam($key)
+    {
+        return $this->getParams()[$key] ?? null;
+    }
+
 
 }

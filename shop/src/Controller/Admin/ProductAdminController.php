@@ -158,7 +158,7 @@ class ProductAdminController extends AbstractController
         ObjectManager $object_manager
     ) {
         $error = '';
-        $product_id = $this->getRoute()->get("id");
+        $product_id = $this->getParam("id");
         $product = $product_repository->find($product_id);
         $request_product = $request->post("product");
         if ($request_product){
@@ -279,7 +279,7 @@ class ProductAdminController extends AbstractController
      */
     public function item(ProductRepository $product_repository)
     {
-        $product_id = $this->getRoute()->get("id");
+        $product_id = $this->getParam("id");
         $product = $product_repository->find($product_id);
 
         return $this->render("/admin/product/item.html.twig",[

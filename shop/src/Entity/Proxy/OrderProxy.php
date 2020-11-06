@@ -96,12 +96,6 @@ class OrderProxy extends \App\Entity\Order
         return $this->parent->getUser();           
     }
 
-    public function getStatuses()
-    {
-        $this->init();
-        $this->parent->getStatuses();           
-    }
-
     public function getTableName() : string
     {
         $this->init();

@@ -6,6 +6,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AbstractController;
 use App\Http\Request;
+use App\Http\Response;
 use App\Repository\ProductRepository;
 use App\Service\CartService;
 
@@ -19,6 +20,11 @@ class CartApiController extends AbstractController
 {
     /**
      * @Route("/add")
+     * @param Request           $request
+     * @param CartService       $cartService
+     * @param ProductRepository $productRepository
+     *
+     * @return Response
      */
     public function add(Request $request, CartService $cartService, ProductRepository $productRepository)
     {
@@ -60,8 +66,12 @@ class CartApiController extends AbstractController
 
         return $this->json($response);
     }
+
     /**
      * @Route("/clear")
+     * @param CartService $cartService
+     *
+     * @return Response
      */
     public function clear(CartService $cartService)
     {

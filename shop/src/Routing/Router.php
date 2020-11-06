@@ -3,99 +3,100 @@
 namespace App\Routing;
 
 use App\Config;
-use App\Di\Container;
-use App\Di\Exceptions\ClassNotExistsException;
+use App\Controller\UserRoutesController;
 use App\Http\Request;
-use App\Http\Response;
-use App\Twig;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 class Router
 {
-    private Config $config;
-    private Request $request;
-    private Container $container;
+    private Config       $config;
+    private Request      $request;
     private CustomRouter $custom_router;
 
-    public function __construct(Config $config, Request $request, Container $container, CustomRouter $custom_router)
+    public function __construct(Config $config, Request $request, CustomRouter $custom_router)
     {
         $this->config = $config;
         $this->request = $request;
-        $this->container = $container;
         $this->custom_router = $custom_router;
     }
 
     /**
      * @return Route|null
-     * @throws ClassNotExistsException
-     * @throws ReflectionException
      */
-    public function dispatch(): ?Route
+    public function dispatch(): Route
     {
-        $route_data = $this->findRouteData();
-        if (!$route_data) {
-            return null;
-        }
-        $controller = $route_data['controller'];
-        $method = $route_data['method'];
-        $params = $route_data['params'];
+        try {
+            $routes = $this->getRoutesByRequestUrl();
 
-        $controller = $this->container->get($controller);
-        return new Route($controller, $method, $params);
+            if (empty($routes)) {
+                $routes = $this->custom_router->getRoutesByUrl($this->request->getUrl());
+            }
+            if (empty($routes)) {
+                return $this->getErrorRoute(404);
+            }
+            foreach ($routes as $route) {
+                if ($this->testRouteOnRequestMethod($route)) {
+                    return $route;
+                }
+            }
+            //Есть руты с массиве, но не 1 не подошел по request_method
+            return $this->getErrorRoute(405);
+
+        } catch (\Exception $e) {
+            error_log($e);
+            return $this->getErrorRoute(500);
+        }
     }
 
     /**
      * @return array
      * @throws ReflectionException
      */
-    private function findRouteData()
+    private function getRoutesByRequestUrl(): array
     {
-        $route_data = $this->getRouteData();
+        $routes = $this->getAllRoutes();
 
-        if (!$route_data){
-            $route_data = $this->custom_router->getRouteData($this->request->getUrl());
+        $foundRoutes = $this->findSimpleRoutes($routes);
+        //Найдены простые урлы, без сложных параметров
+        if (!empty($foundRoutes)) {
+            return $foundRoutes;
         }
-        return $route_data;
+        //Ищем дальше урлы с параметрами
+        $foundRoutes = $this->findComplicatedRoute($routes);
+
+        return $foundRoutes;
     }
 
     /**
+     * @param array $routes
+     *
      * @return array
-     * @throws ReflectionException
      */
-    private function getRouteData(): array
+    private function findSimpleRoutes(array $routes)
     {
-        $routes = $this->getRoutes();
-
+        $foundRoutes = [];
         $url = $this->request->getUrl();
-
-        $foundRoute = null;
         foreach ($routes as $route) {
-            $routeUrl = strtolower($route['url']);
+            $routeUrl = strtolower($route->getUrl());
 
             if (!($routeUrl == $url || $routeUrl == $url . "/")) {
                 continue;
             }
-            if ($this->testRouteOnRequestMethod($route)){
-                $foundRoute = $route;
-            }
-
+            $foundRoutes[] = $route;
         }
-        if (!empty($foundRoute)) {
-            return $foundRoute;
-        }
-        $foundRoute = $this->findComplicatedRoute($routes);
-
-        return $foundRoute;
+        return $foundRoutes;
     }
 
-    private function testRouteOnRequestMethod(array $route){
-        $methods = @json_decode($route['params']['methods']);
-
+    /**
+     * @param Route $route
+     *
+     * @return bool
+     */
+    private function testRouteOnRequestMethod(Route $route)
+    {
+        $methods = @json_decode($route->getParams()['methods']);
         if (!$methods) {
             return true;
         }
@@ -111,15 +112,23 @@ class Router
         return false;
     }
 
+    /**
+     * @param array $routes
+     *
+     * @return array|mixed
+     */
     private function findComplicatedRoute(array $routes)
     {
-        $route = [];
+        $foundRoutes = [];
         $url = $this->request->getUrl();
         foreach ($routes as $route_data) {
+            /**
+             * @var Route $route_data
+             */
             $route_params = [];
-            $routeUrl = $route_data['url'];
+            $routeUrl = $route_data->getUrl();
 
-            if (!$this->isComplicatedUrl($routeUrl)){
+            if (!$this->isComplicatedUrl($routeUrl)) {
                 continue;
             }
             $url_chunks = explode('/', $url);
@@ -147,20 +156,19 @@ class Router
 
                 $route_params = array_replace($route_params, $param);
             }
-            if (!$this->testRouteOnRequestMethod($route_data)){
-                continue;
-            }
+
             $route = $route_data;
-            $route['params'] = $route_params;
+            $route->setParams($route_params);
+            $foundRoutes[] = $route;
         }
-        return $route;
+        return $foundRoutes;
     }
 
     /**
      * @return array
      * @throws ReflectionException
      */
-    private function getRoutes()
+    private function getAllRoutes()
     {
         $routes = [];
         $controllers = $this->config->getControllers();
@@ -168,18 +176,15 @@ class Router
         foreach ($controllers as $controller) {
             $reflection_controller = new ReflectionClass($controller);
             $reflection_methods = $reflection_controller->getMethods();
+
             $controller_route = $this->getControllerRoute($reflection_controller);
-            $controller_url = $controller_route["url"] ?? '';
+
 
             foreach ($reflection_methods as $method) {
-                $routeData = $this->getRouteFromReflectionMethod($method, $controller_url);
-                if (!is_null($routeData)) {
-                    $routes[] = [
-                        'url' => $routeData[0],
-                        'controller' => $controller,
-                        'method' => $routeData[1],
-                        'params' => $routeData[2]
-                    ];
+                $route = $this->getRouteFromReflectionMethod($method, $controller_route);
+                if (!is_null($route)) {
+                    $route->setController($controller);
+                    $routes[] = $route;
                 }
             }
         }
@@ -187,37 +192,76 @@ class Router
         return $routes;
     }
 
-    private function getRouteFromReflectionMethod(ReflectionMethod $method, string $controller_url = '')
+    private function getRouteSettingsFromDocComment(string $doc): ?array
     {
-        $method_name = $method->getName();
-        $doc = $method->getDocComment();
         preg_match_all('/@Route\((.*)\)/s', $doc, $found);
-
         if (!$found[1]) {
             return null;
         }
 
         $route_params = explode(',', $found[1][0]);
         $route_url = $route_params[0];
+        preg_match_all('/[a-zA-Z0-9_.]*=[\"{\[][a-zA-Z0-9_{}\[\]\'\", .]*[\"}\]]/s', $found[1][0], $route_params);
+        if (!empty($route_params[0])) {
+            $params = $this->assetParams($route_params[0]);
+        } else {
+            $params = [];
+        }
 
-        $params = $this->assetParams($route_params);
+
+        return [
+            'url' => $route_url,
+            'params' => $params
+        ];
+
+    }
+
+    /**
+     * @param ReflectionMethod $method
+     * @param Route|null       $controller_route
+     *
+     * @return array|null
+     */
+    private function getRouteFromReflectionMethod(ReflectionMethod $method, ?Route $controller_route = null): ?Route
+    {
+        $method_name = $method->getName();
+        $doc = $method->getDocComment();
+
+        $routeSettings = $this->getRouteSettingsFromDocComment($doc);
+        if (is_null($routeSettings)) {
+            return null;
+        }
+
+        $route_url = $routeSettings['url'];
+        $params = $routeSettings['params'];
+
+        if ($controller_route instanceof Route) {
+            $controller_url = $controller_route->getUrl() ?? '';
+        } else {
+            $controller_url = '';
+        }
+
         $controller_url = trim($controller_url, '"');
         $route_url = trim($route_url, '"');
+
+
         $url = trim($controller_url . $route_url, '"');
         if ($url[0] != '/') {
             $url = '/' . $url;
         }
 
-        return [
-            $url,
-            $method_name,
-            $params
-        ];
+        return new Route($url, $params, null, $method_name);
     }
 
-    private function assetParams($route_params){
+    /**
+     * @param array $route_params
+     *
+     * @return array
+     */
+    private function assetParams(array $route_params): array
+    {
         $params = [];
-        for ($i = 1; $i < count($route_params); $i++) {
+        for ($i = 0; $i < count($route_params); $i++) {
             $param = $route_params[$i];
             $param = explode("=", $param);
             $key = trim($param[0]);
@@ -227,23 +271,15 @@ class Router
         return $params;
     }
 
-    private function getControllerRoute(ReflectionClass $controller): ?array
+    private function getControllerRoute(ReflectionClass $controller): ?Route
     {
-        $doc = $controller->getDocComment();
+        $settings = $this->getRouteSettingsFromDocComment($controller->getDocComment());
 
-        preg_match_all('/@Route\((.*)\)/s', $doc, $found);
-
-        if (!$found[1]) {
-            return [];
+        if (!$settings) {
+            return null;
         }
 
-        $params = explode(',', $found[1][0]);
-        $url = $params[0];
-
-        $result = $this->assetParams($params);
-
-        $result["url"] = trim($url, '"\""');
-        return $result;
+        return new Route($settings['url'], $settings['params']);
     }
 
     private function isComplicatedUrl(string $url): bool
@@ -274,69 +310,18 @@ class Router
     }
 
     /**
-     * @return Response
-     * @throws ClassNotExistsException
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
+     * @param int $status_code
+     *
+     * @return Route
      */
-    public function getNotFoundResponse():Response
+    public function getErrorRoute(int $status_code)
     {
-        $response = new Response();
-        /**
-         * @var Twig $twig
-         */
-        $twig = $this->container->get(Twig::class);
-        $html = $twig->render("HttpErrors/error.html.twig", [
-            "code" => 404,
-            "name" => 'Page not found'
-        ]);
-        $response->setBody($html);
-        $response->setStatusCode(404);
-
-        return $response;
-    }
-
-    public function getInternalErrorResponse()
-    {
-        $response = new Response();
-        /**
-         * @var Twig $twig
-         */
-        $twig = $this->container->get(Twig::class);
-        $html = $twig->render("HttpErrors/error.html.twig", [
-            "code" => 500,
-            "name" => 'Internal error'
-        ]);
-        $response->setBody($html);
-        $response->setStatusCode(500);
-
-        return $response;
-    }
-
-    /**
-     * @throws ClassNotExistsException
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    private function getNotAllowedResponse()
-    {
-        $response = new Response();
-        /**
-         * @var Twig $twig
-         */
-        $twig = $this->container->get(Twig::class);
-        $html = $twig->render("HttpErrors/error.html.twig", [
-            "code" => 405,
-            "name" => 'Method is not allowed'
-        ]);
-        $response->setBody($html);
-        $response->setHeaders([
-            'HTTP/1.0 405 Method Not Allowed'=>''
-        ]);
-
-        return $response;
+        if ($status_code >= 500) {
+            $status_code = 500;
+        } elseif ($status_code != 200 && ($status_code < 404 || $status_code > 405)) {
+            $status_code = 500;
+        }
+        return new Route('', [], UserRoutesController::class, "method_$status_code");
     }
 
 

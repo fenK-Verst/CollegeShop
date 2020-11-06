@@ -6,6 +6,7 @@ namespace App\Controller\Api;
 
 use App\Controller\AbstractController;
 use App\Entity\Image;
+use App\Http\Response;
 use App\Repository\ImageRepository;
 
 /**
@@ -18,6 +19,9 @@ class ImageApiController extends AbstractController
 {
     /**
      * @Route("/")
+     * @param ImageRepository $image_repository
+     *
+     * @return Response
      */
     public function getAll(ImageRepository $image_repository)
     {

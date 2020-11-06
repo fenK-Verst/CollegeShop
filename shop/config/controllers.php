@@ -14,6 +14,7 @@ use App\Controller\Api\ImageApiController;
 use App\Controller\Api\MenuApiController;
 use App\Controller\Api\RouteApiController;
 use App\Controller\Api\StonkApiController;
+use App\Controller\Api\TestApiController;
 use App\Controller\CartController;
 use App\Controller\DefaultController;
 use App\Controller\FolderController;
@@ -23,6 +24,7 @@ use App\Controller\SearchController;
 use App\Controller\UserController;
 
 return [
+    TestApiController::class,
     AdminController::class,
     FolderAdminController::class,
     ProductAdminController::class,
@@ -43,5 +45,6 @@ return [
     ProductController::class,
     FolderController::class,
     CartController::class,
-    OrderController::class,
+    OrderController::class
+
 ];

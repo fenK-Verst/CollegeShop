@@ -4,6 +4,11 @@
 namespace App\Di;
 
 
+use Exception;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+
 class Injector
 {
     /**
@@ -19,7 +24,7 @@ class Injector
     public function createClass(string $class_name)
     {
         $params = [];
-        $reflection_class = new \ReflectionClass($class_name);
+        $reflection_class = new ReflectionClass($class_name);
         $reflection_constructor = $reflection_class->getConstructor();
         if ($reflection_constructor)
             $params = $this->getDependenciesArray($reflection_constructor);
@@ -28,7 +33,7 @@ class Injector
 
     }
 
-    public function getDependenciesArray(\ReflectionMethod $reflection_constructor)
+    public function getDependenciesArray(ReflectionMethod $reflection_constructor)
     {
         $reflection_params = $reflection_constructor->getParameters();
         $params = [];
@@ -42,12 +47,20 @@ class Injector
         return $params;
     }
 
+    /**
+     * @param Object $object
+     * @param string $method
+     *
+     * @return mixed
+     * @throws ReflectionException
+     * @throws Exception
+     */
     public function callMethod(Object $object, string $method)
     {
-        $reflection_class = new \ReflectionClass($object);
+        $reflection_class = new ReflectionClass($object);
         $reflection_method = @$reflection_class->getMethod($method);
         if (!$reflection_method) {
-            throw new \Exception("Method $method does not exists");
+            throw new Exception("Method $method does not exists");
         }
         $params = $this->getDependenciesArray($reflection_method);
         return call_user_func_array([$object, $method], $params);

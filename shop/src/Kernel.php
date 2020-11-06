@@ -4,11 +4,16 @@
 namespace App;
 
 
+use App\Controller\AbstractController;
 use App\Di\Container;
 use App\Http\Response;
+use App\Routing\Exceptions\NotAllowedMethodException;
 use App\Routing\Route;
 use App\Routing\Router;
 use Exception;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class Kernel
 {
@@ -33,44 +38,48 @@ class Kernel
     }
 
     /**
-     * @throws Exception
+     * @throws Di\Exceptions\ClassNotExistsException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function run()
     {
         $error = null;
-        try {
-            $route = $this->router->dispatch();
-            if ($route) {
-                $this->runMiddlewares($route);
-                $response = $this->dispatch($route);
-            } else {
-                $response = $this->router->getNotFoundResponse();
-            }
-        }catch (Exception $e){
-//            $error = PHP_EOL.$e->getMessage().PHP_EOL.$e->getTraceAsString();
-            $error = $e;
-            $response = $this->router->getInternalErrorResponse();
+        $route = $this->router->dispatch();
+        if ($route->getStatusCode() == 200){
+            $this->runMiddlewares($route);
         }
-
+        $response = $this->dispatch($route);
         $response->send();
-        if ($error) {
-            error_log($error);
-        }
     }
 
     /**
      * @param Route $route
      *
      * @return Response
-     * @throws Exception
+     * @throws Di\Exceptions\ClassNotExistsException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     private function dispatch(Route $route): Response
     {
-        return $this->container->getInjector()
-            ->callMethod(
-                $route->getController(),
-                $route->getMethod()
-            );
+        try {
+            $controller = $route->getController();
+            /** @var AbstractController $controller */
+            $controller = $this->container->get($controller);
+            $controller->setSharedData($route->getSharedParams());
+            $controller->setParams($route->getParams());
+            return $this->container->getInjector()
+                ->callMethod(
+                    $controller,
+                    $route->getMethod()
+                );
+        }catch (Exception $e){
+            error_log($e);
+            return $this->dispatch($this->router->getErrorRoute(500));
+        }
     }
 
     /**
@@ -78,7 +87,6 @@ class Kernel
      */
     private function runMiddlewares(Route $route)
     {
-
         $middlewares = $this->config->getMiddlewares();
         foreach ($middlewares as $middlewareClass) {
             try {

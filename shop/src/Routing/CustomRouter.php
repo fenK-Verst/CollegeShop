@@ -27,9 +27,9 @@ class CustomRouter
         $this->container = $container;
     }
 
-    public function getRouteData(string $url): ?array
+    public function getRoutesByUrl(string $url): array
     {
-        $route_data = null;
+        $route_data = [];
         $route_repository = $this->container->get(CustomRouteRepository::class);
         $routes = $route_repository->findBy([
             "real_url" => $url
@@ -43,21 +43,23 @@ class CustomRouter
             $template = $route->getTemplate();
             $vars = json_decode($template->getParams(), true);
             $params = $this->normalizeParams($route_params, $vars);
-
-            $route_data = [
-                "controller" => UserRoutesController::class,
-                "method" => "index",
-                "params" => [
+            $params = [
                     "template_name" => $route->getTemplate()->getPath(),
                     "params" => $params
-                ]
-            ];
+                ];
+            $route_data[] = new Route($url, $params, UserRoutesController::class, 'index' );
         }
 
         return $route_data;
     }
 
-    public function normalizeParams(array &$route_params, array $vars)
+    /**
+     * @param array $route_params
+     * @param array $vars
+     *
+     * @return array
+     */
+    public function normalizeParams(array &$route_params, array $vars): array
     {
         $params = [];
         foreach ($route_params as $key => &$route_param) {

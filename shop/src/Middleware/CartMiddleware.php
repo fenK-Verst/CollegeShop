@@ -19,9 +19,9 @@ class CartMiddleware implements MiddlewareInterface
 
     public function run(Route $route)
     {
-        $controller = $route->getController();
+
 
         $cart_service = $this->cartService;
-        $controller->addSharedData("cartService", $cart_service);
+        $route->addSharedData("cartService", $cart_service);
     }
 }

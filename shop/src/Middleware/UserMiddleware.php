@@ -18,9 +18,7 @@ class UserMiddleware implements MiddlewareInterface
 
     public function run(Route $route)
     {
-        $controller = $route->getController();
-
         $user = $this->userService->getCurrentUser();
-        $controller->addSharedData("user", $user);
+        $route->addSharedData("user", $user);
     }
 }

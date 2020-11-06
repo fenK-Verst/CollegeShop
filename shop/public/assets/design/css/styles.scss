@@ -38,9 +38,7 @@ header {
 
       .search {
         flex: 1 1 auto;
-        margin: 0;
-        margin-left: 60px;
-        margin-right: 40px;
+        margin: 0 40px 0 60px;
 
         form {
           display: flex;
@@ -54,8 +52,7 @@ header {
           }
 
           label[for="search"] {
-            margin: 0;
-            margin-left: -27px;
+            margin: 0 0 0 -27px;
 
             .fa-search path {
               fill: rgba(0, 0, 0, .4);
@@ -72,8 +69,7 @@ header {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin: 0 12px;
-          margin-left: 0;
+          margin: 0 12px 0 0;
 
           .button {
             width: 30px;
@@ -199,12 +195,16 @@ header {
               list-style: none;
               margin-right: 15px;
               position: relative;
-
+              display: flex;
               &:hover {
+                align-items: flex-end;
                 > ul {
-                  padding: 10px;
                   display: flex;
                   flex-direction: column;
+                  box-sizing: content-box;
+                  margin-top: 20px;
+                  padding-top: 10px;
+                  padding-left: 10px;
                 }
               }
 
@@ -213,7 +213,10 @@ header {
                 position: absolute;
                 top: 0;
                 left: 0;
-                background: #fff;
+                li{
+                  background: #fff;
+                  padding: 10px;
+                }
 
                 a {
                   color: black;
@@ -285,8 +288,7 @@ main {
   section.content{
     max-width: 1440px;
     width: 100%;
-    padding: 10px;
-    padding-top: 30px;
+    padding: 30px 10px 10px;
     margin: auto;
   }
   .main_slider {
@@ -447,8 +449,7 @@ main {
           }
 
           .product_middle {
-            padding: 0 30px;
-            padding-bottom: 16px;
+            padding: 0 30px 16px;
 
             .product_name {
               text-align: center;
@@ -737,8 +738,7 @@ main >.wrapper{
   margin: 0;
 
   ul {
-    padding: 0;
-    padding-left: 10px;
+    padding: 0 0 0 10px;
   }
 
   .folder {

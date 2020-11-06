@@ -107,7 +107,7 @@ class $p extends \\$entity
     $methods = $reflection_class->getMethods();
     foreach ($methods as $method){
 
-        if($method->isPublic() /*&& $method->class == $entity*/){
+        if($method->isPublic()  && !$method->isStatic()/*&& $method->class == $entity*/){
             $method_name = $method->getName();
             $reflection_params = $method->getParameters();
             $params = [];

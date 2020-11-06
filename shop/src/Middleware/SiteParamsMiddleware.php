@@ -39,7 +39,6 @@ class SiteParamsMiddleware implements MiddlewareInterface
 
     public function run(Route $route)
     {
-        $controller = $route->getController();
         $site_params = $this->service->getSiteParams();
         if (!$site_params) {
             $site_params = new SiteParams();
@@ -53,6 +52,6 @@ class SiteParamsMiddleware implements MiddlewareInterface
         $params = json_decode($params, true);
         $params = $this->custom_router->normalizeParams($params, $vars);
 
-        $controller->addSharedData("site", $params);
+        $route->addSharedData("site", $params);
     }
 }

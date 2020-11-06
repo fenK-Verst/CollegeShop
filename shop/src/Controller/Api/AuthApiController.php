@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 
 
 use App\Http\Request;
+use App\Http\Response;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 
@@ -18,8 +19,11 @@ class AuthApiController extends AbstractApiController
 {
     /**
      * @Route("/base")
+     * @param UserService $service
+     *
+     * @return Response
      */
-    public function index(UserService $service, UserRepository $userRepository)
+    public function index(UserService $service)
     {
         $userRaw = $service->getCurrentUser();
         $user = $userRaw ?
@@ -35,6 +39,11 @@ class AuthApiController extends AbstractApiController
 
     /**
      * @Route("/login")
+     * @param UserService    $service
+     * @param Request        $request
+     * @param UserRepository $userRepository
+     *
+     * @return Response
      */
     public function login(UserService $service, Request $request, UserRepository $userRepository)
     {
@@ -62,8 +71,13 @@ class AuthApiController extends AbstractApiController
 
 
     }
+
     /**
      * @Route("/hlogin")
+     * @param UserRepository $userRepository
+     * @param UserService    $userService
+     *
+     * @return Response
      */
     public function hlogin(UserRepository $userRepository, UserService  $userService)
     {
@@ -74,6 +88,9 @@ class AuthApiController extends AbstractApiController
 
     /**
      * @Route("/logout")
+     * @param UserService $service
+     *
+     * @return Response
      */
     public function logout(UserService $service)
     {
@@ -83,21 +100,4 @@ class AuthApiController extends AbstractApiController
         ]);
     }
 
-    private function error(string $message)
-    {
-        return $this->json([
-            'status' => 'KO',
-            'error_msg' => $message,
-            'data' => []
-        ]);
-    }
-
-    private function success($data)
-    {
-        return $this->json([
-            'status' => 'OK',
-            'error_msg' => '',
-            'data' => $data
-        ]);
-    }
 }

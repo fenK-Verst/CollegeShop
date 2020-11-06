@@ -11,7 +11,6 @@ class SharedMiddleware implements MiddlewareInterface
 {
     public function run(Route $route)
     {
-        $controller = $route->getController();
-        $controller->addSharedData("version", getenv("VERSION"));
+        $route->addSharedData("version", getenv("VERSION"));
     }
 }

@@ -78,7 +78,7 @@ class FolderAdminController extends AbstractController
      */
     public function edit(Request $request, ObjectManager $object_manager, FolderRepository $folder_repository)
     {
-        $id = $this->getRoute()->get("id");
+        $id = $this->getParam("id");
         $folder = $folder_repository->find($id);
         $error = '';
         $folder_request = $request->post("folder");
@@ -111,7 +111,7 @@ class FolderAdminController extends AbstractController
         ObjectManager $object_manager,
         ArrayDataManager $adm
     ) {
-        $parent_id = $this->getRoute()->get("id");
+        $parent_id = $this->getParam("id");
         $parent = $folder_repository->find($parent_id);
         $folder = $request->post("folder");
         $name = $folder["name"] ?? null;

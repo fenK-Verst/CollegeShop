@@ -14,8 +14,8 @@ use App\Entity\User;
  * @package App\Repository
  * @method Stonk find(string $primary_key_value)
  * @method Stonk findOrCreate(string $primary_key_value)
- * @method Stonk findBy(array $where, array $order = [], array $limit = []) : array
- * @method Stonk findOneBy(array $where, array $order = []) : array
+ * @method array findBy(array $where, array $order = [], array $limit = [])
+ * @method array findOneBy(array $where, array $order = [])
  * @method Stonk[] findAll()
  */
 class StonkRepository extends AbstractRepository

@@ -7,7 +7,11 @@ use App\Controller\AbstractController;
 use App\Db\ObjectManager;
 use App\Entity\Vendor;
 use App\Http\Request;
+use App\Http\Response;
 use App\Repository\VendorRepository;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class VendorAdminController
@@ -17,10 +21,15 @@ use App\Repository\VendorRepository;
  */
 class VendorAdminController extends AbstractController
 {
-
-
     /**
      * @Route("/create")
+     * @param Request       $request
+     * @param ObjectManager $object_manager
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function create(Request $request, ObjectManager $object_manager)
     {
@@ -49,6 +58,11 @@ class VendorAdminController extends AbstractController
 
     /**
      * @Route("/delete")
+     * @param Request          $request
+     * @param VendorRepository $vendor_repository
+     * @param ObjectManager    $object_manager
+     *
+     * @return Response
      */
     public function delete(Request $request, VendorRepository $vendor_repository, ObjectManager $object_manager)
     {
@@ -63,10 +77,18 @@ class VendorAdminController extends AbstractController
 
     /**
      * @Route("/{id}/edit")
+     * @param Request          $request
+     * @param VendorRepository $vendor_repository
+     * @param ObjectManager    $object_manager
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function edit(Request $request, VendorRepository $vendor_repository, ObjectManager $object_manager)
     {
-        $vendor_id = $this->getRoute()->get("id");
+        $vendor_id = $this->getParam("id");
         $vendor = $vendor_repository->find($vendor_id);
         $error = '';
         $vendor_post = $request->post("vendor");
@@ -89,6 +111,12 @@ class VendorAdminController extends AbstractController
 
     /**
      * @Route("/")
+     * @param VendorRepository $vendor_repository
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function list(VendorRepository $vendor_repository)
     {

@@ -22,7 +22,7 @@ class ProductParamAdminController extends AbstractController
      */
     public function param(ProductParamRepository $param_repository)
     {
-        $id = $this->getRoute()->get("id");
+        $id = $this->getParam("id");
         $param = $param_repository->find($id);
         return $this->render("/admin/product_param/list.html.twig", [
             "param" => $param
@@ -76,7 +76,7 @@ class ProductParamAdminController extends AbstractController
      */
     public function edit(Request $request, ProductParamRepository $param_repository, ObjectManager $object_manager)
     {
-        $param_id = $this->getRoute()->get("id");
+        $param_id = $this->getParam("id");
         $param = $param_repository->find($param_id);
         $error = '';
         $param_post = $request->post("param");

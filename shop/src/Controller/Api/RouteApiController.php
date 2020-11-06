@@ -9,6 +9,7 @@ use App\Db\ArrayDataManager;
 use App\Db\ObjectManager;
 use App\Entity\CustomRoute;
 use App\Http\Request;
+use App\Http\Response;
 use App\Repository\CustomRouteRepository;
 use App\Repository\MenuRepository;
 use App\Repository\TemplateRepository;
@@ -29,6 +30,9 @@ class RouteApiController extends AbstractController
 {
     /**
      * @Route("/template/get")
+     * @param TemplateRepository $template_repository
+     *
+     * @return Response
      */
     public function getTemplates(TemplateRepository $template_repository)
     {
@@ -55,6 +59,13 @@ class RouteApiController extends AbstractController
 
     /**
      * @Route("/template/{id}/get/form")
+     * @param Request               $request
+     * @param CustomRouteRepository $route_repository
+     * @param TemplateRepository    $template_repository
+     * @param CustomRouter          $custom_router
+     * @param Twig                  $twig
+     *
+     * @return Response
      */
     public function getTemplateForm(
         Request $request,
@@ -63,7 +74,7 @@ class RouteApiController extends AbstractController
         CustomRouter $custom_router,
         Twig $twig
     ) {
-        $template_id = (int)$this->getRoute()->get("id") ?? null;
+        $template_id = (int)$this->getParam("id") ?? null;
         $template = $template_repository->find($template_id);
         if (!$template) {
             return $this->json([
@@ -158,6 +169,12 @@ class RouteApiController extends AbstractController
 
     /**
      * @Route("/route/{id}/edit")
+     * @param Request               $request
+     * @param TemplateRepository    $template_repository
+     * @param ObjectManager         $object_manager
+     * @param CustomRouteRepository $route_repository
+     *
+     * @return Response
      */
     public function editRoute(
         Request $request,
@@ -165,7 +182,7 @@ class RouteApiController extends AbstractController
         ObjectManager $object_manager,
         CustomRouteRepository $route_repository
     ) {
-        $route_id = $this->getRoute()->get("id");
+        $route_id = $this->getParam("id");
         $route = $route_repository->find($route_id);
         $request_route = $request->get("route") ?? null;
         if (!($request_route && $request_route["name"] && $request_route["params"])) {
@@ -194,8 +211,8 @@ class RouteApiController extends AbstractController
             $route->setRealUrl("/" . $short_url);
         }
 
-        $route_childs = $route_repository->getChilds($route);
-        foreach ($route_childs as $key => $route_child) {
+        $route_children = $route_repository->getChilds($route);
+        foreach ($route_children as $key => $route_child) {
             /**
              * @var CustomRoute $route_child
              */
@@ -218,6 +235,15 @@ class RouteApiController extends AbstractController
 
     /**
      * @Route("/route/create")
+     * @param Request               $request
+     * @param TemplateRepository    $template_repository
+     * @param ObjectManager         $object_manager
+     * @param CustomRouteRepository $route_repository
+     * @param MenuRepository        $menu_repository
+     * @param ArrayDataManager      $adm
+     *
+     * @return Response
+     * @throws \App\Db\Exceptions\MysqliException
      */
     public function createRoute(
         Request $request,

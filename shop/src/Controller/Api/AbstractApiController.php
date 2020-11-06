@@ -4,9 +4,22 @@
 namespace App\Controller\Api;
 
 
-abstract class AbstractApiController extends \App\Controller\AbstractController
+use App\Controller\AbstractController;
+use App\Http\Response;
+
+/**
+ * Class AbstractApiController
+ *
+ * @package App\Controller\Api
+ */
+abstract class AbstractApiController extends AbstractController
 {
-    private function error(string $message)
+    /**
+     * @param string $message
+     *
+     * @return Response
+     */
+    protected function error(string $message)
     {
         return $this->json([
             'status' => 'KO',
@@ -15,7 +28,12 @@ abstract class AbstractApiController extends \App\Controller\AbstractController
         ]);
     }
 
-    private function success($data)
+    /**
+     * @param $data
+     *
+     * @return Response
+     */
+    protected function success($data)
     {
         return $this->json([
             'status' => 'OK',

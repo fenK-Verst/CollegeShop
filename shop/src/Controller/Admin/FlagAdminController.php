@@ -64,7 +64,7 @@ class FlagAdminController extends AbstractController
      */
     public function edit(Request $request, FlagRepository $flag_repository, ObjectManager $object_manager)
     {
-        $flag_id = $this->getRoute()->get("id");
+        $flag_id = $this->getParam("id");
         $flag = $flag_repository->find($flag_id);
         $error = '';
         $flag_post = $request->post("flag");

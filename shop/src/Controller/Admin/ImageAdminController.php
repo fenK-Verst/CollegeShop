@@ -90,7 +90,7 @@ class ImageAdminController extends AbstractController
      */
     public function item(ImageRepository $image_repository)
     {
-        $image_id = $this->getRoute()->get("id");
+        $image_id = $this->getParam("id");
         $image = $image_repository->find($image_id);
 
         return $this->render("/admin/image/item.html.twig",[
