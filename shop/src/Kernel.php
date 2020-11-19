@@ -15,7 +15,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class Kernel
+class Kernel implements KernelInterface
 {
     private Router $router;
 
@@ -63,7 +63,7 @@ class Kernel
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    private function dispatch(Route $route): Response
+    public function dispatch(Route $route): Response
     {
         try {
             $controller = $route->getController();

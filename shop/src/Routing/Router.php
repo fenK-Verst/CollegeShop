@@ -5,11 +5,12 @@ namespace App\Routing;
 use App\Config;
 use App\Controller\UserRoutesController;
 use App\Http\Request;
+use App\Routing\Interfaces\RouterInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 
-class Router
+class Router implements RouterInterface
 {
     private Config       $config;
     private Request      $request;
@@ -296,7 +297,7 @@ class Router
         return true;
     }
 
-    private function getRouteParam(string $url_chunk, string $route_chunk)
+    private function getRouteParam(string $url_chunk, string $route_chunk): array
     {
         if (preg_match('/^{.+}$/im', $route_chunk, $matches) == false) {
             return [];
@@ -314,7 +315,7 @@ class Router
      *
      * @return Route
      */
-    public function getErrorRoute(int $status_code)
+    public function getErrorRoute(int $status_code): Route
     {
         if ($status_code >= 500) {
             $status_code = 500;
