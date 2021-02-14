@@ -159,7 +159,12 @@ class Router implements RouterInterface
             }
 
             $route = $route_data;
-            $route->setParams($route_params);
+            if (is_array($route->getParams())){
+                $params = array_merge($route->getParams(), $route_params);
+            }else{
+                $params = $route_params;
+            }
+            $route->setParams($params);
             $foundRoutes[] = $route;
         }
         return $foundRoutes;
